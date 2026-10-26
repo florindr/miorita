@@ -4,6 +4,7 @@
 // Mechanic: Snap the wooden tile ending onto the bridge plank so Miorița can cross to Bunica's cottage!
 
 import { sound } from '../audio/synth';
+import { shuffleArray } from '../utils/shuffle';
 
 export interface CaseItem {
   id: string;
@@ -78,6 +79,8 @@ export const CASE_ITEMS: CaseItem[] = [
 export class PodulCuiStation {
   private currentIndex = 0;
   private score = 0;
+  private currentOptions: string[] = [];
+  private lastQuestionIndex = -1;
   private onStateChange: (state: { prompt: string; score: number }) => void;
 
   constructor(onStateChange: (state: { prompt: string; score: number }) => void) {
@@ -95,6 +98,10 @@ export class PodulCuiStation {
 
   render(container: HTMLElement) {
     const item = this.getCurrentItem();
+    if (this.lastQuestionIndex !== this.currentIndex) {
+      this.currentOptions = shuffleArray(item.options);
+      this.lastQuestionIndex = this.currentIndex;
+    }
 
     container.innerHTML = `
       <section class="station-card">
@@ -128,7 +135,7 @@ export class PodulCuiStation {
 
         <!-- Option Tiles -->
         <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;" id="tilesContainer">
-          ${item.options.map((opt) => `
+          ${this.currentOptions.map((opt) => `
             <button class="plank-tile" data-ending="${opt}" style="background: #FFF; border: 2.5px solid var(--walnut); border-radius: 8px; padding: 14px 28px; font-family: var(--font-serif); font-size: 24px; font-weight: bold; color: var(--walnut); cursor: pointer; min-height: 48px; box-shadow: 0 4px 8px rgba(0,0,0,0.08); transition: transform 0.15s, background 0.15s;">
               ${opt}
             </button>

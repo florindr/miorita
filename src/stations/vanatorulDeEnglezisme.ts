@@ -3,6 +3,7 @@
 // Examples: "sunt 8 ani" (I am 8), "face sens" (makes sense), "sunt rece" (I am cold), "am luat un duș" (took a shower).
 
 import { sound } from '../audio/synth';
+import { shuffleArray } from '../utils/shuffle';
 
 export interface CalqueItem {
   id: string;
@@ -77,6 +78,8 @@ export const CALQUE_ITEMS: CalqueItem[] = [
 export class VanatorulDeEnglezismeStation {
   private currentIndex = 0;
   private score = 0;
+  private currentOptions: string[] = [];
+  private lastQuestionIndex = -1;
   private onStateChange: (state: { prompt: string; score: number }) => void;
 
   constructor(onStateChange: (state: { prompt: string; score: number }) => void) {
@@ -94,6 +97,10 @@ export class VanatorulDeEnglezismeStation {
 
   render(container: HTMLElement) {
     const item = this.getCurrentItem();
+    if (this.lastQuestionIndex !== this.currentIndex) {
+      this.currentOptions = shuffleArray(item.options);
+      this.lastQuestionIndex = this.currentIndex;
+    }
 
     container.innerHTML = `
       <section class="station-card">
@@ -120,7 +127,7 @@ export class VanatorulDeEnglezismeStation {
 
         <!-- 3 Choice Cards -->
         <div style="display: flex; flex-direction: column; gap: 12px;" id="choicesContainer">
-          ${item.options.map((opt) => `
+          ${this.currentOptions.map((opt) => `
             <button class="calque-choice-btn" data-choice="${opt}" style="background: #FFF; border: 2.5px solid var(--walnut); border-radius: var(--radius-md); padding: 18px 24px; font-family: var(--font-serif); font-size: 22px; font-weight: bold; color: var(--ink-charcoal); cursor: pointer; text-align: left; display: flex; align-items: center; justify-content: space-between; min-height: 52px; box-shadow: var(--soft-shadow); transition: transform 0.15s, border-color 0.15s;">
               <span>${opt}</span>
               <span style="font-size: 18px; opacity: 0.5;">👉</span>

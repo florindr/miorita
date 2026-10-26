@@ -6,6 +6,7 @@ import { sound } from '../audio/synth';
 import { recordSrsAttempt } from '../storage/srs';
 import { getCaietEntries } from '../components/caietulLuiTata';
 import { QUEST_SETS, type QuestQuestion } from '../content/questSets';
+import { shuffleArray } from '../utils/shuffle';
 
 export class AntrenamentulZileiStation {
   private items: QuestQuestion[] = [];
@@ -47,7 +48,7 @@ export class AntrenamentulZileiStation {
           situation: 'Când vorbim în familie:',
           englishTrap: entry.said,
           authenticRom: entry.correct,
-          options: [entry.correct, entry.said].sort(() => Math.random() - 0.5),
+          options: shuffleArray([entry.correct, entry.said]),
           hint: `Tata a notat că forma românească frumoasă este: «${entry.correct}»!`,
           bridge: 'This was practiced at home with Dad. Focus on the authentic Romanian phrasing.'
         });
@@ -55,11 +56,17 @@ export class AntrenamentulZileiStation {
 
       // 2. Fill remainder up to 5 items with Set 1 questions
       const fillers = QUEST_SETS[0].questions.slice(0, 5 - dynamicItems.length);
-      this.items = [...dynamicItems, ...fillers];
+      this.items = [...dynamicItems, ...fillers].map((q) => ({
+        ...q,
+        options: shuffleArray(q.options)
+      }));
     } else {
       const found = QUEST_SETS.find((s) => s.id === setId);
       if (found) {
-        this.items = [...found.questions];
+        this.items = found.questions.map((q) => ({
+          ...q,
+          options: shuffleArray(q.options)
+        }));
       }
     }
   }

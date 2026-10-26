@@ -1,6 +1,8 @@
 // src/content/questSets.ts — 10 Comprehensive Question Sets for Miorița (Like Clawey Papers 1-10)
 // Designed for Tudor (8yo, Year 4 London, ADHD) tackling English-to-Romanian interference.
 
+import { shuffleArray } from '../utils/shuffle';
+
 export interface QuestQuestion {
   id: string;
   setId: number;
@@ -1567,3 +1569,11 @@ export const QUEST_SETS: QuestSetMeta[] = [
     ]
   }
 ];
+
+// Randomize all quest options so the authentic answer is not predictably first
+for (const set of QUEST_SETS) {
+  for (const q of set.questions) {
+    q.options = shuffleArray(q.options);
+  }
+}
+

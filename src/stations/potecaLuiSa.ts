@@ -4,6 +4,7 @@
 // Mechanic: Stepping stones across the mountain brook; Miorița hops onto each correct stone.
 
 import { sound } from '../audio/synth';
+import { shuffleArray } from '../utils/shuffle';
 
 export interface SubjunctiveItem {
   id: string;
@@ -62,6 +63,8 @@ export const SUBJUNCTIVE_ITEMS: SubjunctiveItem[] = [
 export class PotecaLuiSaStation {
   private currentIndex = 0;
   private score = 0;
+  private currentOptions: string[] = [];
+  private lastQuestionIndex = -1;
   private onStateChange: (state: { prompt: string; score: number }) => void;
 
   constructor(onStateChange: (state: { prompt: string; score: number }) => void) {
@@ -79,6 +82,10 @@ export class PotecaLuiSaStation {
 
   render(container: HTMLElement) {
     const item = this.getCurrentItem();
+    if (this.lastQuestionIndex !== this.currentIndex) {
+      this.currentOptions = shuffleArray(item.options);
+      this.lastQuestionIndex = this.currentIndex;
+    }
 
     container.innerHTML = `
       <section class="station-card">
@@ -108,7 +115,7 @@ export class PotecaLuiSaStation {
 
         <!-- Stepping Stone Options -->
         <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;" id="stoneOptions">
-          ${item.options.map(opt => `
+          ${this.currentOptions.map(opt => `
             <button class="stepping-stone-btn" data-stone="${opt}" style="background: #FFF; border: 2.5px solid var(--walnut); border-radius: 18px; padding: 14px 24px; font-family: var(--font-serif); font-size: 22px; font-weight: bold; color: var(--walnut); cursor: pointer; min-height: 48px; box-shadow: var(--soft-shadow); transition: transform 0.15s;">
               ${opt}
             </button>

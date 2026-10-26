@@ -37,4 +37,26 @@ describe('Miorița 10 Quest Sets (Clawey Parity)', () => {
       assert.ok(categories.has(exp), `Expected category ${exp} to be covered across the 10 sets`);
     }
   });
+
+  it('randomizes correct answers so they are not always at index 0', () => {
+    let index0Count = 0;
+    let nonIndex0Count = 0;
+
+    for (const set of QUEST_SETS) {
+      for (const q of set.questions) {
+        const correctIndex = q.options.indexOf(q.authenticRom);
+        assert.ok(correctIndex >= 0, `Correct answer must be present in options for ${q.id}`);
+        if (correctIndex === 0) {
+          index0Count++;
+        } else {
+          nonIndex0Count++;
+        }
+      }
+    }
+
+    // In a uniform distribution of 3 choices across 100 questions, non-index-0 should be ~66% (~40-80).
+    // It should definitely NOT be 0 (which would mean always first).
+    assert.ok(nonIndex0Count > 30, `Expected non-first correct answers (>30), got ${nonIndex0Count}`);
+    assert.ok(index0Count < 80, `Expected index 0 not to dominate (<80), got ${index0Count}`);
+  });
 });
