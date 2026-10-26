@@ -56,4 +56,26 @@ test('FamilyAuth & Multi-Child Profile Management', async (t) => {
     FamilyAuth.setActiveProfile(profiles[0].id);
     assert.strictEqual(FamilyAuth.getActiveProfile().name, 'Tudor');
   });
+
+  await t.test('detects first-run onboarding status and supports logout and quick setup', () => {
+    // Logout resets setup state
+    FamilyAuth.logout();
+    assert.strictEqual(FamilyAuth.hasCompletedSetup(), false);
+
+    // Quick Family Setup creates isolated family
+    FamilyAuth.setupQuickFamily('Familia Ionescu', 'Sofia', 7, 'bear', '5678');
+    assert.strictEqual(FamilyAuth.hasCompletedSetup(), true);
+    assert.strictEqual(FamilyAuth.getFamily().name, 'Familia Ionescu');
+    assert.strictEqual(FamilyAuth.getActiveProfile().name, 'Sofia');
+    assert.strictEqual(FamilyAuth.getActiveProfile().avatar, 'bear');
+
+    // Logging out returns to unconfigured state
+    FamilyAuth.logout();
+    assert.strictEqual(FamilyAuth.hasCompletedSetup(), false);
+
+    // 1-tap Tudor guest login works
+    FamilyAuth.loginAsTudorGuest();
+    assert.strictEqual(FamilyAuth.hasCompletedSetup(), true);
+    assert.strictEqual(FamilyAuth.getActiveProfile().name, 'Tudor');
+  });
 });

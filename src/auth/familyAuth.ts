@@ -169,6 +169,88 @@ export class FamilyAuth {
     return this.state.isParentUnlocked;
   }
 
+  static hasCompletedSetup(): boolean {
+    return Boolean(SafeStorage.getItem(FAMILY_KEY));
+  }
+
+  static loginAsTudorGuest(): void {
+    const family: Family = {
+      id: 'fam_draghici',
+      name: 'Familia Drăghici',
+      email: 'florin@miorita.ro',
+      hasPin: true,
+    };
+    const profile: ChildProfile = {
+      id: 'prof_tudor',
+      familyId: 'fam_draghici',
+      name: 'Tudor',
+      age: 8,
+      avatar: 'lamb',
+      dominantLanguage: 'en-GB',
+    };
+    this.state.isAuthenticated = true;
+    this.state.family = family;
+    this.state.profiles = [profile];
+    this.state.activeProfile = profile;
+    this.state.isParentUnlocked = false;
+
+    SafeStorage.setItem(FAMILY_KEY, JSON.stringify(family));
+    SafeStorage.setItem(PROFILES_KEY, JSON.stringify([profile]));
+    SafeStorage.setItem(ACTIVE_PROFILE_KEY, profile.id);
+    this.notify();
+  }
+
+  static setupQuickFamily(
+    familyName: string,
+    childName: string,
+    childAge: number,
+    avatar: ChildProfile['avatar'],
+    pin: string
+  ): void {
+    const cleanFamily = familyName.trim() || 'Familia Noastră';
+    const cleanChild = childName.trim() || 'Copil';
+    const famId = 'fam_' + Date.now();
+    const childId = 'prof_' + Date.now();
+
+    const family: Family = {
+      id: famId,
+      name: cleanFamily,
+      email: 'familie@local.app',
+      hasPin: true,
+    };
+
+    const profile: ChildProfile = {
+      id: childId,
+      familyId: famId,
+      name: cleanChild,
+      age: childAge || 8,
+      avatar: avatar || 'lamb',
+      dominantLanguage: 'en-GB',
+    };
+
+    this.state.isAuthenticated = true;
+    this.state.family = family;
+    this.state.profiles = [profile];
+    this.state.activeProfile = profile;
+    this.state.isParentUnlocked = true;
+
+    SafeStorage.setItem(FAMILY_KEY, JSON.stringify(family));
+    SafeStorage.setItem(PROFILES_KEY, JSON.stringify([profile]));
+    SafeStorage.setItem(ACTIVE_PROFILE_KEY, profile.id);
+    SafeStorage.setItem(PARENT_PIN_LOCAL, pin || '1234');
+    this.notify();
+  }
+
+  static logout(): void {
+    SafeStorage.removeItem(FAMILY_KEY);
+    SafeStorage.removeItem(PROFILES_KEY);
+    SafeStorage.removeItem(ACTIVE_PROFILE_KEY);
+    SafeStorage.removeItem(TOKEN_KEY);
+    this.state.isAuthenticated = false;
+    this.state.isParentUnlocked = false;
+    this.notify();
+  }
+
   static setActiveProfile(profileId: string): void {
     const target = this.state.profiles.find((p) => p.id === profileId);
     if (!target) return;

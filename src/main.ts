@@ -21,43 +21,56 @@ import { SyncStatusBadge } from './components/syncStatusBadge';
 
 import { FamilyAuth, AVATAR_MAP } from './auth/familyAuth';
 import { FamilyModal } from './components/familyModal';
+import { WelcomeSplash } from './components/welcomeSplash';
 
 // Initialize Family and Multi-Child Auth
 FamilyAuth.init();
-const initialChild = FamilyAuth.getActiveProfile();
 
 // Start cross-device delta sync engine
 SyncEngine.init();
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
 
-let currentStation: ActiveStation = 'gen';
-let globalScore = parseInt(localStorage.getItem(`miorita_score_${initialChild.id}`) || localStorage.getItem('miorita_score') || '0', 10);
+function initApp() {
+  if (!FamilyAuth.hasCompletedSetup()) {
+    const splash = new WelcomeSplash(app, () => {
+      renderGameApp();
+    });
+    splash.render();
+  } else {
+    renderGameApp();
+  }
+}
 
-app.innerHTML = `
-  <header class="app-header">
-    <div class="brand-wrapper">
-      <div class="mascot-avatar" id="mascotAvatar" style="display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; cursor:pointer;" title="Miorița">
-        <img src="/art/mascot.jpg" alt="Miorița" style="width:100%; height:100%; object-fit:cover; object-position: 25% 15%; display:block;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
-        <span style="display:none; font-size:30px;">🐑</span>
+function renderGameApp() {
+  const activeChild = FamilyAuth.getActiveProfile();
+  let currentStation: ActiveStation = 'gen';
+  let globalScore = parseInt(localStorage.getItem(`miorita_score_${activeChild.id}`) || localStorage.getItem('miorita_score') || '0', 10);
+
+  app.innerHTML = `
+    <header class="app-header">
+      <div class="brand-wrapper">
+        <div class="mascot-avatar" id="mascotAvatar" style="display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; cursor:pointer;" title="Miorița">
+          <img src="/art/mascot.jpg" alt="Miorița" style="width:100%; height:100%; object-fit:cover; object-position: 25% 15%; display:block;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+          <span style="display:none; font-size:30px;">🐑</span>
+        </div>
+        <div class="brand-text">
+          <h1>Miorița</h1>
+          <p>Satul cuvintelor românești • <span id="brandChildTarget">Pentru ${activeChild.name}</span></p>
+        </div>
       </div>
-      <div class="brand-text">
-        <h1>Miorița</h1>
-        <p>Satul cuvintelor românești • <span id="brandChildTarget">Pentru ${initialChild.name}</span></p>
-      </div>
-    </div>
-    
-    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-      <button id="btnProfileSwitch" style="background: var(--linen-card); border: 2px solid var(--gold-bell); border-radius: var(--radius-md); padding: 7px 14px; font-size: 13px; font-weight: 800; cursor: pointer; color: var(--walnut); display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(212, 160, 23, 0.15);" title="Schimbă profilul copilului sau intră în zona părinților">
-        <span id="activeChildAvatar">${AVATAR_MAP[initialChild.avatar]?.icon || '🐑'}</span>
-        <span id="activeChildName">${initialChild.name} (${initialChild.age} ani)</span>
-        <span style="font-size: 10px; color: var(--gold-bell);">▼</span>
-      </button>
+      
+      <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <button id="btnProfileSwitch" style="background: var(--linen-card); border: 2px solid var(--gold-bell); border-radius: var(--radius-md); padding: 7px 14px; font-size: 13px; font-weight: 800; cursor: pointer; color: var(--walnut); display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(212, 160, 23, 0.15);" title="Schimbă profilul copilului sau intră în zona părinților">
+          <span id="activeChildAvatar">${AVATAR_MAP[activeChild.avatar]?.icon || '🐑'}</span>
+          <span id="activeChildName">${activeChild.name} (${activeChild.age} ani)</span>
+          <span style="font-size: 10px; color: var(--gold-bell);">▼</span>
+        </button>
 
-      <div id="syncBadgeRoot"></div>
+        <div id="syncBadgeRoot"></div>
 
-      <button id="btnOpenCaiet" style="background: var(--linen-card); border: 1.5px solid var(--walnut); border-radius: var(--radius-md); padding: 8px 14px; font-size: 13px; font-weight: 700; cursor: pointer; color: var(--walnut); display: flex; align-items: center; gap: 6px;">
-        📓 <span>Caietul lui Tata</span>
+        <button id="btnOpenCaiet" style="background: var(--linen-card); border: 1.5px solid var(--walnut); border-radius: var(--radius-md); padding: 8px 14px; font-size: 13px; font-weight: 700; cursor: pointer; color: var(--walnut); display: flex; align-items: center; gap: 6px;">
+          📓 <span>Caietul lui Tata</span>
       </button>
 
       <div class="score-badge">
@@ -104,7 +117,7 @@ syncBadgeRoot.appendChild(syncBadge.getElement());
 
 // Initialize Socratic Mascot HUD
 const hud = new MioritaHud({
-  initialPrompt: `Bună, ${initialChild.name}! Eu sunt <strong>Miorița</strong>. Alege un loc din sat și hai să ne jucăm cu vorbele românești!`
+  initialPrompt: `Bună, ${activeChild.name}! Eu sunt <strong>Miorița</strong>. Alege un loc din sat și hai să ne jucăm cu vorbele românești!`
 });
 hudRoot.appendChild(hud.getElement());
 
@@ -133,9 +146,16 @@ function refreshActiveChildUI() {
 // Profile Switcher Modal
 btnProfileSwitch.addEventListener('click', () => {
   sound.playWoodenTap();
-  const famModal = new FamilyModal(modalRoot, () => {}, (_newProfile) => {
-    refreshActiveChildUI();
-  });
+  const famModal = new FamilyModal(
+    modalRoot,
+    () => {},
+    (_newProfile) => {
+      refreshActiveChildUI();
+    },
+    () => {
+      initApp();
+    }
+  );
   famModal.render();
 });
 
@@ -144,7 +164,14 @@ btnOpenCaiet.addEventListener('click', () => {
   sound.playWoodenTap();
   if (!FamilyAuth.isParentUnlocked()) {
     // Open Family Modal on Parent Tab to verify PIN first
-    const famModal = new FamilyModal(modalRoot, () => {}, () => {});
+    const famModal = new FamilyModal(
+      modalRoot,
+      () => {},
+      () => {},
+      () => {
+        initApp();
+      }
+    );
     (famModal as any).activeTab = 'parent';
     famModal.render();
   } else {
@@ -384,9 +411,13 @@ function renderMapOverview() {
   `;
 }
 
-(window as any).dispatchNav = (station: ActiveStation) => {
-  loadStation(station);
-};
+  (window as any).dispatchNav = (station: ActiveStation) => {
+    loadStation(station);
+  };
 
-// Initial load
-loadStation('gen');
+  // Initial load
+  loadStation('gen');
+}
+
+// Start application (Welcome Splash or Game App)
+initApp();

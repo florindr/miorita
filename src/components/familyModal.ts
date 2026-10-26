@@ -6,12 +6,19 @@ export class FamilyModal {
   private container: HTMLElement;
   private onClose: () => void;
   private onProfileChanged: (profile: ChildProfile) => void;
+  private onLogout?: () => void;
   private activeTab: 'kids' | 'parent' = 'kids';
 
-  constructor(container: HTMLElement, onClose: () => void, onProfileChanged: (profile: ChildProfile) => void) {
+  constructor(
+    container: HTMLElement,
+    onClose: () => void,
+    onProfileChanged: (profile: ChildProfile) => void,
+    onLogout?: () => void
+  ) {
     this.container = container;
     this.onClose = onClose;
     this.onProfileChanged = onProfileChanged;
+    this.onLogout = onLogout;
   }
 
   render() {
@@ -129,6 +136,10 @@ export class FamilyModal {
                 <span>Conectează contul Google al Părintelui</span>
               </button>
               <span style="font-size: 11px; color: #888;">(Pentru tine și prietenii tăi — creează automat spațiul privat al familiei)</span>
+
+              <button id="btnLogoutFamilyFromLocked" style="background: none; border: none; color: #888; font-size: 12px; cursor: pointer; text-decoration: underline; margin-top: 10px;">
+                🚪 Schimbă Familia / Ieși din Cont
+              </button>
             </div>
           </div>
         </div>
@@ -147,9 +158,14 @@ export class FamilyModal {
               Email părinte: <strong>${state.family.email}</strong> • PIN Parental: <strong>Activat (••••)</strong>
             </div>
           </div>
-          <button id="btnLockParent" style="background: #FFF; border: 1.5px solid var(--walnut-light); border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: bold; cursor: pointer; color: var(--walnut);">
-            🔒 Blochează Zona Părinților
-          </button>
+          <div style="display: flex; gap: 8px;">
+            <button id="btnLockParent" style="background: #FFF; border: 1.5px solid var(--walnut-light); border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: bold; cursor: pointer; color: var(--walnut);">
+              🔒 Blochează
+            </button>
+            <button id="btnLogoutFamily" style="background: #FFF; border: 1.5px solid var(--gen-feminin); border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: bold; cursor: pointer; color: var(--gen-feminin);">
+              🚪 Schimbă Familia
+            </button>
+          </div>
         </div>
 
         <!-- Add Child Profile Section -->
@@ -294,6 +310,21 @@ export class FamilyModal {
       alert(`Bine ai venit, ${demoName || demoEmail}! Spațiul familiei tale a fost creat.`);
       this.render();
     });
+
+    // Logout / Switch Family
+    const handleLogout = () => {
+      if (confirm('Sigur dorești să ieși din cont și să schimbi familia?')) {
+        sound.playWoodenTap();
+        FamilyAuth.logout();
+        this.close();
+        if (this.onLogout) {
+          this.onLogout();
+        }
+      }
+    };
+
+    this.container.querySelector('#btnLogoutFamily')?.addEventListener('click', handleLogout);
+    this.container.querySelector('#btnLogoutFamilyFromLocked')?.addEventListener('click', handleLogout);
   }
 
   private close() {
