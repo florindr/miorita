@@ -1,0 +1,113 @@
+{
+  "version": "1.0.0",
+  "name": "Tudor's Heritage Romanian Error Taxonomy",
+  "learner": {
+    "name": "Tudor",
+    "dominantLanguage": "en-GB",
+    "homeLanguage": "ro-RO",
+    "age": 8,
+    "year": 4
+  },
+  "categories": [
+    {
+      "id": "GEN",
+      "name": "Genul Substantivelor (Gender)",
+      "stationId": "gen",
+      "stationName": "Grădina cu Genuri",
+      "englishInterference": "English uses 'a' for all nouns (a house, a dog, a chair). Tudor says 'un casă'.",
+      "rule": "Romanian nouns are Masculine (un/doi), Feminine (o/două), or Neuter (un/două).",
+      "test": "un-doi / o-două / un-două",
+      "color": "#B23A2E"
+    },
+    {
+      "id": "CAS",
+      "name": "Genitivul & Dativul (Cases)",
+      "stationId": "cas",
+      "stationName": "Podul „A cui? Cui?”",
+      "englishInterference": "English 'grandma's house' or 'to mum' causes Tudor to use 'la' ('casa la bunica', 'i-am dat la mama').",
+      "rule": "Genitive/Dative uses noun inflections: bunica -> bunicii, băiatul -> băiatului, mama -> mamei.",
+      "test": "Al cui? / Cui?",
+      "color": "#5C402B"
+    },
+    {
+      "id": "CLQ",
+      "name": "Englezisme & Calcuri (Calques)",
+      "stationId": "clq",
+      "stationName": "Vânătorul de Englezisme",
+      "englishInterference": "Word-for-word translation from English: 'sunt 8 ani' (I am 8), 'face sens' (makes sense), 'sunt rece' (I am cold).",
+      "rule": "Romanian uses authentic idioms: am 8 ani (a avea), are sens, mi-e frig, am făcut un duș.",
+      "test": "Așa se spune românește!",
+      "color": "#2F5D8A"
+    },
+    {
+      "id": "ART",
+      "name": "Articolul Hotărât (Definite Articles)",
+      "stationId": "art",
+      "stationName": "Moara cu Articole",
+      "englishInterference": "English uses standalone 'the'. Tudor forgets postposed articles or says 'pe masa' due to 'on the table'.",
+      "rule": "Articles glue to the end (-ul, -le, -a). Simple prepositions (pe, în, la) drop the article: 'pe masă'.",
+      "test": "Fără 'the', cu coadă!",
+      "color": "#D49B28"
+    },
+    {
+      "id": "SUB",
+      "name": "Conjunctivul „Să” (Subjunctive)",
+      "stationId": "sub",
+      "stationName": "Poteca lui Să",
+      "englishInterference": "English 'I want to go' causes omission of 'să' ('vreau merg').",
+      "rule": "Modal and volitional verbs (vreau, pot, trebuie, îmi place) require 'să' + conjugated verb: 'vreau să merg'.",
+      "test": "Vreau SĂ...",
+      "color": "#6E8B5E"
+    },
+    {
+      "id": "POS",
+      "name": "Articolul Posesiv (Al, A, Ai, Ale)",
+      "stationId": "pos",
+      "stationName": "Fântâna cu Al-A-Ai-Ale",
+      "englishInterference": "English uses invariable 'of'. Tudor confuses al/a/ai/ale ('un prieten a meu').",
+      "rule": "The possessive article agrees with the possessed noun: al meu (m), a mea (f), ai mei (m.pl), ale mele (f.pl).",
+      "test": "Cu cine se potrivește găleata?",
+      "color": "#A8623B"
+    },
+    {
+      "id": "NUM",
+      "name": "Numeralele cu „de” (Numerals >= 20)",
+      "stationId": "num",
+      "stationName": "Târgul de Numere",
+      "englishInterference": "English 'twenty cars' makes Tudor omit 'de' ('douăzeci mașini').",
+      "rule": "Numbers 1-19 take no preposition ('nouăsprezece mere'). Numbers 20+ require 'de' ('douăzeci de mere').",
+      "test": "Avem 'de' la piață?",
+      "color": "#7E5F46"
+    },
+    {
+      "id": "CLI",
+      "name": "Dublarea Clitică & „Pe” (Clitics)",
+      "stationId": "cli",
+      "stationName": "Ecoul din Munte",
+      "englishInterference": "English 'I saw John' has no clitic doubling and no accusative marker. Tudor says 'am văzut Ion'.",
+      "rule": "Personal direct objects require 'pe' and the pronominal clitic echo: 'L-am văzut pe Ion', 'Am văzut-o pe Maria'.",
+      "test": "Ecoul strigă: L-am văzut pe...",
+      "color": "#4A6B82"
+    },
+    {
+      "id": "AGR",
+      "name": "Acordul Adjectivelor (Adjective Agreement)",
+      "stationId": "agr",
+      "stationName": "Atelierul de Culori",
+      "englishInterference": "English adjectives are invariable (red car, red cars). Tudor says 'o mașină roșu' or 'două scaune alb'.",
+      "rule": "Adjectives must agree in gender and number with the noun: băiat frumos, fată frumoasă, băieți frumoși, fete frumoase.",
+      "test": "Cum este lucrul? Se potrivește haina?",
+      "color": "#8C3B32"
+    },
+    {
+      "id": "ORD",
+      "name": "Topica Adjectivului (Word Order)",
+      "stationId": "ord",
+      "stationName": "Atelierul de Culori",
+      "englishInterference": "English puts the adjective before the noun ('red car'). Tudor says 'roșie mașină'.",
+      "rule": "In Romanian, descriptive adjectives almost always follow the noun: 'o mașină roșie' (not 'o roșie mașină').",
+      "test": "Întâi lucrul, apoi culoarea!",
+      "color": "#5E7D53"
+    }
+  ]
+}

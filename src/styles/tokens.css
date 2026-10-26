@@ -1,0 +1,36 @@
+/* src/styles/tokens.css — Design Tokens derived from miorita_moodboard_linocut.jpg */
+
+:root {
+  /* Surfaces & Backgrounds */
+  --linen: #F4EEE3;
+  --linen-pure: #FAF7F2;
+  --linen-card: #ECE3D2;
+  --linen-dark: #DFD3BF;
+
+  /* Ink & Linework */
+  --ink-charcoal: #2B2622;
+  --walnut: #5C402B;
+  --walnut-light: #7E5F46;
+
+  /* Folk Palette & Gender Accents */
+  --gen-masculin: #2F5D8A; /* Voroneț Blue (un / doi) */
+  --gen-masculin-bg: #E8EFF7;
+  --gen-feminin: #B23A2E;   /* Ie Red (o / două) */
+  --gen-feminin-bg: #FBECEB;
+  --gen-neutru: #5E7D53;    /* Carpathian Sage Green (un / două) */
+  --gen-neutru-bg: #EDF3EC;
+
+  /* Warm Rewards & Feedback */
+  --gold-bell: #D49B28;
+  --clay-terracotta: #A8623B;
+  --soft-shadow: 0 4px 12px rgba(43, 38, 34, 0.08);
+  --card-shadow: 0 6px 18px rgba(92, 64, 43, 0.12);
+
+  /* Touch & Typography Defaults */
+  --touch-min: 48px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --font-serif: "Georgia", "Fraunces", serif;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}

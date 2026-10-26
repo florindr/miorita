@@ -1,0 +1,27 @@
+{
+  "name": "miorita",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "content:audio": "tsx scripts/generateAudio.ts",
+    "content:draft": "tsx scripts/draftItems.ts",
+    "content:lint": "tsx scripts/lintContent.ts",
+    "art:generate": "tsx scripts/generateScenarioArt.ts",
+    "deploy": "tsc --noEmit && vite build && wrangler pages deploy dist --project-name=miorita"
+  },
+  "devDependencies": {
+    "@google-cloud/text-to-speech": "^7.2.0",
+    "@google/genai": "^2.31.0",
+    "tsx": "^4.23.15",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.1",
+    "wrangler": "^4.153.0",
+    "zod": "^4.6.7"
+  }
+}

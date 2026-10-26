@@ -1,0 +1,1902 @@
+[
+  {
+    "id": "SET1-Q01",
+    "category": "CLQ",
+    "station": "clq",
+    "mechanic": "choose",
+    "promptRo": "Cineva te întreabă la o aniversare câți ani ai: Câți ani ai?",
+    "englishShape": "Eu sunt 8 ani (I am 8 years old)",
+    "answer": "Am 8 ani",
+    "options": [
+      "Am 8 ani",
+      "Eu sunt 8 ani",
+      "Sunt de 8 ani"
+    ],
+    "hintRo": "În română anii se poartă în buzunar: zicem „am 8 ani”, la fel ca „am o minge”!",
+    "bridgeEn": "English uses \"to be\" for age (I am 8). Romanian always uses \"a avea\" (am 8 ani).",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET1-Q02",
+    "category": "GEN",
+    "station": "gen",
+    "mechanic": "choose",
+    "promptRo": "Cum numărăm căsuțele prietenilor? Căsuța din sat",
+    "englishShape": "un casă (a house)",
+    "answer": "o casă, două case",
+    "options": [
+      "o casă, două case",
+      "un casă, doi case",
+      "un casă, două case"
+    ],
+    "hintRo": "Numărăm: „o casă, două case”! Substantivul casă este feminin.",
+    "bridgeEn": "English \"a house\" does not show gender. Romanian treats \"casă\" as strictly feminine (o casă).",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET1-Q03",
+    "category": "GEN",
+    "station": "gen",
+    "mechanic": "choose",
+    "promptRo": "Trenul fluieră și pleacă din gară: Trenul din gară",
+    "englishShape": "un tren / doi trenuri",
+    "answer": "un tren, două trenuri",
+    "options": [
+      "un tren, două trenuri",
+      "un tren, doi treni",
+      "o trenă, două trenuri"
+    ],
+    "hintRo": "Trenul este neutru: la singular zicem „un tren”, iar la plural „două trenuri”!",
+    "bridgeEn": "Neuter nouns in Romanian behave as masculine in singular (un) and feminine in plural (două).",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET1-Q04",
+    "category": "GEN",
+    "station": "gen",
+    "mechanic": "choose",
+    "promptRo": "Cățelul aleargă vesel prin iarbă: Câinele jucăuș",
+    "englishShape": "o câine / două câini",
+    "answer": "un câine, doi câini",
+    "options": [
+      "un câine, doi câini",
+      "o câine, două câine",
+      "un câine, două câinuri"
+    ],
+    "hintRo": "Câinele este băiețel: „un câine, doi câini”!",
+    "bridgeEn": "Male animals are masculine in Romanian: un câine, doi câini.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET1-Q05",
+    "category": "GEN",
+    "station": "gen",
+    "mechanic": "choose",
+    "promptRo": "La birou ai unde să te așezi: Scaunul de la birou",
+    "englishShape": "o scaun / două scaune",
+    "answer": "un scaun, două scaune",
+    "options": [
+      "un scaun, două scaune",
+      "un scaun, doi scauni",
+      "o scaun, două scaune"
+    ],
+    "hintRo": "Zicem „un scaun” (masculin) la singular și „două scaune” (feminin) la plural. E neutru!",
+    "bridgeEn": "Furniture like \"scaun\" or \"pat\" is typically neuter: un scaun, două scaune.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET1-Q06",
+    "category": "CLQ",
+    "station": "clq",
+    "mechanic": "choose",
+    "promptRo": "După antrenamentul de fotbal simți că ai mânca ceva bun: Îmi este foame",
+    "englishShape": "Eu sunt foame (I am hungry)",
+    "answer": "Mi-e foame",
+    "options": [
+      "Mi-e foame",
+      "Eu sunt foame",
+      "Sunt flămând mult"
+    ],
+    "hintRo": "În română zicem „Mi-e foame” sau „Îmi este foame”!",
+    "bridgeEn": "English says \"I am hungry\". Romanian uses the dative clitic: \"Mi-e foame\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET1-Q07",
+    "category": "GEN",
+    "station": "gen",
+    "mechanic": "choose",
+    "promptRo": "Citești o carte interesantă înainte de culcare: Cartea cu povești",
+    "englishShape": "un carte (a book)",
+    "answer": "o carte, două cărți",
+    "options": [
+      "o carte, două cărți",
+      "un carte, doi cărți",
+      "un carte, două cărți"
+    ],
+    "hintRo": "Cărțile sunt fetițe în română: zicem „o carte, două cărți”!",
+    "bridgeEn": "Books are feminine: \"o carte\". Never say \"un carte\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET1-Q08",
+    "category": "CLQ",
+    "station": "clq",
+    "mechanic": "choose",
+    "promptRo": "Afară este soare puternic de vară: Îmi este cald",
+    "englishShape": "Eu sunt fierbinte (I am hot)",
+    "answer": "Mi-e cald",
+    "options": [
+      "Mi-e cald",
+      "Eu sunt fierbinte",
+      "Am căldură mare"
+    ],
+    "hintRo": "Atenție mare la capcană: zicem „Mi-e cald”, nu „sunt fierbinte”!",
+    "bridgeEn": "Saying \"sunt fierbinte\" in Romanian is a direct English calque. Use \"Mi-e cald\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET1-Q09",
+    "category": "GEN",
+    "station": "gen",
+    "mechanic": "choose",
+    "promptRo": "Culegi un măr roșu și dulce: Mărul din pom",
+    "englishShape": "un măr, doi meri",
+    "answer": "un măr, două mere",
+    "options": [
+      "un măr, două mere",
+      "un măr, doi meri",
+      "o măr, două mere"
+    ],
+    "hintRo": "Fructul este neutru: „un măr, două mere”! Pomul este masculin: „un măr, doi meri”.",
+    "bridgeEn": "The fruit is neuter (un măr, două mere), while the tree is masculine (un măr, doi meri).",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET1-Q010",
+    "category": "CLQ",
+    "station": "clq",
+    "mechanic": "choose",
+    "promptRo": "Ai dărâmat din greșeală un turn de cuburi: Îmi pare rău",
+    "englishShape": "Eu sunt scuze (I am sorry)",
+    "answer": "Îmi pare rău",
+    "options": [
+      "Îmi pare rău",
+      "Eu sunt scuze",
+      "Sunt regretat"
+    ],
+    "hintRo": "Când vrem să ne cerem scuze, zicem frumos: „Îmi pare rău”!",
+    "bridgeEn": "English \"I am sorry\" corresponds to the idiom \"Îmi pare rău\" in Romanian.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET2-Q01",
+    "category": "CAS",
+    "station": "cas",
+    "mechanic": "choose",
+    "promptRo": "Mergem în vacanță la: Căsuța bunicii",
+    "englishShape": "casa la bunica (grandma's house)",
+    "answer": "casa bunicii",
+    "options": [
+      "casa bunicii",
+      "casa la bunica",
+      "casa de bunica"
+    ],
+    "hintRo": "Bunica primește terminația „-ii”: casa bunicii!",
+    "bridgeEn": "English adds 's (grandma's house). Tudor translates \"la bunica\". Romanian uses genitive: bunicii.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET2-Q02",
+    "category": "CAS",
+    "station": "cas",
+    "mechanic": "choose",
+    "promptRo": "Pe terenul de fotbal găsești mingea: Mingea băiatului",
+    "englishShape": "mingea la băiat (the boy's ball)",
+    "answer": "mingea băiatului",
+    "options": [
+      "mingea băiatului",
+      "mingea la băiat",
+      "mingea de la băiatul"
+    ],
+    "hintRo": "Băiatul devine băiatului la genitiv: „mingea băiatului”!",
+    "bridgeEn": "Masculine possession ends in -ului: băiat -> băiatului.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET2-Q03",
+    "category": "CAS",
+    "station": "cas",
+    "mechanic": "choose",
+    "promptRo": "Plecați la drum lung cu: Mașina tatălui",
+    "englishShape": "mașina la tata (dad's car)",
+    "answer": "mașina tatălui",
+    "options": [
+      "mașina tatălui",
+      "mașina la tata",
+      "mașina de tata"
+    ],
+    "hintRo": "Pentru tata zicem „mașina tatălui”!",
+    "bridgeEn": "Proper Romanian uses \"tatălui\" for possession instead of colloquial \"la tata\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET2-Q04",
+    "category": "CAS",
+    "station": "cas",
+    "mechanic": "choose",
+    "promptRo": "I-ai dăruit un trandafir mamei tale: Floarea mamei",
+    "englishShape": "floarea la mama (mom's flower)",
+    "answer": "floarea mamei",
+    "options": [
+      "floarea mamei",
+      "floarea la mama",
+      "floarea de mama"
+    ],
+    "hintRo": "Mama devine mamei: „floarea mamei”!",
+    "bridgeEn": "Feminine names ending in -a shift to -ei in genitive: mama -> mamei.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET2-Q05",
+    "category": "CAS",
+    "station": "cas",
+    "mechanic": "choose",
+    "promptRo": "Sora ta mai mică și-a uitat păpușa: Jucăria fetiței",
+    "englishShape": "jucăria la fetiță (the girl's toy)",
+    "answer": "jucăria fetiței",
+    "options": [
+      "jucăria fetiței",
+      "jucăria la fetiță",
+      "jucăria fetei-a"
+    ],
+    "hintRo": "Fetița devine fetiței: „jucăria fetiței”!",
+    "bridgeEn": "Feminine diminutive -ița shifts to -iței in genitive: fetița -> fetiței.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET2-Q06",
+    "category": "CAS",
+    "station": "cas",
+    "mechanic": "choose",
+    "promptRo": "Bunicul își caută ochelarii de citit: Ochelarii bunicului",
+    "englishShape": "ochelarii la bunicul (grandpa's glasses)",
+    "answer": "ochelarii bunicului",
+    "options": [
+      "ochelarii bunicului",
+      "ochelarii la bunicul",
+      "ochelarii de bunic"
+    ],
+    "hintRo": "Bunicul primește „-ului”: „ochelarii bunicului”!",
+    "bridgeEn": "Bunicul in genitive becomes bunicului.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET2-Q07",
+    "category": "CAS",
+    "station": "cas",
+    "mechanic": "choose",
+    "promptRo": "Mergi să te joci jocuri video în: Camera fratelui",
+    "englishShape": "camera la fratele meu (my brother's room)",
+    "answer": "camera fratelui meu",
+    "options": [
+      "camera fratelui meu",
+      "camera la fratele meu",
+      "camera de la frate"
+    ],
+    "hintRo": "Fratele devine fratelui: „camera fratelui”!",
+    "bridgeEn": "Fratele takes -lui: camera fratelui meu.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET2-Q08",
+    "category": "CAS",
+    "station": "cas",
+    "mechanic": "choose",
+    "promptRo": "Pisicuța poartă un clopoțel la gât: Zgarda pisicii",
+    "englishShape": "zgarda la pisică (the cat's collar)",
+    "answer": "zgarda pisicii",
+    "options": [
+      "zgarda pisicii",
+      "zgarda la pisică",
+      "zgarda pisicei"
+    ],
+    "hintRo": "Pisica devine pisicii: „zgarda pisicii”!",
+    "bridgeEn": "Pisica takes -ii in genitive: zgarda pisicii.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET2-Q09",
+    "category": "CAS",
+    "station": "cas",
+    "mechanic": "choose",
+    "promptRo": "Mingea a sărit peste gard în: Grădina vecinului",
+    "englishShape": "grădina la vecin (the neighbour's garden)",
+    "answer": "grădina vecinului",
+    "options": [
+      "grădina vecinului",
+      "grădina la vecin",
+      "grădina cu vecinul"
+    ],
+    "hintRo": "Vecinul devine vecinului: „grădina vecinului”!",
+    "bridgeEn": "Vecinul -> vecinului.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET2-Q010",
+    "category": "CAS",
+    "station": "cas",
+    "mechanic": "choose",
+    "promptRo": "Cărțile de citit sunt păstrate în: Dulapul învățătoarei",
+    "englishShape": "dulapul la învățătoare (the teacher's cupboard)",
+    "answer": "dulapul învățătoarei",
+    "options": [
+      "dulapul învățătoarei",
+      "dulapul la învățătoare",
+      "dulapul de doamna"
+    ],
+    "hintRo": "Doamna învățătoare primește „-ei”: „dulapul învățătoarei”!",
+    "bridgeEn": "Învățătoarea -> învățătoarei in proper Romanian genitive.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET3-Q01",
+    "category": "ART",
+    "station": "art",
+    "mechanic": "choose",
+    "promptRo": "Vorbim despre un cățel anume din curte: Câinele din curte",
+    "englishShape": "the dog (câine fără articol)",
+    "answer": "Câinele latră",
+    "options": [
+      "Câinele latră",
+      "Câine latră",
+      "Unul câine latră"
+    ],
+    "hintRo": "Adăugăm articolul hotărât „-le” la sfârșitul cuvântului: „câinele”!",
+    "bridgeEn": "English puts \"the\" in front (the dog). Romanian attaches \"-le\" to the end (câinele).",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET3-Q02",
+    "category": "ART",
+    "station": "art",
+    "mechanic": "choose",
+    "promptRo": "Unde ai lăsat caietul de teme? Cartea este pe masă",
+    "englishShape": "pe masa (on the table)",
+    "answer": "pe masă",
+    "options": [
+      "pe masă",
+      "pe masa",
+      "peste masă"
+    ],
+    "hintRo": "După prepoziții simple ca „pe”, substantivul rămâne nearticulat: „pe masă”!",
+    "bridgeEn": "English says \"on THE table\". Romanian drops the definite article after prepositions: \"pe masă\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET3-Q03",
+    "category": "ART",
+    "station": "art",
+    "mechanic": "choose",
+    "promptRo": "Cum zicem despre un băiat specific: Băiatul cel curajos",
+    "englishShape": "the boy (băiat)",
+    "answer": "Băiatul aleargă",
+    "options": [
+      "Băiatul aleargă",
+      "Băiat aleargă",
+      "Cel băiat aleargă"
+    ],
+    "hintRo": "Adăugăm „-ul”: „băiatul”!",
+    "bridgeEn": "Masculine nouns take -ul: băiat -> băiatul.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET3-Q04",
+    "category": "ART",
+    "station": "art",
+    "mechanic": "choose",
+    "promptRo": "Dimineața Tudor își ia ghiozdanul și pleacă: Mergem la școală",
+    "englishShape": "la școala (to the school)",
+    "answer": "la școală",
+    "options": [
+      "la școală",
+      "la școala",
+      "înspre școala"
+    ],
+    "hintRo": "Zicem „mergem la școală”, fără „-a” la sfârșit!",
+    "bridgeEn": "Preposition \"la\" requires the bare noun: \"la școală\", not \"la școala\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET3-Q05",
+    "category": "ART",
+    "station": "art",
+    "mechanic": "choose",
+    "promptRo": "Sora ta face o pictură frumoasă: Fata desenează",
+    "englishShape": "the girl (fată)",
+    "answer": "Fata desenează",
+    "options": [
+      "Fata desenează",
+      "Fată desenează",
+      "O fată o desenează"
+    ],
+    "hintRo": "Fata primește „-a”: „Fata desenează”!",
+    "bridgeEn": "Feminine nouns ending in -ă change to -a when definite: fată -> fata.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET3-Q06",
+    "category": "ART",
+    "station": "art",
+    "mechanic": "choose",
+    "promptRo": "Elevii sunt așezați la ore: În clasă",
+    "englishShape": "în clasa (in the classroom)",
+    "answer": "în clasă",
+    "options": [
+      "în clasă",
+      "în clasa",
+      "din clasa"
+    ],
+    "hintRo": "După „în”, zicem „în clasă”!",
+    "bridgeEn": "Preposition \"în\" takes unarticulated noun: \"în clasă\", not \"în clasa\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET3-Q07",
+    "category": "ART",
+    "station": "art",
+    "mechanic": "choose",
+    "promptRo": "Toți prietenii tăi sunt în parc: Copiii se joacă",
+    "englishShape": "copii se joacă (the children)",
+    "answer": "Copiii se joacă",
+    "options": [
+      "Copiii se joacă",
+      "Copii se joacă",
+      "Cei copii se joacă"
+    ],
+    "hintRo": "La plural masculin hotărât scriem cu trei de i: „copiii”!",
+    "bridgeEn": "Copil -> copii (plural bare) -> copiii (plural definite with 3 i's).",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET3-Q08",
+    "category": "ART",
+    "station": "art",
+    "mechanic": "choose",
+    "promptRo": "Ne odihnim la umbră: Sub copac",
+    "englishShape": "sub copacul (under the tree)",
+    "answer": "sub copac",
+    "options": [
+      "sub copac",
+      "sub copacul",
+      "pe sub copacul"
+    ],
+    "hintRo": "După „sub” lăsăm cuvântul simplu: „sub copac”!",
+    "bridgeEn": "Prepositions of location (sub, pe, în, la) drop the definite article.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET3-Q09",
+    "category": "ART",
+    "station": "art",
+    "mechanic": "choose",
+    "promptRo": "Pe cerul senin de dimineață: Soarele strălucește",
+    "englishShape": "Soare strălucește (the sun)",
+    "answer": "Soarele strălucește",
+    "options": [
+      "Soarele strălucește",
+      "Soare strălucește",
+      "Un soarele strălucește"
+    ],
+    "hintRo": "Zicem „Soarele”, cu „-le” la final!",
+    "bridgeEn": "Soare takes -le: soarele.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET3-Q10",
+    "category": "ART",
+    "station": "art",
+    "mechanic": "choose",
+    "promptRo": "E timpul de culcare și mergi: În pat",
+    "englishShape": "în patul (in the bed)",
+    "answer": "în pat",
+    "options": [
+      "în pat",
+      "în patul",
+      "spre patul"
+    ],
+    "hintRo": "Zicem „merg în pat”, nu „în patul”!",
+    "bridgeEn": "\"În pat\" drops the article in Romanian idiom.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET4-Q01",
+    "category": "SUB",
+    "station": "sub",
+    "mechanic": "choose",
+    "promptRo": "Îi spui tatălui ce vrei să faci: Vreau să mă joc",
+    "englishShape": "Vreau joc (I want to play)",
+    "answer": "Vreau să mă joc",
+    "options": [
+      "Vreau să mă joc",
+      "Vreau joc",
+      "Vreau la joacă afară"
+    ],
+    "hintRo": "Nu uita piatra de râu „SĂ”! Zicem: „Vreau SĂ mă joc”!",
+    "bridgeEn": "English uses infinitive \"to play\". Romanian uses subjunctive with \"să\" (să mă joc).",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET4-Q02",
+    "category": "SUB",
+    "station": "sub",
+    "mechanic": "choose",
+    "promptRo": "Vrei să dai o mână de ajutor la bucătărie: Pot să te ajut",
+    "englishShape": "Pot ajut (I can help)",
+    "answer": "Pot să te ajut",
+    "options": [
+      "Pot să te ajut",
+      "Pot ajut",
+      "Pot la ajutor"
+    ],
+    "hintRo": "Zicem: „Pot SĂ te ajut”!",
+    "bridgeEn": "Modal verbs like \"pot\" trigger the subjunctive connector \"să\" in Romanian.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET4-Q03",
+    "category": "SUB",
+    "station": "sub",
+    "mechanic": "choose",
+    "promptRo": "E timpul să mergem spre meciul de fotbal: Trebuie să plecăm",
+    "englishShape": "Trebuie plecăm (We must leave)",
+    "answer": "Trebuie să plecăm",
+    "options": [
+      "Trebuie să plecăm",
+      "Trebuie plecăm",
+      "Trebuie de plecat"
+    ],
+    "hintRo": "Trebuie cere întotdeauna „să”: „Trebuie SĂ plecăm”!",
+    "bridgeEn": "\"Trebuie\" is followed by \"să\" + subjunctive: \"Trebuie să plecăm\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET4-Q04",
+    "category": "SUB",
+    "station": "sub",
+    "mechanic": "choose",
+    "promptRo": "Îți plac cărțile cu aventuri: Îmi place să citesc",
+    "englishShape": "Îmi place citesc (I like to read)",
+    "answer": "Îmi place să citesc",
+    "options": [
+      "Îmi place să citesc",
+      "Îmi place citesc",
+      "Îmi place citind"
+    ],
+    "hintRo": "Pui „să”: „Îmi place SĂ citesc”!",
+    "bridgeEn": "English \"like reading / like to read\" is rendered as \"îmi place să citesc\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET4-Q05",
+    "category": "SUB",
+    "station": "sub",
+    "mechanic": "choose",
+    "promptRo": "Ți-e sete după alergat: Vreau să beau apă",
+    "englishShape": "Vreau beau apă (I want to drink water)",
+    "answer": "Vreau să beau apă",
+    "options": [
+      "Vreau să beau apă",
+      "Vreau beau apă",
+      "Vreau apă bea"
+    ],
+    "hintRo": "Treci pe piatra fermecată: „Vreau SĂ beau apă”!",
+    "bridgeEn": "Never drop \"să\" after \"vreau\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET4-Q06",
+    "category": "SUB",
+    "station": "sub",
+    "mechanic": "choose",
+    "promptRo": "La piscină ești mândru că ai învățat: Știu să înot",
+    "englishShape": "Știu înot (I know how to swim)",
+    "answer": "Știu să înot",
+    "options": [
+      "Știu să înot",
+      "Știu înot",
+      "Știu cum înot"
+    ],
+    "hintRo": "Zicem: „Știu SĂ înot”!",
+    "bridgeEn": "\"A ști\" (to know how to do something) takes \"să\" in Romanian.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET4-Q07",
+    "category": "SUB",
+    "station": "sub",
+    "mechanic": "choose",
+    "promptRo": "Ai o problemă grea la matematică: Încerc să rezolv",
+    "englishShape": "Încerc rezolv (I try to solve)",
+    "answer": "Încerc să rezolv",
+    "options": [
+      "Încerc să rezolv",
+      "Încerc rezolv",
+      "Încerc pentru rezolvare"
+    ],
+    "hintRo": "Zicem: „Încerc SĂ rezolv”!",
+    "bridgeEn": "\"A încerca\" always takes \"să\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET4-Q08",
+    "category": "SUB",
+    "station": "sub",
+    "mechanic": "choose",
+    "promptRo": "Comanzi politicos la restaurant: Aș dori să mănânc",
+    "englishShape": "Aș dori mănânc (I would like to eat)",
+    "answer": "Aș dori să mănânc",
+    "options": [
+      "Aș dori să mănânc",
+      "Aș dori mănânc",
+      "Aș dori mâncare a mânca"
+    ],
+    "hintRo": "Spunem: „Aș dori SĂ mănânc”!",
+    "bridgeEn": "Conditional \"aș dori\" requires \"să\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET4-Q09",
+    "category": "SUB",
+    "station": "sub",
+    "mechanic": "choose",
+    "promptRo": "Înainte de masă mergi la baie: Mă duc să mă spăl",
+    "englishShape": "Mă duc mă spăl (I go wash myself)",
+    "answer": "Mă duc să mă spăl",
+    "options": [
+      "Mă duc să mă spăl",
+      "Mă duc mă spăl",
+      "Mă duc spălat"
+    ],
+    "hintRo": "Zicem: „Mă duc SĂ mă spăl”!",
+    "bridgeEn": "Directional verbs followed by purpose take \"să\": \"mă duc să mă spăl\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET4-Q10",
+    "category": "SUB",
+    "station": "sub",
+    "mechanic": "choose",
+    "promptRo": "Îi ceri voie tatălui să ieși cu prietenii: Pot să ies afară?",
+    "englishShape": "Pot ies afară? (Can I go out?)",
+    "answer": "Pot să ies afară?",
+    "options": [
+      "Pot să ies afară?",
+      "Pot ies afară?",
+      "Pot afară merg?"
+    ],
+    "hintRo": "Întrebăm politicos: „Pot SĂ ies afară?”!",
+    "bridgeEn": "Question form maintains \"să\": \"Pot să ies afară?\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET5-Q01",
+    "category": "POS",
+    "station": "pos",
+    "mechanic": "choose",
+    "promptRo": "Prezinți un băiat din clasă: Un prieten bun",
+    "englishShape": "un prieten de meu (a friend of mine)",
+    "answer": "un prieten al meu",
+    "options": [
+      "un prieten al meu",
+      "un prieten a mea",
+      "un prieten ale mele"
+    ],
+    "hintRo": "Prieten este masculin singular, deci alegem găleata „AL”: un prieten AL meu!",
+    "bridgeEn": "Masculine singular takes \"al\": un prieten al meu.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET5-Q02",
+    "category": "POS",
+    "station": "pos",
+    "mechanic": "choose",
+    "promptRo": "Îți arăți mașinuța favorită: O jucărie preferată",
+    "englishShape": "o jucărie al meu",
+    "answer": "o jucărie a mea",
+    "options": [
+      "o jucărie a mea",
+      "o jucărie al meu",
+      "o jucărie ai mei"
+    ],
+    "hintRo": "Jucărie este feminin singular: alegem găleata „A”: o jucărie A mea!",
+    "bridgeEn": "Feminine singular takes \"a\": o jucărie a mea.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET5-Q03",
+    "category": "POS",
+    "station": "pos",
+    "mechanic": "choose",
+    "promptRo": "Ai doi căței care aleargă după minge: Doi câini isteți",
+    "englishShape": "doi câini ale mele",
+    "answer": "doi câini ai mei",
+    "options": [
+      "doi câini ai mei",
+      "doi câini al meu",
+      "doi câini ale mele"
+    ],
+    "hintRo": "Câini este masculin plural: găleata este „AI”: doi câini AI mei!",
+    "bridgeEn": "Masculine plural takes \"ai\": doi câini ai mei.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET5-Q04",
+    "category": "POS",
+    "station": "pos",
+    "mechanic": "choose",
+    "promptRo": "Pe birou ai câteva cărți: Cărțile de pe birou",
+    "englishShape": "cărțile ai mei",
+    "answer": "cărțile ale mele",
+    "options": [
+      "cărțile ale mele",
+      "cărțile ai mei",
+      "cărțile al meu"
+    ],
+    "hintRo": "Cărți este feminin plural: alegem găleata „ALE”: cărțile ALE mele!",
+    "bridgeEn": "Feminine/neuter plural takes \"ale\": cărțile ale mele.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET5-Q05",
+    "category": "POS",
+    "station": "pos",
+    "mechanic": "choose",
+    "promptRo": "Vorbești despre familia ta: Un frate mai mare",
+    "englishShape": "un frate a meu",
+    "answer": "un frate al meu",
+    "options": [
+      "un frate al meu",
+      "un frate a mea",
+      "un frate ale mele"
+    ],
+    "hintRo": "Frate este masculin: „un frate AL meu”!",
+    "bridgeEn": "Frate is masculine: un frate al meu.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET5-Q06",
+    "category": "POS",
+    "station": "pos",
+    "mechanic": "choose",
+    "promptRo": "Ai primit o bicicletă de ziua ta: O bicicletă nouă",
+    "englishShape": "o bicicletă al meu",
+    "answer": "o bicicletă a mea",
+    "options": [
+      "o bicicletă a mea",
+      "o bicicletă al meu",
+      "o bicicletă ai mei"
+    ],
+    "hintRo": "Bicicletă este feminin: „o bicicletă A mea”!",
+    "bridgeEn": "Bicicletă is feminine: o bicicletă a mea.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET5-Q07",
+    "category": "POS",
+    "station": "pos",
+    "mechanic": "choose",
+    "promptRo": "Te încalți pentru meci cu: Pantofii de sport",
+    "englishShape": "pantofii ale mele",
+    "answer": "pantofii ai mei",
+    "options": [
+      "pantofii ai mei",
+      "pantofii ale mele",
+      "pantofii al meu"
+    ],
+    "hintRo": "Pantofi este masculin plural: „pantofii AI mei”!",
+    "bridgeEn": "Pantofi is masculine plural: pantofii ai mei.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET5-Q08",
+    "category": "POS",
+    "station": "pos",
+    "mechanic": "choose",
+    "promptRo": "Merele și perele din coș sunt: Fructele din coș",
+    "englishShape": "fructele ai mei",
+    "answer": "fructele ale noastre",
+    "options": [
+      "fructele ale noastre",
+      "fructele ai noștri",
+      "fructele al nostru"
+    ],
+    "hintRo": "Fructe este neutru plural (se comportă ca femininul): „fructele ALE noastre”!",
+    "bridgeEn": "Neuter plurals behave like feminines: fructele ale noastre.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET5-Q09",
+    "category": "POS",
+    "station": "pos",
+    "mechanic": "choose",
+    "promptRo": "Îi arăți profesorului tema: Caietul de matematică",
+    "englishShape": "acest caiet a meu",
+    "answer": "acest caiet al meu",
+    "options": [
+      "acest caiet al meu",
+      "acest caiet a mea",
+      "acest caiet ai mei"
+    ],
+    "hintRo": "Caiet este neutru singular (ca masculinul): „caietul AL meu”!",
+    "bridgeEn": "Neuter singular takes \"al\": caietul al meu.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET5-Q10",
+    "category": "POS",
+    "station": "pos",
+    "mechanic": "choose",
+    "promptRo": "Trandafirii din vază sunt: Florile din vază",
+    "englishShape": "florile ai mei",
+    "answer": "florile ale mamei",
+    "options": [
+      "florile ale mamei",
+      "florile ai mamei",
+      "florile al mamei"
+    ],
+    "hintRo": "Flori este feminin plural: „florile ALE mamei”!",
+    "bridgeEn": "Plural feminine takes \"ale\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET6-Q01",
+    "category": "NUM",
+    "station": "num",
+    "mechanic": "choose",
+    "promptRo": "Cumperi un sac plin cu 20 de fructe: Cumperi mere la piață",
+    "englishShape": "douăzeci mere (twenty apples)",
+    "answer": "douăzeci de mere",
+    "options": [
+      "douăzeci de mere",
+      "douăzeci mere",
+      "douăzeci cu mere"
+    ],
+    "hintRo": "Numărul 20 este mare: punem greutatea „DE”! Zicem „douăzeci DE mere”!",
+    "bridgeEn": "Numbers 20 and above require the preposition \"de\" before the noun in Romanian.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET6-Q02",
+    "category": "NUM",
+    "station": "num",
+    "mechanic": "choose",
+    "promptRo": "Ai în coș 10 ouă pentru clătite: Câteva ouă proaspete",
+    "englishShape": "zece de ouă",
+    "answer": "zece ouă",
+    "options": [
+      "zece ouă",
+      "zece de ouă",
+      "zecea ouă"
+    ],
+    "hintRo": "De la 1 la 19 nu punem „de”! Zicem simplu: „zece ouă”!",
+    "bridgeEn": "Numbers 1 to 19 never take \"de\": \"zece ouă\", not \"zece de ouă\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET6-Q03",
+    "category": "NUM",
+    "station": "num",
+    "mechanic": "choose",
+    "promptRo": "Ai strâns în pușculiță 50 de lei: Bani de buzunar",
+    "englishShape": "cincizeci lei (fifty lei)",
+    "answer": "cincizeci de lei",
+    "options": [
+      "cincizeci de lei",
+      "cincizeci lei",
+      "cincizeci la lei"
+    ],
+    "hintRo": "50 este mai mare decât 19: punem „DE”! „cincizeci DE lei”!",
+    "bridgeEn": "50 > 19, so \"de\" is strictly required: cincizeci de lei.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET6-Q04",
+    "category": "NUM",
+    "station": "num",
+    "mechanic": "choose",
+    "promptRo": "Pauza mare durează 15 minute: Minute de pauză",
+    "englishShape": "cincisprezece de minute",
+    "answer": "cincisprezece minute",
+    "options": [
+      "cincisprezece minute",
+      "cincisprezece de minute",
+      "cinșpe de minute"
+    ],
+    "hintRo": "15 este sub 20: fără „de”! „cincisprezece minute”!",
+    "bridgeEn": "15 is below 20: cincisprezece minute (no \"de\").",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET6-Q05",
+    "category": "NUM",
+    "station": "num",
+    "mechanic": "choose",
+    "promptRo": "În curtea școlii sunt 100 de copii: Elevii din curte",
+    "englishShape": "o sută copii (one hundred children)",
+    "answer": "o sută de copii",
+    "options": [
+      "o sută de copii",
+      "o sută de copii",
+      "o sută copii"
+    ],
+    "hintRo": "O sută cere „DE”: „o sută DE copii”!",
+    "bridgeEn": "100 takes \"de\": o sută de copii.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET6-Q06",
+    "category": "NUM",
+    "station": "num",
+    "mechanic": "choose",
+    "promptRo": "La petrecere sunt 30 de baloane: Baloane colorate",
+    "englishShape": "treizeci baloane",
+    "answer": "treizeci de baloane",
+    "options": [
+      "treizeci de baloane",
+      "treizeci baloane",
+      "treizeci din baloane"
+    ],
+    "hintRo": "30 cere „DE”: „treizeci DE baloane”!",
+    "bridgeEn": "30 takes \"de\": treizeci de baloane.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET6-Q07",
+    "category": "NUM",
+    "station": "num",
+    "mechanic": "choose",
+    "promptRo": "Luna are 31 de zile: Zile dintr-o lună",
+    "englishShape": "treizeci și una zile",
+    "answer": "treizeci și una de zile",
+    "options": [
+      "treizeci și una de zile",
+      "treizeci și una zile",
+      "treizeci și una din zile"
+    ],
+    "hintRo": "Zicem: „treizeci și una DE zile”!",
+    "bridgeEn": "Compound numbers ending above 19 retain \"de\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET6-Q08",
+    "category": "NUM",
+    "station": "num",
+    "mechanic": "choose",
+    "promptRo": "În pachet sunt 12 biscuiți cu ciocolată: Biscuiți delicioși",
+    "englishShape": "doisprezece de biscuiți",
+    "answer": "doisprezece biscuiți",
+    "options": [
+      "doisprezece biscuiți",
+      "doisprezece de biscuiți",
+      "doișpe de biscuiți"
+    ],
+    "hintRo": "12 este sub 20: fără „de”! „doisprezece biscuiți”!",
+    "bridgeEn": "12 is below 20: doisprezece biscuiți.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET6-Q09",
+    "category": "NUM",
+    "station": "num",
+    "mechanic": "choose",
+    "promptRo": "Ai citit aseară 24 de pagini: Pagini citite",
+    "englishShape": "douăzeci și patru pagini",
+    "answer": "douăzeci și patru de pagini",
+    "options": [
+      "douăzeci și patru de pagini",
+      "douăzeci și patru pagini",
+      "douăzeci și patru cu pagini"
+    ],
+    "hintRo": "24 are nevoie de „DE”: „douăzeci și patru DE pagini”!",
+    "bridgeEn": "24 requires \"de\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET6-Q10",
+    "category": "NUM",
+    "station": "num",
+    "mechanic": "choose",
+    "promptRo": "În penar ai 18 creioane: Creioane colorate",
+    "englishShape": "optsprezece de creioane",
+    "answer": "optsprezece creioane",
+    "options": [
+      "optsprezece creioane",
+      "optsprezece de creioane",
+      "optșpe de creioane"
+    ],
+    "hintRo": "18 este sub 20: simplu, „optsprezece creioane”!",
+    "bridgeEn": "18 is below 20: optsprezece creioane.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET7-Q01",
+    "category": "CLI",
+    "station": "cli",
+    "mechanic": "choose",
+    "promptRo": "L-ai zărit pe prietenul tău în parc: L-am văzut pe Ion",
+    "englishShape": "Am văzut Ion (I saw John)",
+    "answer": "L-am văzut pe Ion",
+    "options": [
+      "L-am văzut pe Ion",
+      "Am văzut Ion",
+      "Am văzut pe Ion"
+    ],
+    "hintRo": "Muntele are ecou: repetă băiatul cu „L-” și pune „pe Ion”!",
+    "bridgeEn": "English says \"I saw John\". Romanian requires the clitic pronoun (L-) and preposition (pe).",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET7-Q02",
+    "category": "CLI",
+    "station": "cli",
+    "mechanic": "choose",
+    "promptRo": "Vrei să o chemi pe colega ta la joacă: O chem pe Maria",
+    "englishShape": "Chem Maria (I call Maria)",
+    "answer": "O chem pe Maria",
+    "options": [
+      "O chem pe Maria",
+      "Chem Maria",
+      "Chem pe Maria"
+    ],
+    "hintRo": "Pentru fete ecoul trimite „O”: „O chem pe Maria”!",
+    "bridgeEn": "Feminine object takes clitic \"O\" + \"pe\": O chem pe Maria.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET7-Q03",
+    "category": "CLI",
+    "station": "cli",
+    "mechanic": "choose",
+    "promptRo": "Ajuți colegii de echipă la fotbal: Îi ajut pe băieți",
+    "englishShape": "Ajut băieții (I help the boys)",
+    "answer": "Îi ajut pe băieți",
+    "options": [
+      "Îi ajut pe băieți",
+      "Ajut băieții",
+      "Ajut pe băieți"
+    ],
+    "hintRo": "Pentru mai mulți băieți ecoul trimite „ÎI”: „Îi ajut pe băieți”!",
+    "bridgeEn": "Plural masculine takes clitic \"Îi\" + \"pe\": Îi ajut pe băieți.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET7-Q04",
+    "category": "CLI",
+    "station": "cli",
+    "mechanic": "choose",
+    "promptRo": "Fetele sar coarda în curtea școlii: Le văd pe fete",
+    "englishShape": "Văd fetele (I see the girls)",
+    "answer": "Le văd pe fete",
+    "options": [
+      "Le văd pe fete",
+      "Văd fetele",
+      "Văd pe fete"
+    ],
+    "hintRo": "Pentru mai multe fete ecoul trimite „LE”: „Le văd pe fete”!",
+    "bridgeEn": "Plural feminine takes clitic \"Le\" + \"pe\": Le văd pe fete.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET7-Q05",
+    "category": "CLI",
+    "station": "cli",
+    "mechanic": "choose",
+    "promptRo": "Vrei să știi când mergeți la antrenament: L-am întrebat pe tata",
+    "englishShape": "Am întrebat tata (I asked dad)",
+    "answer": "L-am întrebat pe tata",
+    "options": [
+      "L-am întrebat pe tata",
+      "Am întrebat tata",
+      "Am întrebat pe tata"
+    ],
+    "hintRo": "Zicem: „L-am întrebat pe tata”!",
+    "bridgeEn": "Always use clitic doubling with parents: L-am întrebat pe tata.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET7-Q06",
+    "category": "CLI",
+    "station": "cli",
+    "mechanic": "choose",
+    "promptRo": "Bunica îți povestește o amintire dragă: O ascult pe bunica",
+    "englishShape": "Ascult bunica (I listen to grandma)",
+    "answer": "O ascult pe bunica",
+    "options": [
+      "O ascult pe bunica",
+      "Ascult bunica",
+      "Ascult la bunica"
+    ],
+    "hintRo": "Spunem: „O ascult pe bunica”!",
+    "bridgeEn": "Feminine direct object takes \"O\" + \"pe\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET7-Q07",
+    "category": "CLI",
+    "station": "cli",
+    "mechanic": "choose",
+    "promptRo": "Te joci de-a v-ați ascunselea: Îl caut pe fratele meu",
+    "englishShape": "Caut fratele meu (I am looking for my brother)",
+    "answer": "Îl caut pe fratele meu",
+    "options": [
+      "Îl caut pe fratele meu",
+      "Caut fratele meu",
+      "Caut pe fratele meu"
+    ],
+    "hintRo": "Ecoul trimite „Îl”: „Îl caut pe fratele meu”!",
+    "bridgeEn": "Present tense masculine clitic is \"Îl\": Îl caut pe fratele meu.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET7-Q08",
+    "category": "CLI",
+    "station": "cli",
+    "mechanic": "choose",
+    "promptRo": "Le mulțumești părinților tăi: Îi iubesc pe părinți",
+    "englishShape": "Iubesc părinții (I love my parents)",
+    "answer": "Îi iubesc pe părinți",
+    "options": [
+      "Îi iubesc pe părinți",
+      "Iubesc părinții",
+      "Iubesc la părinți"
+    ],
+    "hintRo": "Pentru părinți ecoul trimite „ÎI”: „Îi iubesc pe părinți”!",
+    "bridgeEn": "Direct object people in plural take \"Îi\" + \"pe\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET7-Q09",
+    "category": "CLI",
+    "station": "cli",
+    "mechanic": "choose",
+    "promptRo": "Colega ta a câștigat o medalie: O felicit pe colega mea",
+    "englishShape": "Felicit colega mea (I congratulate my classmate)",
+    "answer": "O felicit pe colega mea",
+    "options": [
+      "O felicit pe colega mea",
+      "Felicit colega mea",
+      "Felicit la colega mea"
+    ],
+    "hintRo": "Zicem: „O felicit pe colega mea”!",
+    "bridgeEn": "\"O felicit pe colega mea\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET7-Q10",
+    "category": "CLI",
+    "station": "cli",
+    "mechanic": "choose",
+    "promptRo": "Te întâlnești cu profesorul pe holul școlii: L-am salutat pe domnul învățător",
+    "englishShape": "Am salutat domnul (I greeted the teacher)",
+    "answer": "L-am salutat pe domnul învățător",
+    "options": [
+      "L-am salutat pe domnul învățător",
+      "Am salutat domnul învățător",
+      "Am salutat la domnul"
+    ],
+    "hintRo": "Zicem cu respect: „L-am salutat pe domnul învățător”!",
+    "bridgeEn": "Polite titles also trigger clitic doubling: L-am salutat pe domnul.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET8-Q01",
+    "category": "AGR",
+    "station": "agr",
+    "mechanic": "choose",
+    "promptRo": "Trece o mașină sport pe stradă: Mașina roșie",
+    "englishShape": "roșie mașină (red car)",
+    "answer": "mașina roșie",
+    "options": [
+      "mașina roșie",
+      "roșie mașină",
+      "mașină roșu"
+    ],
+    "hintRo": "În română punem substantivul primul, apoi culoarea: „mașina roșie”!",
+    "bridgeEn": "English puts adjectives before nouns (red car). Romanian naturally places adjectives after: mașina roșie.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET8-Q02",
+    "category": "AGR",
+    "station": "agr",
+    "mechanic": "choose",
+    "promptRo": "Copiii râd cu poftă la glume: Băieții veseli",
+    "englishShape": "băieții vesel (the happy boys)",
+    "answer": "băieții veseli",
+    "options": [
+      "băieții veseli",
+      "băieții vesel",
+      "veseli băieții"
+    ],
+    "hintRo": "Pentru mai mulți băieți adăugăm „-i”: „băieții veseli”!",
+    "bridgeEn": "Adjectives agree in gender and number: băieți (masc. pl.) takes veseli.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET8-Q03",
+    "category": "AGR",
+    "station": "agr",
+    "mechanic": "choose",
+    "promptRo": "Fetițele udă florile din grădină: Fetele harnice",
+    "englishShape": "fetele harnic",
+    "answer": "fetele harnice",
+    "options": [
+      "fetele harnice",
+      "fetele harnic",
+      "fetele harnici"
+    ],
+    "hintRo": "Fetele sunt harnice: „fetele harnice”!",
+    "bridgeEn": "Feminine plural adjectives end in -e: fetele harnice.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET8-Q04",
+    "category": "AGR",
+    "station": "agr",
+    "mechanic": "choose",
+    "promptRo": "În pădure stejarii sunt foarte mari: Pomii înalți",
+    "englishShape": "pomii înalt",
+    "answer": "pomii înalți",
+    "options": [
+      "pomii înalți",
+      "pomii înalt",
+      "înalt pomii"
+    ],
+    "hintRo": "Pomii sunt înalți: „pomii înalți”!",
+    "bridgeEn": "Masculine plural adjective ending: înalt -> înalți.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET8-Q05",
+    "category": "AGR",
+    "station": "agr",
+    "mechanic": "choose",
+    "promptRo": "Te așezi pe un scaun moale: Scaunele comode",
+    "englishShape": "scaunele comod",
+    "answer": "scaunele comode",
+    "options": [
+      "scaunele comode",
+      "scaunele comod",
+      "scaunele comodi"
+    ],
+    "hintRo": "Scaunele este neutru plural: se acordă cu „-e”, „scaunele comode”!",
+    "bridgeEn": "Neuter plural agrees like feminine plural: scaunele comode.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET8-Q06",
+    "category": "AGR",
+    "station": "agr",
+    "mechanic": "choose",
+    "promptRo": "Un cățel negru dă din coadă: Câinele negru",
+    "englishShape": "negru câine (black dog)",
+    "answer": "câinele negru",
+    "options": [
+      "câinele negru",
+      "negru câine",
+      "câinele neagră"
+    ],
+    "hintRo": "Câinele vine în față: „câinele negru”!",
+    "bridgeEn": "Noun first, color second: câinele negru.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET8-Q07",
+    "category": "AGR",
+    "station": "agr",
+    "mechanic": "choose",
+    "promptRo": "În grădină au înflorit viorele: Florile albastre",
+    "englishShape": "florile albastru",
+    "answer": "florile albastre",
+    "options": [
+      "florile albastre",
+      "florile albastru",
+      "albastre florile"
+    ],
+    "hintRo": "Flori este feminin plural: „florile albastre”!",
+    "bridgeEn": "Feminine plural color agreement: albastre.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET8-Q08",
+    "category": "AGR",
+    "station": "agr",
+    "mechanic": "choose",
+    "promptRo": "Povestea pe care o citești te ține cu sufletul la gură: Cartea interesantă",
+    "englishShape": "interesantă carte (interesting book)",
+    "answer": "cartea interesantă",
+    "options": [
+      "cartea interesantă",
+      "interesantă carte",
+      "cartea interesant"
+    ],
+    "hintRo": "Cartea este prima: „cartea interesantă”!",
+    "bridgeEn": "Adjective follows the noun in default order: cartea interesantă.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET8-Q09",
+    "category": "AGR",
+    "station": "agr",
+    "mechanic": "choose",
+    "promptRo": "Pe teren sunt mai multe mingi de fotbal: Mingile rotunde",
+    "englishShape": "mingile rotund",
+    "answer": "mingile rotunde",
+    "options": [
+      "mingile rotunde",
+      "mingile rotund",
+      "mingile rotunzi"
+    ],
+    "hintRo": "Mingi este feminin plural: „mingile rotunde”!",
+    "bridgeEn": "Mingi (fem. pl.) -> rotunde.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET8-Q10",
+    "category": "AGR",
+    "station": "agr",
+    "mechanic": "choose",
+    "promptRo": "Ai răspuns corect la o ghicitoare grea: Băiatul deștept",
+    "englishShape": "deștept băiat (smart boy)",
+    "answer": "băiatul deștept",
+    "options": [
+      "băiatul deștept",
+      "deștept băiat",
+      "băiatul deșteaptă"
+    ],
+    "hintRo": "Zicem cu mândrie: „băiatul deștept”!",
+    "bridgeEn": "Normal word order in Romanian: băiatul deștept.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET9-Q01",
+    "category": "CLQ",
+    "station": "clq",
+    "mechanic": "choose",
+    "promptRo": "Cineva îți explică o idee logică: Are sens ce spui!",
+    "englishShape": "Asta face sens (That makes sense)",
+    "answer": "Asta are sens",
+    "options": [
+      "Asta are sens",
+      "Asta face sens",
+      "Asta dă sens"
+    ],
+    "hintRo": "În română sensul nu se construiește cu „face”. Zicem: „Asta ARE sens”!",
+    "bridgeEn": "English says \"makes sense\". Romanian idioms use \"a avea sens\" (to have sense).",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET9-Q02",
+    "category": "CLQ",
+    "station": "clq",
+    "mechanic": "choose",
+    "promptRo": "După antrenament mergi la baie: Faci un duș",
+    "englishShape": "Eu iau un duș (I take a shower)",
+    "answer": "Fac un duș",
+    "options": [
+      "Fac un duș",
+      "Iau un duș",
+      "Prind un duș"
+    ],
+    "hintRo": "În română nu „luăm” dușul cu noi: zicem „fac un duș” sau „fac baie”!",
+    "bridgeEn": "English \"take a shower\" translates to \"a face un duș\" (never \"a lua un duș\").",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET9-Q03",
+    "category": "CLQ",
+    "station": "clq",
+    "mechanic": "choose",
+    "promptRo": "La sfârșitul semestrului ai o testare: Dai un examen",
+    "englishShape": "Iau un test (I take a test)",
+    "answer": "Dau un test",
+    "options": [
+      "Dau un test",
+      "Iau un test",
+      "Primesc un test"
+    ],
+    "hintRo": "La școală elevii „dau” testul, iar profesorul îl notează!",
+    "bridgeEn": "Students in Romanian \"dau un examen / test\" (give a test), not \"iau\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET9-Q04",
+    "category": "CLQ",
+    "station": "clq",
+    "mechanic": "choose",
+    "promptRo": "În pauză ieși cu mingea pe teren: Joci fotbal",
+    "englishShape": "Joc la fotbal (Play at football)",
+    "answer": "Joc fotbal",
+    "options": [
+      "Joc fotbal",
+      "Joc la fotbal",
+      "Fac joc de fotbal"
+    ],
+    "hintRo": "Zicem direct sportul: „Joc fotbal”, fără prepoziția „la”!",
+    "bridgeEn": "Never add \"la\" when naming sports in Romanian: \"joc fotbal\", not \"joc la fotbal\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET9-Q05",
+    "category": "CLQ",
+    "station": "clq",
+    "mechanic": "choose",
+    "promptRo": "Ești în stație și vine autobuzul roșu: Aștepți autobuzul",
+    "englishShape": "Aștept pentru autobuz (I wait for the bus)",
+    "answer": "Aștept autobuzul",
+    "options": [
+      "Aștept autobuzul",
+      "Aștept pentru autobuz",
+      "Stau după autobuzul"
+    ],
+    "hintRo": "În română nu folosim „pentru”: zicem direct „aștept autobuzul”!",
+    "bridgeEn": "English \"wait for\" drops the preposition in Romanian: \"aștept autobuzul\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET9-Q06",
+    "category": "CLQ",
+    "station": "clq",
+    "mechanic": "choose",
+    "promptRo": "Trebuie să alegi ce carte vei citi: Iei o decizie",
+    "englishShape": "Fac o decizie (I make a decision)",
+    "answer": "Iau o decizie",
+    "options": [
+      "Iau o decizie",
+      "Fac o decizie",
+      "Pun o decizie"
+    ],
+    "hintRo": "În română decizia se „ia”: „iau o decizie”!",
+    "bridgeEn": "English \"make a decision\" is \"a lua o decizie\" in Romanian.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET9-Q07",
+    "category": "CLQ",
+    "station": "clq",
+    "mechanic": "choose",
+    "promptRo": "Fotografiezi un peisaj frumos la munte: Faci o poză",
+    "englishShape": "Iau o poză (I take a photo)",
+    "answer": "Fac o poză",
+    "options": [
+      "Fac o poză",
+      "Iau o poză",
+      "Trag o cameră"
+    ],
+    "hintRo": "În română zicem „fac o poză” sau „fotografiez”!",
+    "bridgeEn": "English \"take a picture\" is \"a face o poză\" in Romanian.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET9-Q08",
+    "category": "CLQ",
+    "station": "clq",
+    "mechanic": "choose",
+    "promptRo": "Seara privești desene animate: Te uiți la televizor",
+    "englishShape": "Privesc la televizor (Watch on TV)",
+    "answer": "Mă uit la televizor",
+    "options": [
+      "Mă uit la televizor",
+      "Văd televizorul",
+      "Privesc televizor"
+    ],
+    "hintRo": "Expresia naturală în familie este: „mă uit la televizor”!",
+    "bridgeEn": "Natural Romanian idiom: \"mă uit la televizor\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET9-Q09",
+    "category": "CLQ",
+    "station": "clq",
+    "mechanic": "choose",
+    "promptRo": "Ieși la aer curat în parc: Faci o plimbare",
+    "englishShape": "Iau o plimbare (I take a walk)",
+    "answer": "Fac o plimbare",
+    "options": [
+      "Fac o plimbare",
+      "Iau o plimbare",
+      "Merg o plimbare"
+    ],
+    "hintRo": "Zicem: „fac o plimbare” sau „mă plimb”!",
+    "bridgeEn": "English \"take a walk\" is \"a face o plimbare\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET9-Q10",
+    "category": "CLQ",
+    "station": "clq",
+    "mechanic": "choose",
+    "promptRo": "După-amiaza te așezi la birou: Îți faci temele",
+    "englishShape": "Fac munca de acasă (I do my homework)",
+    "answer": "Îmi fac temele",
+    "options": [
+      "Îmi fac temele",
+      "Fac munca de acasă",
+      "Lucrez casa"
+    ],
+    "hintRo": "Exercițiile pentru școală se numesc „teme”: „îmi fac temele”!",
+    "bridgeEn": "Never translate \"homework\" literally as \"munca de acasă\". It is \"teme\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET10-Q01",
+    "category": "CLQ",
+    "station": "clq",
+    "mechanic": "choose",
+    "promptRo": "Prezinți cine ești la sărbătoarea satului: Vârsta campionului",
+    "englishShape": "Eu sunt 8 ani",
+    "answer": "Am 8 ani",
+    "options": [
+      "Am 8 ani",
+      "Eu sunt 8 ani",
+      "Sunt de 8 ani"
+    ],
+    "hintRo": "Nu uita: vârsta se poartă cu verbul „a avea”: „Am 8 ani”!",
+    "bridgeEn": "Recap: always \"am 8 ani\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET10-Q02",
+    "category": "CAS",
+    "station": "cas",
+    "mechanic": "choose",
+    "promptRo": "Ne oprim la casa bunicii: Căsuța de lemn",
+    "englishShape": "casa la bunica",
+    "answer": "casa bunicii",
+    "options": [
+      "casa bunicii",
+      "casa la bunica",
+      "casa de bunica"
+    ],
+    "hintRo": "Posesia corectă este: „casa bunicii”!",
+    "bridgeEn": "Recap: genitive ending -ii.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET10-Q03",
+    "category": "SUB",
+    "station": "sub",
+    "mechanic": "choose",
+    "promptRo": "Vrei să cânți la fluier: Dorința de sărbătoare",
+    "englishShape": "Vreau cânt",
+    "answer": "Vreau să cânt",
+    "options": [
+      "Vreau să cânt",
+      "Vreau cânt",
+      "Vreau la cântat"
+    ],
+    "hintRo": "Pui puntea magică: „Vreau SĂ cânt”!",
+    "bridgeEn": "Recap: subjunctive with \"să\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET10-Q04",
+    "category": "CLI",
+    "station": "cli",
+    "mechanic": "choose",
+    "promptRo": "L-ai văzut pe Ion prinzându-se în horă: Prietenul din horă",
+    "englishShape": "Am văzut Ion în horă",
+    "answer": "L-am văzut pe Ion în horă",
+    "options": [
+      "L-am văzut pe Ion în horă",
+      "Am văzut Ion în horă",
+      "Am văzut pe Ion în horă"
+    ],
+    "hintRo": "Ecoul trimite „L-” și „pe”: „L-am văzut pe Ion”!",
+    "bridgeEn": "Recap: clitic doubling with \"pe\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET10-Q05",
+    "category": "NUM",
+    "station": "num",
+    "mechanic": "choose",
+    "promptRo": "La stână sunt 20 de brazi înalți: Mugurii de brad",
+    "englishShape": "douăzeci brazi",
+    "answer": "douăzeci de brazi",
+    "options": [
+      "douăzeci de brazi",
+      "douăzeci brazi",
+      "douăzeci cu brazi"
+    ],
+    "hintRo": "20 cere „DE”: „douăzeci DE brazi”!",
+    "bridgeEn": "Recap: 20+ takes \"de\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET10-Q06",
+    "category": "POS",
+    "station": "pos",
+    "mechanic": "choose",
+    "promptRo": "Acest fluier din lemn este: Fluierul ciobanului",
+    "englishShape": "un fluier a meu",
+    "answer": "un fluier al meu",
+    "options": [
+      "un fluier al meu",
+      "un fluier a mea",
+      "un fluier ai mei"
+    ],
+    "hintRo": "Fluier este neutru singular: „un fluier AL meu”!",
+    "bridgeEn": "Recap: neuter takes \"al\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET10-Q07",
+    "category": "ART",
+    "station": "art",
+    "mechanic": "choose",
+    "promptRo": "Pe masa din foișor este colacul rumenit: Pâinea de pe masă",
+    "englishShape": "pe masa",
+    "answer": "pe masă",
+    "options": [
+      "pe masă",
+      "pe masa",
+      "peste masa"
+    ],
+    "hintRo": "După „pe” cuvântul stă fără articol: „pe masă”!",
+    "bridgeEn": "Recap: prepositions drop the definite article.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET10-Q08",
+    "category": "AGR",
+    "station": "agr",
+    "mechanic": "choose",
+    "promptRo": "Lăvicerul țesut are motive străvechi: Covorul cel frumos",
+    "englishShape": "frumos covor (beautiful rug)",
+    "answer": "covorul frumos",
+    "options": [
+      "covorul frumos",
+      "frumos covor",
+      "covor frumoasă"
+    ],
+    "hintRo": "Substantivul este în față: „covorul frumos”!",
+    "bridgeEn": "Recap: noun before adjective.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET10-Q09",
+    "category": "GEN",
+    "station": "gen",
+    "mechanic": "choose",
+    "promptRo": "Cum numărăm oițele din turmă? Miorița bucălaie",
+    "englishShape": "un oaie, doi oi",
+    "answer": "o oaie, două oi",
+    "options": [
+      "o oaie, două oi",
+      "un oaie, doi oi",
+      "un oaie, două oi"
+    ],
+    "hintRo": "Numărăm: „o oaie, două oi”! Oaie este feminin.",
+    "bridgeEn": "Recap: feminine counting test o/două.",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  },
+  {
+    "id": "SET10-Q10",
+    "category": "CLQ",
+    "station": "clq",
+    "mechanic": "choose",
+    "promptRo": "La finalul antrenamentului simți că limba română îți este prietenă: Are sens totul!",
+    "englishShape": "Asta face sens mare!",
+    "answer": "Asta are sens!",
+    "options": [
+      "Asta are sens!",
+      "Asta face sens!",
+      "Asta dă sens!"
+    ],
+    "hintRo": "Zicem triumfător: „Asta ARE sens!” Felicitări, meștere!",
+    "bridgeEn": "Mastery check: \"a avea sens\" instead of \"a face sens\".",
+    "difficulty": 1,
+    "status": "approved",
+    "source": "curated"
+  }
+]

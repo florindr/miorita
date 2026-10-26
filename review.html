@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Miorița — Panou de Revizuire Lingvistică</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐑</text></svg>">
+  <link rel="stylesheet" href="/src/styles/tokens.css" />
+  <style>
+    body {
+      background: var(--linen);
+      color: var(--ink-charcoal);
+      font-family: var(--font-sans);
+      margin: 0;
+      padding: 24px;
+    }
+    header {
+      background: var(--linen-pure);
+      border: 2px solid var(--walnut-light);
+      border-radius: var(--radius-lg);
+      padding: 18px 24px;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 24px;
+      box-shadow: var(--soft-shadow);
+    }
+    h1 {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      color: var(--walnut);
+      margin: 0 0 4px;
+    }
+    .filters {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
+    }
+    .filter-btn {
+      background: var(--linen-pure);
+      border: 1.5px solid var(--walnut-light);
+      border-radius: var(--radius-md);
+      padding: 6px 14px;
+      font-weight: 700; font-size: 13px;
+      cursor: pointer;
+      color: var(--walnut);
+    }
+    .filter-btn.active {
+      background: var(--walnut);
+      color: #FFF;
+      border-color: var(--walnut);
+    }
+    .grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 18px;
+    }
+    .card {
+      background: var(--linen-pure);
+      border: 2px solid var(--walnut-light);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      display: flex; flex-direction: column; gap: 10px;
+      box-shadow: var(--soft-shadow);
+    }
+    .card-header {
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .badge {
+      font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 4px; text-transform: uppercase;
+    }
+    .badge-GEN { background: rgba(178,58,46,0.12); color: var(--gen-feminin); border: 1px solid var(--gen-feminin); }
+    .badge-CAS { background: rgba(92,64,43,0.12); color: var(--walnut); border: 1px solid var(--walnut); }
+    .badge-CLQ { background: rgba(47,93,138,0.12); color: var(--gen-masculin); border: 1px solid var(--gen-masculin); }
+    .badge-ART { background: rgba(212,155,40,0.12); color: var(--gold-bell); border: 1px solid var(--gold-bell); }
+    .badge-SUB { background: rgba(110,139,94,0.12); color: var(--gen-neutru); border: 1px solid var(--gen-neutru); }
+    .badge-POS { background: rgba(168,98,59,0.12); color: var(--clay-terracotta); border: 1px solid var(--clay-terracotta); }
+    .badge-NUM { background: rgba(126,95,70,0.12); color: var(--walnut-light); border: 1px solid var(--walnut-light); }
+    .badge-CLI { background: rgba(74,107,130,0.12); color: #4A6B82; border: 1px solid #4A6B82; }
+    .badge-AGR { background: rgba(140,59,50,0.12); color: #8C3B32; border: 1px solid #8C3B32; }
+    .badge-ORD { background: rgba(94,125,83,0.12); color: #5E7D53; border: 1px solid #5E7D53; }
+
+    .prompt-box {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: bold;
+      color: var(--ink-charcoal);
+    }
+    .answer-tag {
+      font-size: 14px;
+      color: var(--gen-neutru);
+      font-weight: 700;
+    }
+    .trap-tag {
+      font-size: 13px;
+      color: var(--gen-feminin);
+      background: rgba(178,58,46,0.06);
+      padding: 4px 8px; border-radius: 4px;
+    }
+    .hint-box {
+      font-size: 13px; line-height: 1.4; color: var(--walnut);
+      background: var(--linen-card); padding: 8px 12px; border-radius: 6px;
+    }
+    .bridge-box {
+      font-size: 12px; line-height: 1.35; color: #6E6259;
+      border-left: 3px solid var(--gold-bell); padding-left: 8px;
+    }
+    .card-actions {
+      display: flex; gap: 8px; margin-top: 6px;
+    }
+    .btn-action {
+      background: var(--linen-card);
+      border: 1.5px solid var(--walnut);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 13px; font-weight: 700;
+      cursor: pointer;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .btn-approve {
+      background: var(--gen-neutru); color: #FFF; border-color: var(--gen-neutru);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>🐑 Miorița — Panou de Revizuire Lingvistică</h1>
+      <p style="margin:0; font-size: 14px; color: var(--walnut);">Verifică, ascultă și aprobă exercițiile românești pentru Tudor.</p>
+    </div>
+    <div style="display:flex; gap: 10px;">
+      <a href="/" style="background: var(--walnut); color: #FFF; text-decoration: none; padding: 8px 16px; border-radius: var(--radius-md); font-weight: bold; font-size: 14px;">← Înapoi în Sat</a>
+    </div>
+  </header>
+
+  <div class="filters" id="catFilters">
+    <button class="filter-btn active" data-cat="ALL">Toate categoriile</button>
+    <button class="filter-btn" data-cat="GEN">GEN (Genuri)</button>
+    <button class="filter-btn" data-cat="CAS">CAS (Cazuri)</button>
+    <button class="filter-btn" data-cat="CLQ">CLQ (Calcuri)</button>
+    <button class="filter-btn" data-cat="ART">ART (Articole)</button>
+    <button class="filter-btn" data-cat="SUB">SUB (Să)</button>
+    <button class="filter-btn" data-cat="POS">POS (Posesive)</button>
+    <button class="filter-btn" data-cat="NUM">NUM (Numere)</button>
+    <button class="filter-btn" data-cat="CLI">CLI (Clitice)</button>
+    <button class="filter-btn" data-cat="AGR">AGR (Acord)</button>
+    <button class="filter-btn" data-cat="ORD">ORD (Topică)</button>
+  </div>
+
+  <div class="grid" id="itemsGrid">
+    <div style="font-size:15px; color:var(--walnut);">Se încarcă exercițiile...</div>
+  </div>
+
+  <script>
+    let allItems = [];
+    let currentFilter = 'ALL';
+
+    const audioBase = location.protocol === 'file:' ? 'public/audio/' : '/audio/';
+
+    async function loadItems() {
+      try {
+        const res = await fetch('/api/dev/items');
+        if (res.ok) {
+          const data = await res.json();
+          allItems = [...(data.curated || []), ...(data.drafts || [])];
+        } else {
+          // Fallback to static fetch
+          const r = await fetch('/content/items/curated.json');
+          allItems = await r.json();
+        }
+      } catch (e) {
+        try {
+          const r = await fetch('/content/items/curated.json');
+          allItems = await r.json();
+        } catch {
+          allItems = [];
+        }
+      }
+      render();
+    }
+
+    function render() {
+      const grid = document.getElementById('itemsGrid');
+      const filtered = currentFilter === 'ALL' ? allItems : allItems.filter(i => i.category === currentFilter);
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '<div style="font-size:16px; color:var(--walnut);">Niciun exercițiu găsit pentru această categorie.</div>';
+        return;
+      }
+
+      grid.innerHTML = filtered.map(item => `
+        <div class="card">
+          <div class="card-header">
+            <span class="badge badge-${item.category}">${item.category} • ${item.id}</span>
+            <span style="font-size:12px; font-weight:bold; color: ${item.status === 'approved' ? 'var(--gen-neutru)' : 'var(--gold-bell)'}">
+              ${item.status === 'approved' ? 'Aprobat ✓' : 'Ciornă AI ⏳'}
+            </span>
+          </div>
+
+          <div class="prompt-box">
+            ${item.promptRo}
+          </div>
+
+          <div class="answer-tag">
+            ✓ Răspuns: ${item.answer}
+          </div>
+
+          ${item.englishShape ? `
+            <div class="trap-tag">
+              ⚠️ Capcana englezească: <strong>„${item.englishShape}”</strong>
+            </div>
+          ` : ''}
+
+          <div class="hint-box">
+            🐑 <strong>Sfat Miorița:</strong> ${item.hintRo}
+          </div>
+
+          <div class="bridge-box">
+            🇬🇧 <strong>Podul englez:</strong> ${item.bridgeEn}
+          </div>
+
+          <div class="card-actions">
+            <button class="btn-action" onclick="playAudio('${item.answer}')">🔊 Ascultă răspunsul</button>
+            ${item.status === 'draft' ? `
+              <button class="btn-action btn-approve" onclick="approveItem('${item.id}')">Aprobă ✓</button>
+            ` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function playAudio(text) {
+      const streamUrl = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=ro&client=tw-ob&q=' + encodeURIComponent(text);
+      new Audio(streamUrl).play().catch(e => console.warn(e));
+    }
+
+    async function approveItem(id) {
+      try {
+        const res = await fetch('/api/dev/approve', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id })
+        });
+        if (res.ok) {
+          const item = allItems.find(i => i.id === id);
+          if (item) item.status = 'approved';
+          render();
+        }
+      } catch (e) {
+        alert('Nu s-a putut salva aprobarea: ' + e.message);
+      }
+    }
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.getAttribute('data-cat');
+        render();
+      });
+    });
+
+    loadItems();
+  </script>
+</body>
+</html>
