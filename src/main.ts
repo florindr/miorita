@@ -33,6 +33,7 @@ const app = document.querySelector<HTMLDivElement>('#app')!;
 
 function initApp() {
   if (!FamilyAuth.hasCompletedSetup()) {
+    document.title = 'Miorița — Satul cuvintelor românești';
     const splash = new WelcomeSplash(app, () => {
       renderGameApp();
     });
@@ -44,6 +45,7 @@ function initApp() {
 
 function renderGameApp() {
   const activeChild = FamilyAuth.getActiveProfile();
+  document.title = `Miorița — Pentru ${activeChild.name}`;
   let currentStation: ActiveStation = 'gen';
   let globalScore = parseInt(localStorage.getItem(`miorita_score_${activeChild.id}`) || localStorage.getItem('miorita_score') || '0', 10);
 
@@ -134,6 +136,7 @@ function updateScore(points: number) {
 
 function refreshActiveChildUI() {
   const child = FamilyAuth.getActiveProfile();
+  document.title = `Miorița — Pentru ${child.name}`;
   globalScore = parseInt(localStorage.getItem(`miorita_score_${child.id}`) || '0', 10);
   scoreDisplay.textContent = globalScore.toString();
   if (activeChildAvatar) activeChildAvatar.textContent = AVATAR_MAP[child.avatar]?.icon || '🐑';
