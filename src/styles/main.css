@@ -798,3 +798,231 @@ body {
   background: #FBECEB;
 }
 
+/* Station Difficulty Bar & Adaptive Level Controls */
+.station-difficulty-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  background: var(--linen-card);
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--linen-dark);
+}
+
+.difficulty-tiers-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.tier-pill {
+  border: 1.5px solid var(--walnut-light);
+  background: #FFF;
+  color: var(--walnut);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  min-height: 38px;
+}
+
+.tier-pill:hover {
+  border-color: var(--walnut);
+  transform: translateY(-1px);
+}
+
+.tier-pill.active {
+  border-color: var(--ink-charcoal);
+  background: var(--walnut);
+  color: #FFF;
+  box-shadow: 0 2px 8px rgba(43, 38, 34, 0.2);
+}
+
+.tier-pill.tier-1.active {
+  background: #3B7A57;
+  border-color: #2D5D42;
+}
+
+.tier-pill.tier-2.active {
+  background: #1B5E8C;
+  border-color: #124060;
+}
+
+.tier-pill.tier-3.active {
+  background: #B8860B;
+  border-color: #8C6608;
+}
+
+.difficulty-streak-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: #6C5B4F;
+  font-weight: 600;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.streak-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #FFF;
+  border: 1px solid var(--walnut-light);
+  color: var(--walnut);
+  font-weight: 700;
+}
+
+.word-card-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.word-card-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.word-english-hint {
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 600;
+  color: #8C7A6B;
+  background: var(--linen-card);
+  padding: 2px 10px;
+  border-radius: 999px;
+  border: 1px dashed var(--walnut-light);
+}
+
+/* Round Complete Screen */
+.round-complete-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 36px 20px;
+  background: var(--linen-card);
+  border-radius: var(--radius-lg);
+  border: 2px dashed var(--gen-neutru);
+  gap: 20px;
+  animation: floatIn 0.35s ease;
+}
+
+.round-complete-icon {
+  font-size: 54px;
+  line-height: 1;
+}
+
+.round-complete-stage h3 {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  color: var(--walnut);
+  margin: 0;
+}
+
+.round-complete-stage p {
+  color: #6C5B4F;
+  font-size: 15px;
+  max-width: 480px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.round-stats-box {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 8px 0;
+}
+
+.round-stat-pill {
+  background: #FFF;
+  border: 1px solid var(--linen-dark);
+  border-radius: var(--radius-md);
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--walnut);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 110px;
+}
+
+.round-stat-val {
+  font-size: 20px;
+  color: var(--ink-charcoal);
+}
+
+.round-actions-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.btn-round-next {
+  background: var(--ie-red);
+  color: #FFF;
+  border: none;
+  border-radius: 999px;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  box-shadow: 0 4px 14px rgba(178, 58, 46, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-round-next:hover {
+  background: #C44336;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(178, 58, 46, 0.4);
+}
+
+.btn-round-next:active {
+  transform: scale(0.97);
+}
+
+.btn-round-replay {
+  background: #FFF;
+  color: var(--walnut);
+  border: 1.5px solid var(--walnut-light);
+  border-radius: 999px;
+  padding: 14px 22px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 52px;
+  transition: all 0.15s ease;
+}
+
+.btn-round-replay:hover {
+  border-color: var(--walnut);
+  background: var(--linen-pure);
+}
+
