@@ -1,7 +1,7 @@
 // src/components/villageMap.ts — Satul Mioriței Navigation Hub
 // Renders the rustic village map locations for Tudor to pick his quest station.
 
-export type ActiveStation = 'map' | 'quest' | 'gen' | 'cas' | 'clq' | 'art' | 'sub' | 'pos' | 'num' | 'cli' | 'agr' | 'stana';
+export type ActiveStation = 'map' | 'quest' | 'scoala' | 'gen' | 'cas' | 'clq' | 'art' | 'sub' | 'pos' | 'num' | 'cli' | 'agr' | 'stana';
 
 export function renderVillageMap(activeStation: ActiveStation, onSelect: (station: ActiveStation) => void, container: HTMLElement) {
   container.innerHTML = `
@@ -11,6 +11,9 @@ export function renderVillageMap(activeStation: ActiveStation, onSelect: (statio
       </button>
       <button class="nav-btn ${activeStation === 'map' ? 'active' : ''}" data-station="map" style="background: var(--linen-pure); border: 2px solid var(--walnut); border-radius: var(--radius-md); padding: 8px 14px; font-weight: 700; cursor: pointer; white-space: nowrap; font-family: var(--font-serif); font-size: 14px; color: var(--walnut);">
         🗺️ Harta
+      </button>
+      <button class="nav-btn ${activeStation === 'scoala' ? 'active' : ''}" data-station="scoala" style="background: rgba(43, 38, 34, 0.08); border: 2px solid var(--walnut); border-radius: var(--radius-md); padding: 8px 14px; font-weight: 700; cursor: pointer; white-space: nowrap; font-family: var(--font-serif); font-size: 14px; color: var(--walnut);" title="Casa Gramaticii — Învață părțile de vorbire cu Miorița">
+        🏫 Școala (Gramatica)
       </button>
       <button class="nav-btn ${activeStation === 'gen' ? 'active' : ''}" data-station="gen" style="background: var(--linen-pure); border: 2px solid var(--gen-feminin); border-radius: var(--radius-md); padding: 8px 14px; font-weight: 700; cursor: pointer; white-space: nowrap; font-family: var(--font-serif); font-size: 14px; color: var(--gen-feminin);">
         🧺 Genuri

@@ -15,6 +15,7 @@ import { AtelierulDeCuloriStation } from './stations/atelierulDeCulori';
 import { AntrenamentulZileiStation } from './stations/antrenamentulZilei';
 import { StanaMioriteiStation } from './stations/stanaMioritei';
 import { CaietulLuiTataModal } from './components/caietulLuiTata';
+import { CasaGramaticiiModal } from './components/casaGramaticii';
 import { sound } from './audio/synth';
 import { SyncEngine } from './storage/syncEngine';
 import { SyncStatusBadge } from './components/syncStatusBadge';
@@ -71,15 +72,19 @@ function renderGameApp() {
 
         <div id="syncBadgeRoot"></div>
 
+        <button id="btnOpenGrammar" style="background: var(--linen-card); border: 2px solid var(--walnut); border-radius: var(--radius-md); padding: 8px 14px; font-size: 13px; font-weight: 700; cursor: pointer; color: var(--walnut); display: flex; align-items: center; gap: 6px;" title="Școala din Sat — Casa Gramaticii">
+          🏫 <span>Casa Gramaticii</span>
+        </button>
+
         <button id="btnOpenCaiet" style="background: var(--linen-card); border: 1.5px solid var(--walnut); border-radius: var(--radius-md); padding: 8px 14px; font-size: 13px; font-weight: 700; cursor: pointer; color: var(--walnut); display: flex; align-items: center; gap: 6px;">
           📓 <span>Caietul lui Tata</span>
-      </button>
+        </button>
 
-      <div class="score-badge">
-        <span class="bell-icon">🔔</span>
-        <span>Puncte: <span id="scoreDisplay">${globalScore}</span></span>
+        <div class="score-badge">
+          <span class="bell-icon">🔔</span>
+          <span>Puncte: <span id="scoreDisplay">${globalScore}</span></span>
+        </div>
       </div>
-    </div>
   </header>
 
   ${renderStitchBand(24)}
@@ -106,6 +111,7 @@ const stationRoot = document.querySelector<HTMLDivElement>('#stationRoot')!;
 const navRoot = document.querySelector<HTMLDivElement>('#navRoot')!;
 const modalRoot = document.querySelector<HTMLDivElement>('#modalRoot')!;
 const btnOpenCaiet = document.querySelector<HTMLButtonElement>('#btnOpenCaiet')!;
+const btnOpenGrammar = document.querySelector<HTMLButtonElement>('#btnOpenGrammar')!;
 const mascotAvatar = document.querySelector<HTMLDivElement>('#mascotAvatar')!;
 const syncBadgeRoot = document.querySelector<HTMLDivElement>('#syncBadgeRoot')!;
 const btnProfileSwitch = document.querySelector<HTMLButtonElement>('#btnProfileSwitch')!;
@@ -183,12 +189,35 @@ btnOpenCaiet.addEventListener('click', () => {
   }
 });
 
+function openCasaGramaticii() {
+  const grammarModal = new CasaGramaticiiModal(
+    modalRoot,
+    () => {},
+    (targetStationKey) => {
+      loadStation(targetStationKey as ActiveStation);
+    }
+  );
+  grammarModal.render();
+}
+
+btnOpenGrammar.addEventListener('click', () => {
+  sound.playWoodenTap();
+  openCasaGramaticii();
+});
+
 function loadStation(station: ActiveStation) {
   currentStation = station;
   sound.playWoodenTap();
   renderVillageMap(currentStation, loadStation, navRoot);
 
-  if (station === 'quest') {
+  if (station === 'scoala') {
+    hud.say(
+      'Bun venit la <strong>Școala din Sat (Casa Gramaticii)</strong>! Aici descoperim cei 5 Meșteri ai Vorbirii și secretele propoziției.',
+      'Explore the 5 parts of speech and visual syntax coding to bridge UK SPaG with Romanian grammar!'
+    );
+    openCasaGramaticii();
+    return;
+  } else if (station === 'quest') {
     hud.say(
       'Suntem la <strong>Antrenamentul Zilei</strong>! 5 capcane alese special pentru tine în 3 minute!',
       'A 3-minute quick session focusing on recent errors and spaced repetition.'
@@ -319,6 +348,13 @@ function renderMapOverview() {
             Începe Sesiunea →
           </button>
         </div>
+      </div>
+
+      <div class="station-card" style="cursor:pointer; border: 2.5px solid var(--walnut); background: #FAF7F2;" onclick="window.dispatchNav('scoala')">
+        <div style="font-size: 38px; text-align: center; padding: 12px 0 6px;">🏫 📜 🔬</div>
+        <h3 style="font-family: var(--font-serif); color: var(--walnut); margin-bottom: 4px;">🏫 Casa Gramaticii (Școala)</h3>
+        <p style="font-size: 13px; color: var(--walnut); line-height: 1.4;">Cei 5 Meșteri ai Vorbirii (Substantiv, Adjectiv, Verb...) și Detectorul Vizual de Părți de Vorbire.</p>
+        <span style="font-size: 12px; font-weight: bold; color: var(--walnut); margin-top: 8px; display: inline-block;">Deschide cărțile →</span>
       </div>
 
       <div class="station-card" style="cursor:pointer;" onclick="window.dispatchNav('gen')">
