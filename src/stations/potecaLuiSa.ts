@@ -1,78 +1,73 @@
 // src/stations/potecaLuiSa.ts — Station 5: Poteca lui Să (Category SUB)
+// Dynamic Romanian Subjunctive Bank & Dynamic Difficulty Adjustment (DDA) Engine
 // Targets omission of the subjunctive particle "să" after modal/volitional verbs.
 // English: "I want to go" -> Tudor: "vreau merg" -> Romanian: "vreau SĂ merg".
 // Mechanic: Stepping stones across the mountain brook; Miorița hops onto each correct stone.
 
 import { sound } from '../audio/synth';
 import { shuffleArray } from '../utils/shuffle';
+import {
+  SubjunctiveItem,
+  SubjunctiveService,
+  SUBJUNCTIVE_BANK,
+  SubjunctiveDifficulty,
+} from '../content/subjunctiveBank';
+import {
+  AdaptiveEngine,
+  TIER_METAS,
+} from '../storage/adaptiveEngine';
+import { FamilyAuth } from '../auth/familyAuth';
 
-export interface SubjunctiveItem {
-  id: string;
-  englishShape: string;       // "I want to play" (Tudor: vreau joc)
-  triggerVerb: string;        // "Vreau..."
-  correctPhrase: string;      // "să mă joc"
-  fullCorrect: string;        // "Vreau să mă joc"
-  options: string[];          // ["să mă joc", "mă joc", "să joc", "joc"]
-  hint: string;               // "După «vreau», româna cere mereu puntea fermecată «SĂ»: vreau SĂ mă joc!"
-  englishBridge: string;      // "English uses 'to' ('want to play'). In Romanian, that link is the word 'SĂ' + subjunctive verb."
-}
-
-export const SUBJUNCTIVE_ITEMS: SubjunctiveItem[] = [
-  {
-    id: 'SUB-01',
-    englishShape: 'vreau merg afară (I want to go out)',
-    triggerVerb: 'Vreau...',
-    correctPhrase: 'să merg afară',
-    fullCorrect: 'Vreau să merg afară',
-    options: ['să merg afară', 'merg afară', 'mergând afară', 'la merg'],
-    hint: 'Nu uita pasul fermecat „SĂ”! Zicem: „Vreau SĂ merg afară”!',
-    englishBridge: 'English "want to go" becomes "vreau să merg". Never omit "să" after vreau, pot, trebuie.'
-  },
-  {
-    id: 'SUB-02',
-    englishShape: 'trebuie mănânc supa (I have to eat the soup)',
-    triggerVerb: 'Trebuie...',
-    correctPhrase: 'să mănânc supa',
-    fullCorrect: 'Trebuie să mănânc supa',
-    options: ['să mănânc supa', 'mănânc supa', 'la mâncat', 'mâncat'],
-    hint: 'Trebuie ce? Trebuie SĂ mănânc supa!',
-    englishBridge: 'English says "have to eat". Romanian says "trebuie SĂ mănânc".'
-  },
-  {
-    id: 'SUB-03',
-    englishShape: 'pot ajut (I can help)',
-    triggerVerb: 'Eu pot...',
-    correctPhrase: 'să te ajut',
-    fullCorrect: 'Eu pot să te ajut',
-    options: ['să te ajut', 'te ajut', 'ajut', 'la ajutor'],
-    hint: 'Puiul de piatră este „să”: „Pot SĂ te ajut”!',
-    englishBridge: 'English "can help" omits "to", which confuses kids! Romanian always needs "pot SĂ te ajut".'
-  },
-  {
-    id: 'SUB-04',
-    englishShape: 'îmi place desenez (I like to draw)',
-    triggerVerb: 'Îmi place...',
-    correctPhrase: 'să desenez',
-    fullCorrect: 'Îmi place să desenez',
-    options: ['să desenez', 'desenez', 'desenat', 'la desen'],
-    hint: 'După „îmi place”, punem mereu „să”: „Îmi place SĂ desenez”!',
-    englishBridge: 'English "like to draw" requires "să desenez" in Romanian.'
-  }
-];
+// Backward-compatibility export
+export const SUBJUNCTIVE_ITEMS: SubjunctiveItem[] = SUBJUNCTIVE_BANK.slice(0, 4);
 
 export class PotecaLuiSaStation {
+  private currentBatch: SubjunctiveItem[] = [];
   private currentIndex = 0;
+  private usedItemIds: string[] = [];
   private score = 0;
+  private roundCount = 1;
+  private isRoundComplete = false;
   private currentOptions: string[] = [];
-  private lastQuestionIndex = -1;
+  private lastItemIndex = -1;
+  private containerElement: HTMLElement | null = null;
   private onStateChange: (state: { prompt: string; score: number }) => void;
 
   constructor(onStateChange: (state: { prompt: string; score: number }) => void) {
     this.onStateChange = onStateChange;
+    this.initBatch();
+  }
+
+  private getActiveProfileId(): string {
+    return FamilyAuth.getActiveProfile().id;
+  }
+
+  private getCurrentLevel(): SubjunctiveDifficulty {
+    const profileId = this.getActiveProfileId();
+    return AdaptiveEngine.getMastery(profileId, 'subjunctiv').currentLevel as SubjunctiveDifficulty;
+  }
+
+  /** Initialize a fresh random batch of 5 items calibrated to current difficulty */
+  private initBatch(forcedLevel?: SubjunctiveDifficulty) {
+    const level = forcedLevel ?? this.getCurrentLevel();
+    this.currentBatch = SubjunctiveService.getRandomBatch(5, level, this.usedItemIds);
+
+    // Track used items to avoid repeating them in subsequent rounds
+    this.usedItemIds.push(...this.currentBatch.map((i) => i.id));
+    if (this.usedItemIds.length > 40) {
+      this.usedItemIds = this.usedItemIds.slice(-20);
+    }
+
+    this.currentIndex = 0;
+    this.isRoundComplete = false;
+    this.lastItemIndex = -1;
   }
 
   getCurrentItem(): SubjunctiveItem {
-    return SUBJUNCTIVE_ITEMS[this.currentIndex % SUBJUNCTIVE_ITEMS.length];
+    if (!this.currentBatch.length || this.currentIndex >= this.currentBatch.length) {
+      return SUBJUNCTIVE_BANK[0];
+    }
+    return this.currentBatch[this.currentIndex];
   }
 
   speak(text: string) {
@@ -81,10 +76,20 @@ export class PotecaLuiSaStation {
   }
 
   render(container: HTMLElement) {
+    this.containerElement = container;
+    const profile = FamilyAuth.getActiveProfile();
+    const profileId = profile.id;
+    const mastery = AdaptiveEngine.getMastery(profileId, 'subjunctiv');
+
+    if (this.isRoundComplete) {
+      this.renderRoundComplete(container, profile.name, mastery.currentLevel, mastery.streak);
+      return;
+    }
+
     const item = this.getCurrentItem();
-    if (this.lastQuestionIndex !== this.currentIndex) {
+    if (this.lastItemIndex !== this.currentIndex) {
       this.currentOptions = shuffleArray(item.options);
-      this.lastQuestionIndex = this.currentIndex;
+      this.lastItemIndex = this.currentIndex;
     }
 
     container.innerHTML = `
@@ -92,22 +97,47 @@ export class PotecaLuiSaStation {
         <div class="station-banner">
           <img src="/art/stations/poteca_sa.jpg" alt="Poteca lui Să" onerror="this.parentElement.style.display='none';"/>
         </div>
+
         <div class="station-header">
           <h2>Poteca lui Să 🪨</h2>
           <p>Alege piatra de râu potrivită ca Miorița să sară pârâul!</p>
         </div>
 
+        <!-- DDA Adaptive Level Bar & Tiers Selector -->
+        <div class="station-difficulty-bar">
+          <div class="difficulty-tiers-row" role="tablist" aria-label="Nivele de dificultate">
+            <button class="tier-pill tier-1 ${mastery.currentLevel === 1 ? 'active' : ''}" data-level="1" title="${TIER_METAS[1].desc}">
+              ${TIER_METAS[1].badge}
+            </button>
+            <button class="tier-pill tier-2 ${mastery.currentLevel === 2 ? 'active' : ''}" data-level="2" title="${TIER_METAS[2].desc}">
+              ${TIER_METAS[2].badge}
+            </button>
+            <button class="tier-pill tier-3 ${mastery.currentLevel === 3 ? 'active' : ''}" data-level="3" title="${TIER_METAS[3].desc}">
+              ${TIER_METAS[3].badge}
+            </button>
+          </div>
+          <div class="difficulty-streak-row">
+            <span class="streak-badge">🔥 Serie: ${mastery.streak} corecte</span>
+            <span>${
+              mastery.currentLevel < 3
+                ? `Încă ${3 - (mastery.streak % 3)} răspunsuri corecte până la următorul nivel`
+                : `⭐ Nivel Maxim de Maestru!`
+            }</span>
+          </div>
+        </div>
+
         <!-- The Stepping Stones Brook Area -->
-        <div style="background: var(--linen-card); border: 2px solid var(--walnut-light); border-radius: var(--radius-md); padding: 24px 20px; text-align: center;">
-          <div style="font-size: 14px; color: var(--walnut); margin-bottom: 6px;">
-            ⚠️ Capcana englezească: <del style="color: var(--gen-feminin); font-weight: 600;">„${item.englishShape}”</del>
+        <div style="background: var(--linen-card); border: 2px solid var(--walnut-light); border-radius: var(--radius-md); padding: 24px 20px; text-align: center; box-shadow: 0 4px 12px rgba(43, 38, 34, 0.06);">
+          <div style="font-size: 32px; margin-bottom: 6px;">${item.icon}</div>
+          <div style="font-size: 14px; color: var(--walnut); margin-bottom: 8px;">
+            ⚠️ Cum zice engleza: <del style="color: var(--gen-feminin); font-weight: 700;">„${item.englishShape}”</del>
           </div>
 
           <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 14px; flex-wrap: wrap;">
-            <div style="background: var(--walnut); color: #FFF; padding: 12px 22px; border-radius: 20px; font-family: var(--font-serif); font-size: 26px; font-weight: bold;">
+            <div style="background: var(--walnut); color: #FFF; padding: 12px 24px; border-radius: 20px; font-family: var(--font-serif); font-size: 26px; font-weight: bold; box-shadow: var(--soft-shadow);">
               ${item.triggerVerb}
             </div>
-            <div id="stoneDrop" style="background: rgba(255,255,255,0.9); border: 2.5px dashed var(--gen-neutru); color: var(--gen-neutru); padding: 12px 24px; border-radius: 20px; font-family: var(--font-serif); font-size: 26px; font-weight: bold; min-width: 140px;">
+            <div id="stoneDrop" style="background: rgba(255,255,255,0.9); border: 2.5px dashed var(--gen-neutru); color: var(--gen-neutru); padding: 12px 26px; border-radius: 20px; font-family: var(--font-serif); font-size: 24px; font-weight: bold; min-width: 140px; transition: all 0.2s ease;">
               ... ? ...
             </div>
           </div>
@@ -115,11 +145,15 @@ export class PotecaLuiSaStation {
 
         <!-- Stepping Stone Options -->
         <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;" id="stoneOptions">
-          ${this.currentOptions.map(opt => `
-            <button class="stepping-stone-btn" data-stone="${opt}" style="background: #FFF; border: 2.5px solid var(--walnut); border-radius: 18px; padding: 14px 24px; font-family: var(--font-serif); font-size: 22px; font-weight: bold; color: var(--walnut); cursor: pointer; min-height: 48px; box-shadow: var(--soft-shadow); transition: transform 0.15s;">
+          ${this.currentOptions
+            .map(
+              (opt) => `
+            <button class="stepping-stone-btn" data-stone="${opt}" style="background: #FFF; border: 2.5px solid var(--walnut); border-radius: 18px; padding: 14px 24px; font-family: var(--font-serif); font-size: 22px; font-weight: bold; color: var(--walnut); cursor: pointer; min-height: 52px; box-shadow: var(--soft-shadow); transition: transform 0.15s, border-color 0.15s, background 0.15s;">
               ${opt}
             </button>
-          `).join('')}
+          `
+            )
+            .join('')}
         </div>
 
         <!-- Podul Englez -->
@@ -131,10 +165,16 @@ export class PotecaLuiSaStation {
           </div>
         </div>
 
+        <!-- Progress Container -->
         <div class="progress-container">
-          <span>Pietre trecute: ${this.currentIndex + 1} / ${SUBJUNCTIVE_ITEMS.length}</span>
+          <span>Pietre trecute (Pasul ${this.roundCount}): ${this.currentIndex + 1} / ${this.currentBatch.length}</span>
           <div class="progress-dots">
-            ${SUBJUNCTIVE_ITEMS.map((_, i) => `<span class="dot ${i < this.currentIndex ? 'done' : ''}"></span>`).join('')}
+            ${this.currentBatch
+              .map(
+                (_, i) =>
+                  `<span class="dot ${i < this.currentIndex ? 'done' : ''} ${i === this.currentIndex ? 'current' : ''}"></span>`
+              )
+              .join('')}
           </div>
         </div>
       </section>
@@ -143,9 +183,96 @@ export class PotecaLuiSaStation {
     this.bindEvents(container);
   }
 
+  private renderRoundComplete(
+    container: HTMLElement,
+    childName: string,
+    currentLevel: SubjunctiveDifficulty,
+    streak: number
+  ) {
+    const tierMeta = TIER_METAS[currentLevel];
+
+    container.innerHTML = `
+      <section class="station-card">
+        <div class="station-banner">
+          <img src="/art/stations/poteca_sa.jpg" alt="Poteca lui Să" onerror="this.parentElement.style.display='none';"/>
+        </div>
+
+        <div class="round-complete-stage">
+          <div class="round-complete-icon">🪨 🎉 🐑</div>
+          <h3>Pârâul a Fost Trecut cu Bravură!</h3>
+          <p>
+            Bravo, <strong>${childName}</strong>! Ai sărit pe toate cele 5 pietre fermecate „SĂ”, iar Miorița a ajuns teafără pe celălalt mal!
+          </p>
+
+          <div class="round-stats-box">
+            <div class="round-stat-pill">
+              <span>Scor Total</span>
+              <span class="round-stat-val">${this.score} ⭐</span>
+            </div>
+            <div class="round-stat-pill">
+              <span>Nivel Adaptat</span>
+              <span class="round-stat-val" style="font-size: 16px;">${tierMeta.badge}</span>
+            </div>
+            <div class="round-stat-pill">
+              <span>Serie de Succes</span>
+              <span class="round-stat-val">${streak} 🔥</span>
+            </div>
+          </div>
+
+          <div class="round-actions-row">
+            <button id="btnNextRound" class="btn-round-next">
+              🪨 Potecă Nouă (Alte 5 Pietre) ➔
+            </button>
+            <button id="btnReplayRound" class="btn-round-replay">
+              🔄 Reia Această Potecă
+            </button>
+          </div>
+        </div>
+      </section>
+    `;
+
+    const btnNext = container.querySelector('#btnNextRound') as HTMLButtonElement;
+    const btnReplay = container.querySelector('#btnReplayRound') as HTMLButtonElement;
+
+    btnNext?.addEventListener('click', () => {
+      sound.playBrassBell();
+      this.roundCount++;
+      this.initBatch();
+      this.render(container);
+      this.onStateChange({
+        prompt: `Pasul ${this.roundCount} a început! 5 pietre noi așteaptă să fie sărite.`,
+        score: this.score,
+      });
+    });
+
+    btnReplay?.addEventListener('click', () => {
+      sound.playWoodenTap();
+      this.currentIndex = 0;
+      this.isRoundComplete = false;
+      this.render(container);
+    });
+  }
+
   private bindEvents(container: HTMLElement) {
     const buttons = container.querySelectorAll('.stepping-stone-btn');
     const stoneDrop = container.querySelector('#stoneDrop') as HTMLElement;
+    const tierPills = container.querySelectorAll('.tier-pill');
+
+    tierPills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        const lvl = Number(pill.getAttribute('data-level')) as SubjunctiveDifficulty;
+        if (lvl && [1, 2, 3].includes(lvl)) {
+          sound.playWoodenTap();
+          AdaptiveEngine.setLevel(this.getActiveProfileId(), 'subjunctiv', lvl);
+          this.initBatch(lvl);
+          this.render(container);
+          this.onStateChange({
+            prompt: `Ai selectat nivelul <strong>${TIER_METAS[lvl].badge}</strong> pentru Poteca lui Să!`,
+            score: this.score,
+          });
+        }
+      });
+    });
 
     buttons.forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -157,6 +284,8 @@ export class PotecaLuiSaStation {
 
   private handleAttempt(selectedStone: string, dropSlot: HTMLElement, btn: HTMLElement) {
     const item = this.getCurrentItem();
+    const profileId = this.getActiveProfileId();
+    const profile = FamilyAuth.getActiveProfile();
 
     if (selectedStone === item.correctPhrase) {
       // SUCCESS!
@@ -167,31 +296,57 @@ export class PotecaLuiSaStation {
       dropSlot.textContent = selectedStone;
       dropSlot.style.background = 'var(--gen-neutru)';
       dropSlot.style.color = '#FFF';
+      dropSlot.style.borderStyle = 'solid';
 
       this.score += 15;
 
-      this.onStateChange({
-        prompt: `Bravo! Zicem: <strong>${item.fullCorrect}</strong>! Ai sărit pârâul pe piatra «SĂ»!`,
-        score: this.score
-      });
+      const result = AdaptiveEngine.recordAttempt(profileId, 'subjunctiv', true);
+
+      if (result.promoted) {
+        const nextTier = TIER_METAS[result.currentLevel];
+        this.onStateChange({
+          prompt: `🎉 <strong>Nivel Nou pe Potecă!</strong> ${profile.name}, ai avansat la <strong>${nextTier.badge}</strong>! Zicem: <strong>${item.fullCorrect}</strong>!`,
+          score: this.score,
+        });
+      } else {
+        this.onStateChange({
+          prompt: `Bravo! Zicem: <strong>${item.fullCorrect}</strong>! Ai sărit pârâul pe piatra «SĂ»!`,
+          score: this.score,
+        });
+      }
 
       this.speak(item.fullCorrect);
 
       setTimeout(() => {
-        this.currentIndex = (this.currentIndex + 1) % SUBJUNCTIVE_ITEMS.length;
-        const root = document.querySelector('#stationRoot') as HTMLElement;
+        if (this.currentIndex >= this.currentBatch.length - 1) {
+          this.isRoundComplete = true;
+        } else {
+          this.currentIndex++;
+        }
+
+        const root = this.containerElement || (document.querySelector('#stationRoot') as HTMLElement);
         if (root) this.render(root);
-      }, 1000);
+      }, 950);
     } else {
       // Socratic Nudge
       sound.playGentleNudge();
       btn.classList.add('shake');
       setTimeout(() => btn.classList.remove('shake'), 450);
 
-      this.onStateChange({
-        prompt: `Aproape! ${item.hint}`,
-        score: this.score
-      });
+      const result = AdaptiveEngine.recordAttempt(profileId, 'subjunctiv', false);
+
+      if (result.demoted) {
+        const currentTier = TIER_METAS[result.currentLevel];
+        this.onStateChange({
+          prompt: `Aproape! ${item.hint} Miorița te ajută: coborâm la nivelul <strong>${currentTier.badge}</strong> ca să prinzi curaj!`,
+          score: this.score,
+        });
+      } else {
+        this.onStateChange({
+          prompt: `Aproape! ${item.hint}`,
+          score: this.score,
+        });
+      }
     }
   }
 }

@@ -1,0 +1,496 @@
+// src/content/subjunctiveBank.ts — Expansive Pedagogical Bank for Poteca lui Să (SUB)
+// Targets omission of the subjunctive particle "să" after modal/volitional verbs.
+// English: "I want to go" -> Tudor: "vreau merg" -> Romanian: "vreau SĂ merg".
+// Includes basic triggers, person inflections, negatives, and clitic contractions (să-ți, să-l, să-mi).
+
+import { shuffleArray } from '../utils/shuffle';
+
+export type SubjunctiveDifficulty = 1 | 2 | 3; // 1: Ucenic, 2: Călător, 3: Meșter Mare
+
+export interface SubjunctiveItem {
+  id: string;
+  difficulty: SubjunctiveDifficulty;
+  englishShape: string;       // "I want to play (Tudor: vreau joc)"
+  triggerVerb: string;        // "Vreau..."
+  correctPhrase: string;      // "să mă joc"
+  fullCorrect: string;        // "Vreau să mă joc"
+  options: string[];          // Choices for the stepping stone
+  icon: string;               // Emoji
+  hint: string;               // Child-friendly hint
+  englishBridge: string;      // Contrastive explanation
+}
+
+export const SUBJUNCTIVE_BANK: SubjunctiveItem[] = [
+  // ==========================================
+  // TIER 1 (Ucenic) — First person singular with core modals (vreau, pot, trebuie, îmi place)
+  // ==========================================
+  {
+    id: 'SUB-T1-01',
+    difficulty: 1,
+    englishShape: 'vreau merg afară (I want to go out)',
+    triggerVerb: 'Vreau...',
+    correctPhrase: 'să merg afară',
+    fullCorrect: 'Vreau să merg afară',
+    options: ['să merg afară', 'merg afară', 'mergând afară', 'la merg'],
+    icon: '🏃‍♂️',
+    hint: 'Nu uita puntea fermecată „SĂ”! Zicem: «Vreau SĂ merg afară»!',
+    englishBridge: 'English "want to go" becomes "vreau să merg". In Romanian you must never omit "să" after want, can, must.',
+  },
+  {
+    id: 'SUB-T1-02',
+    difficulty: 1,
+    englishShape: 'trebuie mănânc supa (I have to eat the soup)',
+    triggerVerb: 'Trebuie...',
+    correctPhrase: 'să mănânc supa',
+    fullCorrect: 'Trebuie să mănânc supa',
+    options: ['să mănânc supa', 'mănânc supa', 'la mâncat', 'mâncat supa'],
+    icon: '🍲',
+    hint: 'Trebuie ce? Trebuie SĂ mănânc supa!',
+    englishBridge: 'English says "have to eat". Romanian says "trebuie SĂ mănânc".',
+  },
+  {
+    id: 'SUB-T1-03',
+    difficulty: 1,
+    englishShape: 'pot deschid ușa (I can open the door)',
+    triggerVerb: 'Eu pot...',
+    correctPhrase: 'să deschid ușa',
+    fullCorrect: 'Eu pot să deschid ușa',
+    options: ['să deschid ușa', 'deschid ușa', 'deschis ușa', 'la deschis'],
+    icon: '🚪',
+    hint: 'Piatra magică este „să”: «Pot SĂ deschid ușa»!',
+    englishBridge: 'English "can open" omits "to", but Romanian always needs "SĂ": "pot să deschid".',
+  },
+  {
+    id: 'SUB-T1-04',
+    difficulty: 1,
+    englishShape: 'îmi place alerg (I like to run)',
+    triggerVerb: 'Îmi place...',
+    correctPhrase: 'să alerg',
+    fullCorrect: 'Îmi place să alerg',
+    options: ['să alerg', 'alerg', 'alergat', 'la alergare'],
+    icon: '👟',
+    hint: 'După „îmi place”, punem mereu „să”: «Îmi place SĂ alerg»!',
+    englishBridge: 'English "like to run" requires "să alerg" in Romanian.',
+  },
+  {
+    id: 'SUB-T1-05',
+    difficulty: 1,
+    englishShape: 'știu înot (I know how to swim)',
+    triggerVerb: 'La piscină eu știu...',
+    correctPhrase: 'să înot',
+    fullCorrect: 'La piscină eu știu să înot',
+    options: ['să înot', 'înot', 'înotat', 'la înotat'],
+    icon: '🏊‍♂️',
+    hint: 'Când știi o abilitate: «Știu SĂ înot»!',
+    englishBridge: 'English "know how to swim" becomes "știu SĂ înot".',
+  },
+  {
+    id: 'SUB-T1-06',
+    difficulty: 1,
+    englishShape: 'vreau beau apă (I want to drink water)',
+    triggerVerb: 'Mi-e sete și vreau...',
+    correctPhrase: 'să beau apă',
+    fullCorrect: 'Mi-e sete și vreau să beau apă',
+    options: ['să beau apă', 'beau apă', 'băut apă', 'la băut'],
+    icon: '🥛',
+    hint: 'Vreau ce? «Vreau SĂ beau apă»!',
+    englishBridge: '"Want to drink" -> "vreau să beau".',
+  },
+  {
+    id: 'SUB-T1-07',
+    difficulty: 1,
+    englishShape: 'încerc adorm (I try to fall asleep)',
+    triggerVerb: 'E noapte și încerc...',
+    correctPhrase: 'să adorm',
+    fullCorrect: 'E noapte și încerc să adorm',
+    options: ['să adorm', 'adorm', 'adormit', 'la somn'],
+    icon: '🌙',
+    hint: 'După „încerc”: «Încerc SĂ adorm»!',
+    englishBridge: 'English "try to sleep" -> "încerc SĂ adorm".',
+  },
+  {
+    id: 'SUB-T1-08',
+    difficulty: 1,
+    englishShape: 'trebuie mă trezesc (I must wake up)',
+    triggerVerb: 'Sună ceasul și trebuie...',
+    correctPhrase: 'să mă trezesc',
+    fullCorrect: 'Sună ceasul și trebuie să mă trezesc',
+    options: ['să mă trezesc', 'mă trezesc', 'trezit', 'la trezit'],
+    icon: '⏰',
+    hint: 'Piatra cere puntea: «Trebuie SĂ mă trezesc»!',
+    englishBridge: '"Must wake up" -> "trebuie să mă trezesc".',
+  },
+  {
+    id: 'SUB-T1-09',
+    difficulty: 1,
+    englishShape: 'pot citesc singur (I can read alone)',
+    triggerVerb: 'Acum sunt mare și pot...',
+    correctPhrase: 'să citesc singur',
+    fullCorrect: 'Acum sunt mare și pot să citesc singur',
+    options: ['să citesc singur', 'citesc singur', 'citit singur', 'la citit'],
+    icon: '📖',
+    hint: 'Zicem mândri: «Pot SĂ citesc singur»!',
+    englishBridge: '"Can read" -> "pot să citesc".',
+  },
+  {
+    id: 'SUB-T1-10',
+    difficulty: 1,
+    englishShape: 'îmi place pictez (I like to paint)',
+    triggerVerb: 'La atelier îmi place...',
+    correctPhrase: 'să pictez',
+    fullCorrect: 'La atelier îmi place să pictez',
+    options: ['să pictez', 'pictez', 'pictat', 'la pictură'],
+    icon: '🎨',
+    hint: 'După „îmi place”: «Îmi place SĂ pictez»!',
+    englishBridge: '"Like to paint" -> "îmi place să pictez".',
+  },
+  {
+    id: 'SUB-T1-11',
+    difficulty: 1,
+    englishShape: 'vreau joc fotbal (I want to play football)',
+    triggerVerb: 'Pe teren vreau...',
+    correctPhrase: 'să joc fotbal',
+    fullCorrect: 'Pe teren vreau să joc fotbal',
+    options: ['să joc fotbal', 'joc fotbal', 'jucat fotbal', 'la joc'],
+    icon: '⚽',
+    hint: 'Zicem plini de energie: «Vreau SĂ joc fotbal»!',
+    englishBridge: '"Want to play" -> "vreau să joc".',
+  },
+  {
+    id: 'SUB-T1-12',
+    difficulty: 1,
+    englishShape: 'trebuie plec (I have to leave)',
+    triggerVerb: 'S-a făcut târziu și trebuie...',
+    correctPhrase: 'să plec',
+    fullCorrect: 'S-a făcut târziu și trebuie să plec',
+    options: ['să plec', 'plec', 'plecat', 'la plecare'],
+    icon: '👋',
+    hint: 'Piatra de trecere: «Trebuie SĂ plec»!',
+    englishBridge: '"Have to leave" -> "trebuie să plec".',
+  },
+
+  // ==========================================
+  // TIER 2 (Călător) — 2nd/3rd person, verbs of intention (sper să, încep să, uiți să)
+  // ==========================================
+  {
+    id: 'SUB-T2-01',
+    difficulty: 2,
+    englishShape: 'poți vii la mine? (can you come to my place?)',
+    triggerVerb: 'Tudor, mâine poți...',
+    correctPhrase: 'să vii la mine?',
+    fullCorrect: 'Tudor, mâine poți să vii la mine?',
+    options: ['să vii la mine?', 'vii la mine?', 'venit la mine?', 'la venire?'],
+    icon: '🏡',
+    hint: 'La persoana a II-a: «Poți SĂ vii la mine?»',
+    englishBridge: '"Can you come" -> "poți să vii".',
+  },
+  {
+    id: 'SUB-T2-02',
+    difficulty: 2,
+    englishShape: 'vrea învețe (he wants to learn)',
+    triggerVerb: 'Tudor vrea...',
+    correctPhrase: 'să învețe românește',
+    fullCorrect: 'Tudor vrea să învețe românește',
+    options: ['să învețe românește', 'învață românește', 'învățat românește', 'la învățat'],
+    icon: '🇷🇴',
+    hint: 'La persoana a III-a verbul se schimbă la conjunctiv: «Vrea SĂ învețe»!',
+    englishBridge: '"Wants to learn" -> "vrea să învețe". Note the subjunctive vowel change (învață -> să învețe).',
+  },
+  {
+    id: 'SUB-T2-03',
+    difficulty: 2,
+    englishShape: 'trebuie fim cuminți (we must be good)',
+    triggerVerb: 'La teatru trebuie...',
+    correctPhrase: 'să fim cuminți',
+    fullCorrect: 'La teatru trebuie să fim cuminți',
+    options: ['să fim cuminți', 'suntem cuminți', 'la cumințenie', 'fim cuminți'],
+    icon: '🎭',
+    hint: 'Conjunctivul verbului a fi: «Trebuie SĂ fim cuminți»!',
+    englishBridge: '"Must be good" -> "trebuie să fim cuminți".',
+  },
+  {
+    id: 'SUB-T2-04',
+    difficulty: 2,
+    englishShape: 'sper nu plouă (I hope it doesn\'t rain)',
+    triggerVerb: 'Mergem în parc și sper...',
+    correctPhrase: 'să nu plouă',
+    fullCorrect: 'Mergem în parc și sper să nu plouă',
+    options: ['să nu plouă', 'nu plouă', 'fără ploaie', 'la neplouat'],
+    icon: '⛅',
+    hint: 'Conjunctivul negativ pune „să nu”: «Sper SĂ NU plouă»!',
+    englishBridge: 'Negative subjunctive puts "să nu": "sper să nu plouă".',
+  },
+  {
+    id: 'SUB-T2-05',
+    difficulty: 2,
+    englishShape: 'începe ninge (it starts to snow)',
+    triggerVerb: 'Priviți pe geam, începe...',
+    correctPhrase: 'să ningă',
+    fullCorrect: 'Priviți pe geam, începe să ningă',
+    options: ['să ningă', 'ninge', 'la ninsoare', 'nins'],
+    icon: '❄️',
+    hint: 'După „începe”: «Începe SĂ ningă»!',
+    englishBridge: '"Starts to snow" -> "începe să ningă".',
+  },
+  {
+    id: 'SUB-T2-06',
+    difficulty: 2,
+    englishShape: 'ai uitat închizi (you forgot to close)',
+    triggerVerb: 'Atenție, ai uitat...',
+    correctPhrase: 'să închizi ușa',
+    fullCorrect: 'Atenție, ai uitat să închizi ușa',
+    options: ['să închizi ușa', 'închizi ușa', 'închis ușa', 'la închis'],
+    icon: '🚪',
+    hint: 'După verbul a uita: «Ai uitat SĂ închizi»!',
+    englishBridge: '"Forgot to close" -> "ai uitat să închizi".',
+  },
+  {
+    id: 'SUB-T2-07',
+    difficulty: 2,
+    englishShape: 'te rog asculți (please listen to me)',
+    triggerVerb: 'Este important, te rog...',
+    correctPhrase: 'să mă asculți',
+    fullCorrect: 'Este important, te rog să mă asculți',
+    options: ['să mă asculți', 'mă asculți', 'ascultat', 'la ascultat'],
+    icon: '👂',
+    hint: 'Când rogi pe cineva: «Te rog SĂ mă asculți»!',
+    englishBridge: '"Please listen" -> "te rog să mă asculți".',
+  },
+  {
+    id: 'SUB-T2-08',
+    difficulty: 2,
+    englishShape: 'nu vrea doarme (he doesn\'t want to sleep)',
+    triggerVerb: 'Bebelușul plânge și nu vrea...',
+    correctPhrase: 'să doarmă',
+    fullCorrect: 'Bebelușul plânge și nu vrea să doarmă',
+    options: ['să doarmă', 'doarme', 'la somn', 'dormit'],
+    icon: '👶',
+    hint: 'Conjunctivul verbului a dormi este «să doarmă»!',
+    englishBridge: '"Doesn\'t want to sleep" -> "nu vrea să doarmă".',
+  },
+  {
+    id: 'SUB-T2-09',
+    difficulty: 2,
+    englishShape: 'îi place cânte (she likes to sing)',
+    triggerVerb: 'Mariei îi place mult...',
+    correctPhrase: 'să cânte',
+    fullCorrect: 'Mariei îi place mult să cânte',
+    options: ['să cânte', 'cântă', 'la cântec', 'cântat'],
+    icon: '🎤',
+    hint: 'Conjunctiv persoana a III-a: «Îi place SĂ cânte»!',
+    englishBridge: '"Likes to sing" -> "îi place să cânte".',
+  },
+  {
+    id: 'SUB-T2-10',
+    difficulty: 2,
+    englishShape: 'merită încerci (it\'s worth trying)',
+    triggerVerb: 'Este o ghicitoare grea, dar merită...',
+    correctPhrase: 'să încerci',
+    fullCorrect: 'Este o ghicitoare grea, dar merită să încerci',
+    options: ['să încerci', 'încerci', 'încercat', 'la încercare'],
+    icon: '🧩',
+    hint: 'După „merită”: «Merită SĂ încerci»!',
+    englishBridge: '"Worth trying" -> "merită să încerci".',
+  },
+  {
+    id: 'SUB-T2-11',
+    difficulty: 2,
+    englishShape: 'trebuie plecăm (we have to leave)',
+    triggerVerb: 'S-a făcut ora, trebuie...',
+    correctPhrase: 'să plecăm împreună',
+    fullCorrect: 'S-a făcut ora, trebuie să plecăm împreună',
+    options: ['să plecăm împreună', 'plecăm împreună', 'la plecat', 'plecare'],
+    icon: '🚶‍♂️🚶‍♀️',
+    hint: 'La persoana I plural: «Trebuie SĂ plecăm»!',
+    englishBridge: '"We have to leave" -> "trebuie să plecăm".',
+  },
+  {
+    id: 'SUB-T2-12',
+    difficulty: 2,
+    englishShape: 'știu număr (I know how to count)',
+    triggerVerb: 'În română eu știu...',
+    correctPhrase: 'să număr până la o sută',
+    fullCorrect: 'În română eu știu să număr până la o sută',
+    options: ['să număr până la o sută', 'număr până la o sută', 'numărat', 'la numărare'],
+    icon: '🔢',
+    hint: 'Zicem: «Știu SĂ număr»!',
+    englishBridge: '"I know how to count" -> "știu să număr".',
+  },
+
+  // ==========================================
+  // TIER 3 (Meșter Mare) — Clitic contractions (să-ți, să-l, să-mi, să-i, să-și)
+  // ==========================================
+  {
+    id: 'SUB-T3-01',
+    difficulty: 3,
+    englishShape: 'vreau spun ție (I want to tell you)',
+    triggerVerb: 'Apropie-te, vreau...',
+    correctPhrase: 'să-ți spun un secret',
+    fullCorrect: 'Apropie-te, vreau să-ți spun un secret',
+    options: ['să-ți spun un secret', 'să spun la tine', 'spun ție', 'la spus ție'],
+    icon: '🤫',
+    hint: 'Piatra se leagă cu cratimă: «SĂ-ȚI spun»!',
+    englishBridge: 'English "want to tell you" merges "să" and pronoun "îți" with hyphen: "să-ți spun".',
+  },
+  {
+    id: 'SUB-T3-02',
+    difficulty: 3,
+    englishShape: 'pot ajut pe el (I can help him)',
+    triggerVerb: 'Bunicul cară un coș greu. Pot...',
+    correctPhrase: 'să-l ajut',
+    fullCorrect: 'Bunicul cară un coș greu. Pot să-l ajut',
+    options: ['să-l ajut', 'să ajut el', 'ajut pe el', 'la ajutor'],
+    icon: '🧺',
+    hint: 'Când îl ajuți pe el: «Pot SĂ-L ajut»!',
+    englishBridge: '"Can help him" contracts "să" + "îl": "să-l ajut".',
+  },
+  {
+    id: 'SUB-T3-03',
+    difficulty: 3,
+    englishShape: 'trebuie fac tema mea (I have to do my homework)',
+    triggerVerb: 'Înainte de joacă, trebuie...',
+    correctPhrase: 'să-mi fac tema',
+    fullCorrect: 'Înainte de joacă, trebuie să-mi fac tema',
+    options: ['să-mi fac tema', 'să fac tema mea', 'fac tema mea', 'la temă'],
+    icon: '📝',
+    hint: 'În română zicem reflexiv cu cratimă: «Trebuie SĂ-MI fac tema»!',
+    englishBridge: 'Reflexive dative contracts with "să": "să-mi fac tema" (not tema mea).',
+  },
+  {
+    id: 'SUB-T3-04',
+    difficulty: 3,
+    englishShape: 'îmi place ascult pe ei (I like to listen to them)',
+    triggerVerb: 'Când vin bunicii, îmi place...',
+    correctPhrase: 'să-i ascult',
+    fullCorrect: 'Când vin bunicii, îmi place să-i ascult',
+    options: ['să-i ascult', 'să ascult pe ei', 'ascult ei', 'la ascultare'],
+    icon: '👵👴',
+    hint: 'Pentru mai multe persoane la masculin/mixt folosim „să-i”: «Îmi place SĂ-I ascult»!',
+    englishBridge: '"Like to listen to them" contracts to "să-i ascult".',
+  },
+  {
+    id: 'SUB-T3-05',
+    difficulty: 3,
+    englishShape: 'vrea leagă șireturile (he wants to tie his shoes)',
+    triggerVerb: 'Copilul mic vrea...',
+    correctPhrase: 'să-și lege singur șireturile',
+    fullCorrect: 'Copilul mic vrea să-și lege singur șireturile',
+    options: ['să-și lege singur șireturile', 'să lege șireturile lui', 'leagă șireturile', 'la legat'],
+    icon: '👟',
+    hint: 'Reflexiv posesiv de persoana a III-a: «Vrea SĂ-ȘI lege șireturile»!',
+    englishBridge: 'Third-person reflexive uses "să-și": "să-și lege șireturile".',
+  },
+  {
+    id: 'SUB-T3-06',
+    difficulty: 3,
+    englishShape: 'te rog nu uiți (please don\'t forget)',
+    triggerVerb: 'Când pleci la școală, te rog...',
+    correctPhrase: 'să nu uiți ghiozdanul',
+    fullCorrect: 'Când pleci la școală, te rog să nu uiți ghiozdanul',
+    options: ['să nu uiți ghiozdanul', 'nu uiți ghiozdanul', 'nu uita ghiozdanul', 'fără uitat'],
+    icon: '🎒',
+    hint: 'Ruga negativă cere „să nu”: «Te rog SĂ NU uiți»!',
+    englishBridge: 'Negative request: "te rog să nu uiți".',
+  },
+  {
+    id: 'SUB-T3-07',
+    difficulty: 3,
+    englishShape: 'trebuie nu facem zgomot (we must not make noise)',
+    triggerVerb: 'La bibliotecă trebuie...',
+    correctPhrase: 'să nu facem zgomot',
+    fullCorrect: 'La bibliotecă trebuie să nu facem zgomot',
+    options: ['să nu facem zgomot', 'nu facem zgomot', 'fără zgomot', 'la liniște'],
+    icon: '🤫',
+    hint: 'Obligația negativă: «Trebuie SĂ NU facem zgomot»!',
+    englishBridge: '"Must not make noise" -> "trebuie să nu facem zgomot".',
+  },
+  {
+    id: 'SUB-T3-08',
+    difficulty: 3,
+    englishShape: 'aș vrea dau ție (I would like to give you)',
+    triggerVerb: 'De ziua ta, aș vrea...',
+    correctPhrase: 'să-ți dăruiesc o floare',
+    fullCorrect: 'De ziua ta, aș vrea să-ți dăruiesc o floare',
+    options: ['să-ți dăruiesc o floare', 'să dăruiesc la tine', 'dau ție floare', 'la dăruit'],
+    icon: '🌷',
+    hint: 'Politețe cu cratimă: «Aș vrea SĂ-ȚI dăruiesc»!',
+    englishBridge: '"Would like to give you" -> "aș vrea să-ți dăruiesc".',
+  },
+  {
+    id: 'SUB-T3-09',
+    difficulty: 3,
+    englishShape: 'poți împrumuți mie? (can you lend me?)',
+    triggerVerb: 'Mi s-a rupt vârful. Poți...',
+    correctPhrase: 'să-mi împrumuți un creion?',
+    fullCorrect: 'Mi s-a rupt vârful. Poți să-mi împrumuți un creion?',
+    options: ['să-mi împrumuți un creion?', 'să împrumuți la mine?', 'dai mie creion?', 'la împrumut?'],
+    icon: '✏️',
+    hint: 'Cerere prietenoasă: «Poți SĂ-MI împrumuți?»',
+    englishBridge: '"Can you lend me" -> "poți să-mi împrumuți".',
+  },
+  {
+    id: 'SUB-T3-10',
+    difficulty: 3,
+    englishShape: 'speră găsește pe el (hopes to find him)',
+    triggerVerb: 'Cățelul s-a ascuns, dar fetița speră...',
+    correctPhrase: 'să-l găsească repede',
+    fullCorrect: 'Cățelul s-a ascuns, dar fetița speră să-l găsească repede',
+    options: ['să-l găsească repede', 'să găsească pe el', 'găsește el', 'la găsit'],
+    icon: '🐶',
+    hint: 'Legăm „să” cu „-l”: «Speră SĂ-L găsească»!',
+    englishBridge: '"Hopes to find him" -> "speră să-l găsească".',
+  },
+  {
+    id: 'SUB-T3-11',
+    difficulty: 3,
+    englishShape: 'am încercat nu greșesc (I tried not to make mistakes)',
+    triggerVerb: 'La test am încercat din răsputeri...',
+    correctPhrase: 'să nu greșesc deloc',
+    fullCorrect: 'La test am încercat din răsputeri să nu greșesc deloc',
+    options: ['să nu greșesc deloc', 'nu greșesc deloc', 'fără greșeală', 'la negreșit'],
+    icon: '💯',
+    hint: 'Zicem: «Am încercat SĂ NU greșesc»!',
+    englishBridge: '"Tried not to make mistakes" -> "am încercat să nu greșesc".',
+  },
+  {
+    id: 'SUB-T3-12',
+    difficulty: 3,
+    englishShape: 'trebuie mulțumim la doamna (we must thank the teacher)',
+    triggerVerb: 'La sfârșitul serbării trebuie...',
+    correctPhrase: 'să-i mulțumim doamnei',
+    fullCorrect: 'La sfârșitul serbării trebuie să-i mulțumim doamnei',
+    options: ['să-i mulțumim doamnei', 'să mulțumim la doamna', 'mulțumim doamna', 'la mulțumit'],
+    icon: '👩‍🏫',
+    hint: 'Dativul cere „să-i”: «Trebuie SĂ-I mulțumim doamnei»!',
+    englishBridge: '"Must thank the teacher" requires clitic doubling with dative: "să-i mulțumim doamnei".',
+  },
+];
+
+export class SubjunctiveService {
+  /** Retrieve all items matching a difficulty level (1, 2, or 3) */
+  static getByDifficulty(difficulty: SubjunctiveDifficulty): SubjunctiveItem[] {
+    return SUBJUNCTIVE_BANK.filter((e) => e.difficulty === difficulty);
+  }
+
+  /** Retrieve all items up to and including a max difficulty level */
+  static getUpToDifficulty(maxDifficulty: SubjunctiveDifficulty): SubjunctiveItem[] {
+    return SUBJUNCTIVE_BANK.filter((e) => e.difficulty <= maxDifficulty);
+  }
+
+  /** Retrieve a randomized batch of items matching level, without immediate repeats */
+  static getRandomBatch(
+    count: number = 5,
+    level: SubjunctiveDifficulty = 1,
+    excludeIds: string[] = []
+  ): SubjunctiveItem[] {
+    const candidates = SUBJUNCTIVE_BANK.filter(
+      (e) => e.difficulty <= level && !excludeIds.includes(e.id)
+    );
+
+    const pool = candidates.length >= count ? candidates : SUBJUNCTIVE_BANK;
+    const shuffled = shuffleArray(pool);
+
+    const result = shuffled.slice(0, count);
+    return shuffleArray(result);
+  }
+}
