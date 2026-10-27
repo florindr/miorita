@@ -1,7 +1,7 @@
 // src/main.ts — App Orchestrator with Village Navigation, Full Station Suite & Caietul lui Tata
 import './styles/main.css';
 import { renderStitchBand } from './components/stitchBand';
-import { renderVillageMap, type ActiveStation } from './components/villageMap';
+import { type ActiveStation } from './components/villageMap';
 import { MioritaHud } from './components/mioritaHud';
 import { GradinaCuGenuriStation } from './stations/gradinaCuGenuri';
 import { PodulCuiStation } from './stations/podulCui';
@@ -16,6 +16,8 @@ import { AntrenamentulZileiStation } from './stations/antrenamentulZilei';
 import { StanaMioriteiStation } from './stations/stanaMioritei';
 import { CaietulLuiTataModal } from './components/caietulLuiTata';
 import { CasaGramaticiiModal } from './components/casaGramaticii';
+import { RomaniaMap } from './components/romaniaMap';
+import { SidebarNav } from './components/sidebarNav';
 import { sound } from './audio/synth';
 import { SyncEngine } from './storage/syncEngine';
 import { SyncStatusBadge } from './components/syncStatusBadge';
@@ -47,12 +49,15 @@ function initApp() {
 function renderGameApp() {
   const activeChild = FamilyAuth.getActiveProfile();
   document.title = `Miorița — Pentru ${activeChild.name}`;
-  let currentStation: ActiveStation = 'gen';
+  let currentStation: ActiveStation = 'map';
   let globalScore = parseInt(localStorage.getItem(`miorita_score_${activeChild.id}`) || localStorage.getItem('miorita_score') || '0', 10);
 
   app.innerHTML = `
     <header class="app-header">
       <div class="brand-wrapper">
+        <button id="btnHeaderMenu" class="mobile-menu-btn" style="background: var(--linen-card); border: 2px solid var(--walnut-light); border-radius: var(--radius-sm); padding: 8px 10px; cursor: pointer; font-size: 18px; color: var(--walnut); display: none;" title="Meniu Ateliere">
+          ☰
+        </button>
         <div class="mascot-avatar" id="mascotAvatar" style="display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; cursor:pointer;" title="Miorița">
           <img src="/art/mascot.jpg" alt="Miorița" style="width:100%; height:100%; object-fit:cover; object-position: 25% 15%; display:block;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
           <span style="display:none; font-size:30px;">🐑</span>
@@ -89,16 +94,18 @@ function renderGameApp() {
 
   ${renderStitchBand(24)}
 
-  <main class="app-main">
-    <!-- Village Navigation Hub -->
-    <div id="navRoot"></div>
+  <!-- Clawey-style Layout: Left Vertical Sidebar + Main Stage Area -->
+  <div class="miorita-app-layout">
+    <div id="sidebarRoot"></div>
 
-    <!-- Miorița Socratic Mascot HUD (ADHD-friendly with focus mode) -->
-    <div id="hudRoot"></div>
+    <main class="miorita-stage-area">
+      <!-- Miorița Socratic Mascot HUD (ADHD-friendly with focus mode) -->
+      <div id="hudRoot"></div>
 
-    <!-- Active Station Mount Point -->
-    <div id="stationRoot"></div>
-  </main>
+      <!-- Active Station Mount Point (Station or RomaniaMap) -->
+      <div id="stationRoot"></div>
+    </main>
+  </div>
 
   <div id="modalRoot"></div>
 
@@ -108,10 +115,11 @@ function renderGameApp() {
 const scoreDisplay = document.querySelector<HTMLSpanElement>('#scoreDisplay')!;
 const hudRoot = document.querySelector<HTMLDivElement>('#hudRoot')!;
 const stationRoot = document.querySelector<HTMLDivElement>('#stationRoot')!;
-const navRoot = document.querySelector<HTMLDivElement>('#navRoot')!;
+const sidebarRoot = document.querySelector<HTMLDivElement>('#sidebarRoot')!;
 const modalRoot = document.querySelector<HTMLDivElement>('#modalRoot')!;
 const btnOpenCaiet = document.querySelector<HTMLButtonElement>('#btnOpenCaiet')!;
 const btnOpenGrammar = document.querySelector<HTMLButtonElement>('#btnOpenGrammar')!;
+const btnHeaderMenu = document.querySelector<HTMLButtonElement>('#btnHeaderMenu')!;
 const mascotAvatar = document.querySelector<HTMLDivElement>('#mascotAvatar')!;
 const syncBadgeRoot = document.querySelector<HTMLDivElement>('#syncBadgeRoot')!;
 const btnProfileSwitch = document.querySelector<HTMLButtonElement>('#btnProfileSwitch')!;
@@ -169,7 +177,7 @@ btnProfileSwitch.addEventListener('click', () => {
 });
 
 // Open Caietul lui Tata Modal (Protected by Parent Mode PIN)
-btnOpenCaiet.addEventListener('click', () => {
+function openCaietulLuiTata() {
   sound.playWoodenTap();
   if (!FamilyAuth.isParentUnlocked()) {
     // Open Family Modal on Parent Tab to verify PIN first
@@ -187,6 +195,27 @@ btnOpenCaiet.addEventListener('click', () => {
     const modal = new CaietulLuiTataModal(modalRoot, () => {});
     modal.render();
   }
+}
+
+btnOpenCaiet.addEventListener('click', () => {
+  openCaietulLuiTata();
+});
+
+// Left Vertical Sidebar Navigation (Clawey style with Miorița craftsmanship)
+const sidebar = new SidebarNav(
+  sidebarRoot,
+  currentStation,
+  (station) => {
+    loadStation(station);
+  },
+  () => {
+    openCaietulLuiTata();
+  }
+);
+sidebar.render();
+
+btnHeaderMenu?.addEventListener('click', () => {
+  sidebar.toggleMobileDrawer();
 });
 
 function openCasaGramaticii() {
@@ -208,9 +237,12 @@ btnOpenGrammar.addEventListener('click', () => {
 function loadStation(station: ActiveStation) {
   currentStation = station;
   sound.playWoodenTap();
-  renderVillageMap(currentStation, loadStation, navRoot);
+  sidebar.setActiveStation(currentStation);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  if (station === 'scoala') {
+  if (station === 'map') {
+    renderMapOverview();
+  } else if (station === 'scoala') {
     hud.say(
       'Bun venit la <strong>Școala din Sat (Casa Gramaticii)</strong>! Aici descoperim cei 5 Meșteri ai Vorbirii și secretele propoziției.',
       'Explore the 5 parts of speech and visual syntax coding to bridge UK SPaG with Romanian grammar!'
@@ -334,128 +366,22 @@ function loadStation(station: ActiveStation) {
 }
 
 function renderMapOverview() {
-  hud.say('Privire de ansamblu peste <strong>Satul Mioriței</strong>! Alege unde vrei să te antrenezi azi.');
-  stationRoot.innerHTML = `
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px;">
-      <div class="station-card" style="grid-column: 1 / -1; background: linear-gradient(135deg, #FFFDF8 0%, #FFF5E0 100%); border: 2.5px solid var(--gold-bell); cursor: pointer; box-shadow: 0 6px 18px rgba(212, 160, 23, 0.18);" onclick="window.dispatchNav('quest')">
-        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
-          <div style="flex: 1; min-width: 260px;">
-            <span style="font-size: 11px; font-weight: 800; background: var(--gold-bell); color: #FFF; padding: 3px 10px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.5px;">Zilnic • 3 Minute</span>
-            <h3 style="font-family: var(--font-serif); font-size: 24px; color: var(--walnut); margin: 6px 0 4px;">⚡ Antrenamentul Zilei</h3>
-            <p style="font-size: 14px; color: #6C5B4F; line-height: 1.4;">5 capcane selectate din Caietul lui Tata și algoritmul SRS pentru ochiuri de aur pe covor!</p>
-          </div>
-          <button style="background: var(--gold-bell); color: #FFF; border: none; border-radius: 999px; padding: 12px 24px; font-weight: bold; font-family: var(--font-serif); font-size: 15px; cursor: pointer; box-shadow: var(--soft-shadow);">
-            Începe Sesiunea →
-          </button>
-        </div>
-      </div>
-
-      <div class="station-card" style="cursor:pointer; border: 2.5px solid var(--walnut); background: #FAF7F2;" onclick="window.dispatchNav('scoala')">
-        <div style="font-size: 38px; text-align: center; padding: 12px 0 6px;">🏫 📜 🔬</div>
-        <h3 style="font-family: var(--font-serif); color: var(--walnut); margin-bottom: 4px;">🏫 Casa Gramaticii (Școala)</h3>
-        <p style="font-size: 13px; color: var(--walnut); line-height: 1.4;">Cei 5 Meșteri ai Vorbirii (Substantiv, Adjectiv, Verb...) și Detectorul Vizual de Părți de Vorbire.</p>
-        <span style="font-size: 12px; font-weight: bold; color: var(--walnut); margin-top: 8px; display: inline-block;">Deschide cărțile →</span>
-      </div>
-
-      <div class="station-card" style="cursor:pointer;" onclick="window.dispatchNav('gen')">
-        <div class="station-overview-thumb">
-          <img src="/art/stations/gradina_genuri.jpg" alt="Grădina cu Genuri" onerror="this.parentElement.style.display='none';" />
-        </div>
-        <h3 style="font-family: var(--font-serif); color: var(--gen-feminin); margin-bottom: 4px;">🧺 Grădina cu Genuri</h3>
-        <p style="font-size: 13px; color: var(--walnut); line-height: 1.4;">Testul un/doi, o/două și un/două pentru substantive.</p>
-        <span style="font-size: 12px; font-weight: bold; color: var(--gen-feminin); margin-top: 8px; display: inline-block;">Pornește →</span>
-      </div>
-
-      <div class="station-card" style="cursor:pointer;" onclick="window.dispatchNav('cas')">
-        <div class="station-overview-thumb">
-          <img src="/art/stations/podul_cui.jpg" alt="Podul A cui? Cui?" onerror="this.parentElement.style.display='none';" />
-        </div>
-        <h3 style="font-family: var(--font-serif); color: var(--walnut); margin-bottom: 4px;">🪵 Podul „A cui? Cui?”</h3>
-        <p style="font-size: 13px; color: var(--walnut); line-height: 1.4;">Genitivul: „casa bunicii”, nu „casa la bunica”.</p>
-        <span style="font-size: 12px; font-weight: bold; color: var(--walnut); margin-top: 8px; display: inline-block;">Pornește →</span>
-      </div>
-
-      <div class="station-card" style="cursor:pointer;" onclick="window.dispatchNav('clq')">
-        <div class="station-overview-thumb">
-          <img src="/art/stations/vanatorul_englezisme.jpg" alt="Vânătorul de Englezisme" onerror="this.parentElement.style.display='none';" />
-        </div>
-        <h3 style="font-family: var(--font-serif); color: var(--gen-masculin); margin-bottom: 4px;">🦅 Vânătorul de Englezisme</h3>
-        <p style="font-size: 13px; color: var(--walnut); line-height: 1.4;">Scapă de traducerile mot-à-mot: „am 8 ani”, „are sens”.</p>
-        <span style="font-size: 12px; font-weight: bold; color: var(--gen-masculin); margin-top: 8px; display: inline-block;">Pornește →</span>
-      </div>
-
-      <div class="station-card" style="cursor:pointer;" onclick="window.dispatchNav('art')">
-        <div class="station-overview-thumb">
-          <img src="/art/stations/moara_articole.jpg" alt="Moara cu Articole" onerror="this.parentElement.style.display='none';" />
-        </div>
-        <h3 style="font-family: var(--font-serif); color: var(--gold-bell); margin-bottom: 4px;">🌾 Moara cu Articole</h3>
-        <p style="font-size: 13px; color: var(--walnut); line-height: 1.4;">Articolul hotărât: „câinele” și capcana „pe masă”.</p>
-        <span style="font-size: 12px; font-weight: bold; color: var(--gold-bell); margin-top: 8px; display: inline-block;">Pornește →</span>
-      </div>
-
-      <div class="station-card" style="cursor:pointer;" onclick="window.dispatchNav('sub')">
-        <div class="station-overview-thumb">
-          <img src="/art/stations/poteca_sa.jpg" alt="Poteca lui Să" onerror="this.parentElement.style.display='none';" />
-        </div>
-        <h3 style="font-family: var(--font-serif); color: var(--gen-neutru); margin-bottom: 4px;">🪨 Poteca lui Să</h3>
-        <p style="font-size: 13px; color: var(--walnut); line-height: 1.4;">Puntea conjunctivului: „vreau să merg”, „pot să ajut”.</p>
-        <span style="font-size: 12px; font-weight: bold; color: var(--gen-neutru); margin-top: 8px; display: inline-block;">Pornește →</span>
-      </div>
-
-      <div class="station-card" style="cursor:pointer;" onclick="window.dispatchNav('pos')">
-        <div class="station-overview-thumb">
-          <img src="/art/stations/fantana_posesivelor.jpg" alt="Fântâna Posesivelor" onerror="this.parentElement.style.display='none';" />
-        </div>
-        <h3 style="font-family: var(--font-serif); color: var(--clay-terracotta); margin-bottom: 4px;">🪣 Fântâna Al-A-Ai-Ale</h3>
-        <p style="font-size: 13px; color: var(--walnut); line-height: 1.4;">Articolul posesiv: „un prieten al meu”, „o carte a mea”.</p>
-        <span style="font-size: 12px; font-weight: bold; color: var(--clay-terracotta); margin-top: 8px; display: inline-block;">Pornește →</span>
-      </div>
-
-      <div class="station-card" style="cursor:pointer;" onclick="window.dispatchNav('num')">
-        <div class="station-overview-thumb">
-          <img src="/art/stations/targul_numere.jpg" alt="Târgul de Numere" onerror="this.parentElement.style.display='none';" />
-        </div>
-        <h3 style="font-family: var(--font-serif); color: var(--walnut-light); margin-bottom: 4px;">⚖️ Târgul de Numere</h3>
-        <p style="font-size: 13px; color: var(--walnut); line-height: 1.4;">Regula numerelor >= 20: „douăzeci de mere”.</p>
-        <span style="font-size: 12px; font-weight: bold; color: var(--walnut-light); margin-top: 8px; display: inline-block;">Pornește →</span>
-      </div>
-
-      <div class="station-card" style="cursor:pointer;" onclick="window.dispatchNav('cli')">
-        <div class="station-overview-thumb">
-          <img src="/art/stations/ecoul_munte.jpg" alt="Ecoul din Munte" onerror="this.parentElement.style.display='none';" />
-        </div>
-        <h3 style="font-family: var(--font-serif); color: var(--gen-masculin); margin-bottom: 4px;">⛰️ Ecoul din Munte</h3>
-        <p style="font-size: 13px; color: var(--walnut); line-height: 1.4;">Dublarea clitică și «pe»: „L-am văzut pe Ion”.</p>
-        <span style="font-size: 12px; font-weight: bold; color: var(--gen-masculin); margin-top: 8px; display: inline-block;">Pornește →</span>
-      </div>
-
-      <div class="station-card" style="cursor:pointer;" onclick="window.dispatchNav('agr')">
-        <div class="station-overview-thumb">
-          <img src="/art/stations/atelierul_culori.jpg" alt="Atelierul de Culori" onerror="this.parentElement.style.display='none';" />
-        </div>
-        <h3 style="font-family: var(--font-serif); color: var(--gen-feminin); margin-bottom: 4px;">🎨 Atelierul de Culori</h3>
-        <p style="font-size: 13px; color: var(--walnut); line-height: 1.4;">Acordul adjectivelor și topica: „mașina roșie”.</p>
-        <span style="font-size: 12px; font-weight: bold; color: var(--gen-feminin); margin-top: 8px; display: inline-block;">Pornește →</span>
-      </div>
-
-      <div class="station-card" style="cursor:pointer;" onclick="window.dispatchNav('stana')">
-        <div class="station-overview-thumb">
-          <img src="/art/stations/stana_mioritei.jpg" alt="Stâna Mioriței" onerror="this.parentElement.style.display='none';" />
-        </div>
-        <h3 style="font-family: var(--font-serif); color: var(--gen-neutru); margin-bottom: 4px;">🐑 Stâna Mioriței</h3>
-        <p style="font-size: 13px; color: var(--walnut); line-height: 1.4;">Vezi lăvicerul țesut de tine și motivele populare.</p>
-        <span style="font-size: 12px; font-weight: bold; color: var(--gen-neutru); margin-top: 8px; display: inline-block;">Vezi covorul →</span>
-      </div>
-    </div>
-  `;
+  hud.say(
+    'Iată <strong>Harta României Mioritice</strong>! Atinge orice loc din poveste pentru a descoperi atelierul lui.',
+    'Explore the interactive storybook map of Romania to choose your learning quest!'
+  );
+  const romaniaMap = new RomaniaMap(stationRoot, (targetStation) => {
+    loadStation(targetStation);
+  });
+  romaniaMap.render();
 }
 
   (window as any).dispatchNav = (station: ActiveStation) => {
     loadStation(station);
   };
 
-  // Initial load
-  loadStation('gen');
+  // Initial load on the storybook Romania map
+  loadStation('map');
 }
 
 // Start application (Welcome Splash or Game App)

@@ -1106,4 +1106,364 @@ body {
   box-shadow: 0 6px 18px rgba(43, 38, 34, 0.25);
 }
 
+/* ========================================================
+   Atelier Shell Layout (Left Sidebar + Responsive Stage)
+   ======================================================== */
+.miorita-app-layout {
+  display: flex;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  gap: 24px;
+  padding: 20px 24px 56px;
+  position: relative;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+
+.miorita-stage-area {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (max-width: 992px) {
+  .miorita-app-layout {
+    flex-direction: column;
+    padding: 14px 14px 80px;
+    gap: 16px;
+  }
+}
+
+/* ========================================================
+   Left Sidebar Panel
+   ======================================================== */
+.miorita-sidebar-panel {
+  width: 240px;
+  flex-shrink: 0;
+  background: var(--linen-card);
+  border: 2.5px solid var(--walnut-light);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 6px 20px rgba(43, 38, 34, 0.08);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 18px;
+  max-height: calc(100vh - 36px);
+  overflow: hidden;
+  transition: width 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 100;
+  box-sizing: border-box;
+}
+
+.miorita-sidebar-panel.collapsed {
+  width: 68px;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 14px 10px;
+  border-bottom: 1.5px solid var(--linen-dark);
+}
+
+.sidebar-brand-mini {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.sidebar-brand-mini.hidden {
+  display: none;
+}
+
+.sidebar-toggle-btn {
+  background: #FFF;
+  border: 1.5px solid var(--walnut-light);
+  border-radius: var(--radius-sm);
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  cursor: pointer;
+  color: var(--walnut);
+  transition: all 0.15s ease;
+  margin-left: auto;
+}
+
+.sidebar-toggle-btn:hover {
+  background: var(--linen-pure);
+  border-color: var(--walnut);
+}
+
+.sidebar-nav-scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 12px 10px 16px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.sidebar-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar-group-title {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #8C7A6B;
+  padding: 0 8px 4px;
+}
+
+.sidebar-group-title.hidden {
+  display: none;
+}
+
+.sidebar-links-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid transparent;
+  background: transparent;
+  color: var(--walnut);
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+  min-height: 42px;
+  box-sizing: border-box;
+}
+
+.sidebar-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: var(--walnut-light);
+  transform: translateX(2px);
+}
+
+.sidebar-nav-btn.active {
+  background: var(--walnut);
+  color: #FFF !important;
+  box-shadow: 0 4px 12px rgba(43, 38, 34, 0.2);
+}
+
+.sidebar-nav-btn.hero-quest-btn {
+  background: linear-gradient(135deg, rgba(212, 160, 23, 0.18) 0%, rgba(212, 160, 23, 0.08) 100%);
+  border-color: var(--gold-bell);
+  color: #8A6500;
+}
+
+.sidebar-nav-btn.hero-quest-btn.active {
+  background: var(--gold-bell);
+  color: #FFF !important;
+}
+
+.sidebar-nav-btn .nav-icon {
+  font-size: 20px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.sidebar-nav-btn .nav-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.sidebar-nav-btn .nav-label.hidden {
+  display: none;
+}
+
+.sidebar-nav-btn .nav-badge {
+  background: var(--gold-bell);
+  color: #FFF;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 999px;
+  margin-left: auto;
+}
+
+/* Mobile Sidebar Drawer */
+@media (max-width: 992px) {
+  .miorita-sidebar-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 280px;
+    max-height: 100vh;
+    border-radius: 0;
+    z-index: 1000;
+    transform: translateX(-105%);
+    transition: transform 0.25s ease-out;
+    box-shadow: 0 0 32px rgba(0,0,0,0.4);
+  }
+
+  .miorita-sidebar-panel.mobile-open {
+    transform: translateX(0);
+  }
+
+  .miorita-sidebar-panel.collapsed {
+    width: 280px;
+  }
+}
+
+/* ========================================================
+   Mobile Bottom Navigation Bar
+   ======================================================== */
+.mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 992px) {
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: var(--linen-pure);
+    border-top: 2px solid var(--walnut-light);
+    box-shadow: 0 -4px 18px rgba(43, 38, 34, 0.12);
+    z-index: 950;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 4px;
+  }
+
+  .mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--walnut);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 8px;
+    border-radius: var(--radius-sm);
+    min-width: 52px;
+    min-height: 48px;
+    touch-action: manipulation;
+  }
+
+  .mobile-nav-item.active {
+    color: var(--ie-red);
+    background: rgba(178, 58, 46, 0.08);
+  }
+}
+
+/* ========================================================
+   Interactive Storybook Map of Romania Hotspot Pins
+   ======================================================== */
+.map-pin-hotspot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.map-pin-hotspot:hover {
+  transform: translate(-50%, -50%) scale(1.18);
+  z-index: 30 !important;
+}
+
+.map-pin-hotspot.selected {
+  transform: translate(-50%, -50%) scale(1.22);
+  z-index: 30 !important;
+}
+
+.pin-medallion {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #FFF;
+  border: 2.5px solid var(--walnut);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  position: relative;
+  z-index: 2;
+  transition: all 0.2s ease;
+}
+
+.map-pin-hotspot:hover .pin-medallion,
+.map-pin-hotspot.selected .pin-medallion {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  background: #FFFDF8;
+}
+
+.pin-label-pill {
+  margin-top: 4px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1.5px solid var(--walnut-light);
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 800;
+  font-family: var(--font-serif);
+  color: var(--walnut);
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(2px);
+  pointer-events: none;
+}
+
+.pin-pulse-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid var(--gold-bell);
+  opacity: 0.6;
+  pointer-events: none;
+  animation: pinPulse 2.2s infinite ease-out;
+}
+
+@keyframes pinPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.85);
+    opacity: 0;
+  }
+}
+
+
 
