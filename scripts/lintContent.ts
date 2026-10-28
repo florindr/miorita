@@ -92,6 +92,26 @@ function main() {
 
   console.log(`Audited ${result.count} curated items in content/items/curated.json`);
 
+  // Also audit 1-Year Agentic Tutor JSON files for comma-below compliance
+  const tutorFiles = ['content/tutor/year-plan.json', 'content/tutor/tudor-progress.json'];
+  for (const rel of tutorFiles) {
+    const abs = path.resolve(process.cwd(), rel);
+    if (!fs.existsSync(abs)) {
+      result.errors.push(`Missing required tutor file: ${rel}`);
+    } else {
+      const raw = fs.readFileSync(abs, 'utf-8');
+      if (FORBIDDEN_CEDILLAS.test(raw)) {
+        result.errors.push(`${rel} contains forbidden Turkish cedillas (ş/ţ instead of comma-below ș/ț).`);
+      }
+      try {
+        JSON.parse(raw);
+        console.log(`Audited ${rel} (valid JSON & comma-below compliant)`);
+      } catch (e: any) {
+        result.errors.push(`Invalid JSON in ${rel}: ${e.message}`);
+      }
+    }
+  }
+
   if (result.warnings.length > 0) {
     console.log(`\n⚠️ Warnings (${result.warnings.length}):`);
     result.warnings.forEach((w) => console.log(`  - ${w}`));

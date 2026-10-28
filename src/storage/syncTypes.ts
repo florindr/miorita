@@ -6,7 +6,8 @@ export type MioritaDomain =
   | 'srs'
   | 'caiet'
   | 'rug'
-  | 'settings';
+  | 'settings'
+  | 'tutor_progress';
 
 export interface DomainDelta {
   domain: MioritaDomain;

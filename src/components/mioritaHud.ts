@@ -198,6 +198,11 @@ export class MioritaHud {
     }
   }
 
+  /** Alias for Agentic Tutor mood-aware speech updates */
+  speak(text: string, _mood: 'happy' | 'thinking' | 'celebrating' = 'happy'): void {
+    this.say(text, '', false);
+  }
+
   /** Gentle Socratic nudge on retry (zero negative framing) */
   nudge(hintText: string, englishBridge = ''): void {
     sound.playGentleNudge();

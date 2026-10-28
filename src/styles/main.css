@@ -1467,3 +1467,573 @@ body {
 
 
 
+/* ========================================================
+   v0.2 Full-Stage Agentic Tutor (Călătoria cu Miorița — 10 Min)
+   & Interactive JS Visual Widgets (Main Stage Canvas)
+   ======================================================== */
+
+.tutore-agentic-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: floatIn 0.25s ease;
+}
+
+.tutore-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: var(--linen-pure);
+  border: 2.5px solid var(--walnut);
+  border-radius: var(--radius-lg);
+  padding: 14px 20px;
+  box-shadow: var(--card-shadow);
+}
+
+.tutore-top-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tutore-season-pill {
+  font-size: 12px;
+  font-weight: 800;
+  color: #8A5A00;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tutore-main-heading {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  color: var(--walnut);
+  margin: 0;
+}
+
+.tutore-status-pills {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tutore-campfire-pill {
+  background: #FFF7E2;
+  border: 2px solid var(--gold-bell);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--walnut);
+}
+
+.tutore-stitches-pill {
+  background: var(--linen-card);
+  border: 2px solid var(--gen-neutru);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--gen-neutru);
+}
+
+/* 4-Bead Embroidered Poteca de 10 Minute */
+.poteca-10min-band {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.poteca-bead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--walnut-light);
+  background: var(--linen-card);
+  color: var(--walnut);
+  font-family: var(--font-serif);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.poteca-bead.is-active {
+  background: #FFF7E2;
+  border-color: var(--gold-bell);
+  box-shadow: 0 4px 12px rgba(200, 144, 46, 0.2);
+}
+
+.poteca-bead.is-done {
+  background: rgba(94, 125, 83, 0.14);
+  border-color: var(--gen-neutru);
+}
+
+.bead-dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--walnut);
+  color: #FFF;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.poteca-bead.is-active .bead-dot {
+  background: var(--gold-bell);
+}
+
+.poteca-bead.is-done .bead-dot {
+  background: var(--gen-neutru);
+}
+
+/* Full-Stage Two-Column Main UI Split */
+.tutore-stage-split {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .tutore-stage-split {
+    grid-template-columns: 1fr;
+  }
+  .poteca-10min-band {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.tutore-miorita-card,
+.tutor-widget-card {
+  background: var(--linen-pure);
+  border: 3px solid var(--walnut);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.tutore-warm-reentry-banner {
+  background: rgba(94, 125, 83, 0.14);
+  border: 2px solid var(--gen-neutru);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--walnut);
+}
+
+.tutore-boss-quest-banner {
+  background: linear-gradient(135deg, #FFF5D6, #FCE6A6);
+  border: 2px solid var(--gold-bell);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  font-size: 14px;
+  color: var(--walnut);
+}
+
+.miorita-speaker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.miorita-avatar-badge {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--walnut);
+  background: var(--linen-card);
+  border: 1.5px solid var(--walnut-light);
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.miorita-tts-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.tutor-tts-btn {
+  min-height: 40px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1.5px solid var(--walnut);
+  background: #FFF;
+  color: var(--walnut);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.miorita-speech-bubble {
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink-charcoal);
+  background: #FFF;
+  border: 2px solid var(--walnut-light);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin: 0;
+}
+
+.miorita-question-prompt {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--walnut);
+  margin: 0;
+}
+
+/* Topic Choice Cards */
+.tutore-topic-choices,
+.tutore-choice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tutore-topic-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 64px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--walnut);
+  background: #FFF;
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tutore-topic-card:hover,
+.tutore-choice-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(43, 38, 34, 0.14);
+  border-color: var(--gold-bell);
+}
+
+.topic-card-emoji {
+  font-size: 32px;
+}
+
+.topic-card-title {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--walnut);
+}
+
+.topic-card-hook {
+  font-size: 13px;
+  color: #5C4E43;
+}
+
+.topic-card-cta {
+  margin-left: auto;
+  font-weight: 800;
+  color: #8A5A00;
+  white-space: nowrap;
+}
+
+.tutore-choice-btn {
+  min-height: 52px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--walnut);
+  background: #FFF;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--walnut);
+  cursor: pointer;
+  text-align: left;
+}
+
+/* Walkie-Talkie Bar */
+.walkie-talkie-bar {
+  background: var(--linen-card);
+  border: 2px dashed var(--walnut-light);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.walkie-controls-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.walkie-talkie-btn {
+  flex: 1;
+  min-height: 48px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 2px solid var(--gen-masculin);
+  background: #FFF;
+  color: var(--gen-masculin);
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.mountain-wind-btn {
+  min-height: 48px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 2px solid var(--gen-neutru);
+  background: #F4F9F2;
+  color: var(--gen-neutru);
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.walkie-feedback-msg {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--walnut);
+}
+
+.tutore-next-phase-btn,
+.tutor-widget-primary-btn {
+  min-height: 50px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  border: 2px solid var(--walnut);
+  background: linear-gradient(135deg, #C8902E 0%, #9E6B14 100%);
+  color: #FFF;
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.tutor-widget-secondary-btn {
+  min-height: 48px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 2px solid var(--walnut);
+  background: #FFF;
+  color: var(--walnut);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Interactive JS Widget Canvas Styles */
+.tutor-widget-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tutor-widget-badge {
+  background: rgba(200, 144, 46, 0.16);
+  color: #8A5A00;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.tutor-widget-reward {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--gen-neutru);
+}
+
+.tutor-widget-title {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  color: var(--walnut);
+  margin: 0;
+}
+
+.tutor-morph-comparison {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.tutor-morph-box {
+  background: #FFF;
+  border: 2px solid var(--walnut-light);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  text-align: center;
+}
+
+.tutor-morph-box.target-box.active {
+  border-color: var(--gen-neutru);
+  background: #F4FAF2;
+}
+
+.morph-box-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #6E6259;
+  margin-bottom: 4px;
+}
+
+.morph-box-phrase {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--walnut);
+}
+
+.morph-suffix-pill {
+  background: var(--gold-bell);
+  color: #FFF;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-left: 2px;
+}
+
+.tutor-morph-slider {
+  width: 100%;
+  height: 12px;
+  margin: 8px 0 12px;
+  cursor: pointer;
+}
+
+.tutor-morph-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.calque-bubble-display,
+.profesor-miorita-blunder {
+  background: #FFF;
+  border: 2px solid var(--walnut-light);
+  border-radius: var(--radius-md);
+  padding: 14px;
+}
+
+.calque-zap-grid,
+.bridge-plank-choices,
+.profesor-words-row,
+.mini-baskets-grid {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.calque-zap-chip,
+.bridge-plank-btn,
+.profesor-word-pill,
+.mini-basket-btn {
+  min-height: 48px;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--walnut);
+  background: #FFF;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--walnut);
+  cursor: pointer;
+}
+
+.calque-zap-chip.is-zapped,
+.bridge-plank-btn.is-correct {
+  background: #F2FAF0;
+  border-color: var(--gen-neutru);
+  color: var(--gen-neutru);
+}
+
+.profesor-word-pill.is-caught-mistake {
+  background: #FFF3D1;
+  border-color: var(--gold-bell);
+}
+
+.bridge-stream-stage {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: #EAF4FB;
+  border: 2px solid var(--gen-masculin);
+  border-radius: var(--radius-md);
+  padding: 16px;
+}
+
+.bridge-gap-slot {
+  min-width: 90px;
+  min-height: 44px;
+  border: 2px dashed var(--walnut);
+  border-radius: 8px;
+  background: #FFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+
+.carpathian-trail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+  gap: 8px;
+}
+
+.carpathian-trail-node {
+  background: #FFF;
+  border: 2px solid var(--walnut-light);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 12px;
+}
+
+.carpathian-trail-node.cp-active {
+  border-color: var(--gold-bell);
+  background: #FFF8E6;
+}
+
+.carpathian-trail-node.cp-done {
+  border-color: var(--gen-neutru);
+  background: #F3FAF1;
+}
+
+.trail-campfire-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #FFF7E2;
+  border: 2px solid var(--gold-bell);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+}
+
+.campfire-icon-large {
+  font-size: 28px;
+}
+
+.parola-de-cina-card,
+.parola-summary-box,
+.tutor-widget-insight,
+.profesor-stamp-box {
+  background: var(--linen-card);
+  border: 2px solid var(--gold-bell);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+}

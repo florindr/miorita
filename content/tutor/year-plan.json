@@ -1,0 +1,230 @@
+{
+  "schemaVersion": 2,
+  "title": "Călătoria lui Tudor prin Carpați — Planul de 1 An cu Miorița (Gemini Argon)",
+  "sessionContract": {
+    "durationMinutes": 10,
+    "weeklyMinimumTarget": 2,
+    "penalizeMissedSessions": false,
+    "warmReEntryAfterDays": 4,
+    "phases": [
+      {
+        "id": "hook",
+        "nameRo": "Bun găsit la Stână!",
+        "minutes": "0-2",
+        "description": "Warm greeting, mood check, and binary choice between 2 high-interest themes (Minecraft, football, animals, Carpathians)."
+      },
+      {
+        "id": "story_visual",
+        "nameRo": "Scânteia de Vorbă",
+        "minutes": "2-5",
+        "description": "3-4 Socratic dialogue turns steering into today's focus taxonomy category + 1 inline JS interactive concept widget."
+      },
+      {
+        "id": "srs_novelty",
+        "nameRo": "Fulgerul de Aur",
+        "minutes": "5-8",
+        "description": "3-5 rapid spaced-repetition items re-skinned into the chosen theme + 1 novelty twist (e.g. Profesorul Tudor role-reversal)."
+      },
+      {
+        "id": "celebration_sync",
+        "nameRo": "Răsplata & Firul de Aur",
+        "minutes": "8-10",
+        "description": "Celebrate effort, weave new golden stitches onto Covorul lui Tudor, light Focul de la Stână, and give Parola de Cină for Dad."
+      }
+    ]
+  },
+  "seasons": [
+    {
+      "seasonId": 1,
+      "nameRo": "Toamna în Satul Mioriței",
+      "subtitleRo": "Fundația Vorbirii Curate",
+      "weeks": "1-13",
+      "primaryCategories": ["GEN", "CLQ", "CAS", "ART"],
+      "checkpoints": [
+        {
+          "checkpointId": 1,
+          "nameRo": "Popasul 1: Livada cu Genuri",
+          "weeks": "1-4",
+          "requiredSessions": 8,
+          "primaryCategory": "GEN",
+          "secondaryCategory": "ART",
+          "grammarPillar": "substantiv",
+          "recommendedWidgets": ["GenderBasketMini", "RoleReversalDetector"],
+          "unlockMotifId": "roata_soarelui",
+          "unlockBadgeId": "pastor",
+          "bossQuestPrompt": "Ajut-o pe Miorița să sorteze proviziile de toamnă în cele trei coșuri (un-doi, o-două, un-două) înainte să vină ploaia de munte!"
+        },
+        {
+          "checkpointId": 2,
+          "nameRo": "Popasul 2: Vânătoarea de Toamnă",
+          "weeks": "5-8",
+          "requiredSessions": 16,
+          "primaryCategory": "CLQ",
+          "secondaryCategory": "GEN",
+          "grammarPillar": "verb",
+          "recommendedWidgets": ["CalqueZapper", "RoleReversalDetector"],
+          "unlockMotifId": "pomul_vietii",
+          "unlockBadgeId": "vanator",
+          "bossQuestPrompt": "Un roboțel păstor din Londra a încurcat vorbele la stână («sunt 8 ani», «sunt rece», «face sens»). Hai să-l reparăm!"
+        },
+        {
+          "checkpointId": 3,
+          "nameRo": "Popasul 3: Podul Bunicii",
+          "weeks": "9-13",
+          "requiredSessions": 24,
+          "primaryCategory": "CAS",
+          "secondaryCategory": "ART",
+          "grammarPillar": "substantiv",
+          "recommendedWidgets": ["WordMorphSlider", "BridgeTileSnap"],
+          "unlockMotifId": "coarnele_berbecului",
+          "unlockBadgeId": "podar",
+          "bossQuestPrompt": "Construiește podul peste Pârâul Iute alegând terminațiile corecte («casa bunicii», «mingea băiatului») ca să ducem plăcintele calde!"
+        }
+      ]
+    },
+    {
+      "seasonId": 2,
+      "nameRo": "Iarna la Gura Sobii",
+      "subtitleRo": "Legăturile Propoziției",
+      "weeks": "14-26",
+      "primaryCategories": ["SUB", "CLI", "POS", "NUM"],
+      "checkpoints": [
+        {
+          "checkpointId": 4,
+          "nameRo": "Popasul 4: Poteca Zăpezii",
+          "weeks": "14-17",
+          "requiredSessions": 32,
+          "primaryCategory": "SUB",
+          "secondaryCategory": "CAS",
+          "grammarPillar": "verb",
+          "recommendedWidgets": ["BridgeTileSnap", "RoleReversalDetector"],
+          "unlockMotifId": "steaua_nordului",
+          "unlockBadgeId": "mester",
+          "bossQuestPrompt": "Zăpada a acoperit poteca! Așază pietrele fermecate cu «SĂ» («vreau să construiesc», «pot să sar») ca să ajungem la cabană!"
+        },
+        {
+          "checkpointId": 5,
+          "nameRo": "Popasul 5: Ecoul Carpaților",
+          "weeks": "18-21",
+          "requiredSessions": 40,
+          "primaryCategory": "CLI",
+          "secondaryCategory": "SUB",
+          "grammarPillar": "pronume",
+          "recommendedWidgets": ["BridgeTileSnap", "WordMorphSlider"],
+          "unlockMotifId": "calea_ratacita",
+          "unlockBadgeId": "clitic",
+          "bossQuestPrompt": "Strigă de pe Vârful Ecou folosind dublarea corectă («L-am văzut pe Tudor!», «Am văzut-o pe Miorița!») ca să răspundă muntele!"
+        },
+        {
+          "checkpointId": 6,
+          "nameRo": "Popasul 6: Târgul de Iarnă",
+          "weeks": "22-26",
+          "requiredSessions": 48,
+          "primaryCategory": "NUM",
+          "secondaryCategory": "POS",
+          "grammarPillar": "numeral",
+          "recommendedWidgets": ["BridgeTileSnap", "CalqueZapper"],
+          "unlockMotifId": "spicul_de_grau",
+          "unlockBadgeId": "negustor",
+          "bossQuestPrompt": "La Târgul de Iarnă numără darurile cu «DE» de la 20 în sus («douăzeci de clopoței») și potrivește gălețile «al, a, ai, ale»!"
+        }
+      ]
+    },
+    {
+      "seasonId": 3,
+      "nameRo": "Primăvara Meșterilor",
+      "subtitleRo": "Gramatica Vie & Diacritice",
+      "weeks": "27-39",
+      "primaryCategories": ["AGR", "ORD", "ART", "CAS"],
+      "checkpoints": [
+        {
+          "checkpointId": 7,
+          "nameRo": "Popasul 7: Atelierul Primăverii",
+          "weeks": "27-30",
+          "requiredSessions": 56,
+          "primaryCategory": "AGR",
+          "secondaryCategory": "ORD",
+          "grammarPillar": "adjectiv",
+          "recommendedWidgets": ["WordMorphSlider", "RoleReversalDetector"],
+          "unlockMotifId": "hora_din_sat",
+          "unlockBadgeId": "zugrav",
+          "bossQuestPrompt": "Zugravul Adjectiv vrea să coloreze tot satul de primăvară! Potrivește acordul și ordinea cuvintelor («flori albe», «munte înalt»)!"
+        },
+        {
+          "checkpointId": 8,
+          "nameRo": "Popasul 8: Cetatea Propoziției",
+          "weeks": "31-34",
+          "requiredSessions": 64,
+          "primaryCategory": "CAS",
+          "secondaryCategory": "CLI",
+          "grammarPillar": "propozitie",
+          "recommendedWidgets": ["BridgeTileSnap", "RoleReversalDetector"],
+          "unlockMotifId": "braul_carpatilor",
+          "unlockBadgeId": "strajer",
+          "bossQuestPrompt": "Treci de Paznicii Porții descoperind Subiectul (Cine?) și Predicatul (Ce face?) în poveștile Mioriței!"
+        },
+        {
+          "checkpointId": 9,
+          "nameRo": "Popasul 9: Cronicarul cu Diacritice",
+          "weeks": "35-39",
+          "requiredSessions": 72,
+          "primaryCategory": "ART",
+          "secondaryCategory": "AGR",
+          "grammarPillar": "detector",
+          "recommendedWidgets": ["WordMorphSlider", "CalqueZapper"],
+          "unlockMotifId": "floarea_de_colt",
+          "unlockBadgeId": "cronicar",
+          "bossQuestPrompt": "Descifrează pergamentul străvechi cu ș, ț, ă, â, î și diferența dintre «pe masă» și «pe masa mare»!"
+        }
+      ]
+    },
+    {
+      "seasonId": 4,
+      "nameRo": "Vara pe Crestele Carpaților",
+      "subtitleRo": "Expresivitate, Umor & Povestitor Mândru",
+      "weeks": "40-52",
+      "primaryCategories": ["CLQ", "CAS", "SUB", "CLI", "AGR"],
+      "checkpoints": [
+        {
+          "checkpointId": 10,
+          "nameRo": "Popasul 10: Izvorul Proverbelor",
+          "weeks": "40-43",
+          "requiredSessions": 80,
+          "primaryCategory": "CLQ",
+          "secondaryCategory": "SUB",
+          "grammarPillar": "verb",
+          "recommendedWidgets": ["CalqueZapper", "RoleReversalDetector"],
+          "unlockMotifId": "vulturul_de_munte",
+          "unlockBadgeId": "proverbe",
+          "bossQuestPrompt": "Înlocuiește expresiile traduse din engleză cu expresii românești neaoșe la nivelul Meșter Mare!"
+        },
+        {
+          "checkpointId": 11,
+          "nameRo": "Popasul 11: Sfatul Bătrânilor",
+          "weeks": "44-48",
+          "requiredSessions": 88,
+          "primaryCategory": "CAS",
+          "secondaryCategory": "CLI",
+          "grammarPillar": "detector",
+          "recommendedWidgets": ["RoleReversalDetector", "WordMorphSlider"],
+          "unlockMotifId": "coroana_mioritei",
+          "unlockBadgeId": "boier",
+          "bossQuestPrompt": "Fii Profesorul Mioriței și repară câte două capcane ascunse în aceeași poveste de aventură!"
+        },
+        {
+          "checkpointId": 12,
+          "nameRo": "Popasul 12: Marea Sărbătoare a Stânei",
+          "weeks": "49-52",
+          "requiredSessions": 96,
+          "primaryCategory": "CLQ",
+          "secondaryCategory": "CAS",
+          "grammarPillar": "propozitie",
+          "recommendedWidgets": ["CheckpointTrailWidget", "RoleReversalDetector"],
+          "unlockMotifId": "covorul_domnesc",
+          "unlockBadgeId": "mare_mester",
+          "bossQuestPrompt": "Marea finală de 1 an pe vârful Carpaților! Povestește, joacă și țese ultimul rând de aur pe Covorul Domnesc al lui Tudor!"
+        }
+      ]
+    }
+  ]
+}

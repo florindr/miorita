@@ -20,6 +20,16 @@ export interface MapStationPin {
 
 export const ROMANIA_MAP_PINS: MapStationPin[] = [
   {
+    id: 'tutore_agentic',
+    title: 'Călătoria cu Miorița (10 Min)',
+    subtitle: 'Sesiunea ta zilnică de poveste, voce și ateliere vizuale (Planul de 1 An)',
+    folkTag: 'Inima Carpaților',
+    icon: '🐑✨',
+    x: '47%',
+    y: '45%',
+    color: 'var(--gold-bell)',
+  },
+  {
     id: 'stana',
     title: 'Stâna Mioriței',
     subtitle: 'Covorul de lăvicer țesut cu punctele tale',
@@ -155,30 +165,30 @@ export class RomaniaMap {
     const activeChild = FamilyAuth.getActiveProfile();
 
     this.container.innerHTML = `
-      <div class="romania-map-wrapper" style="display: flex; flex-direction: column; gap: 16px; animation: floatIn 0.3s ease;">
+      <div class="romania-map-wrapper" style="display: flex; flex-direction: column; gap: 12px; max-width: 980px; margin: 0 auto; animation: floatIn 0.25s ease;">
         
-        <!-- Map Controls & Header Bar -->
-        <div class="map-topbar" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; background: var(--linen-card); border: 2px solid var(--walnut-light); border-radius: var(--radius-md); padding: 12px 18px;">
-          <div>
-            <h2 style="font-family: var(--font-serif); font-size: 22px; color: var(--walnut); margin: 0; display: flex; align-items: center; gap: 8px;">
+        <!-- Quiet, Minimal Map Header Bar -->
+        <div class="map-topbar" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; background: #FFFDF9; border: 1.5px solid var(--linen-dark); border-radius: 16px; padding: 10px 16px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <h2 style="font-family: var(--font-serif); font-size: 19px; color: var(--walnut); margin: 0; display: flex; align-items: center; gap: 8px;">
               <span>🗺️</span> Harta României Mioritice
             </h2>
-            <p style="font-size: 13px; color: #6C5B4F; margin: 3px 0 0 0;">
-              Apasă pe oricare loc din poveste pentru a te antrena cu Miorița!
-            </p>
+            <span style="font-size: 12px; color: #7C6A58;">
+              · Alege un joc din sat
+            </span>
           </div>
 
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="background: #FFF; border: 1.5px solid var(--walnut-light); border-radius: var(--radius-sm); padding: 2px; display: inline-flex;">
-              <button id="btnViewMap" class="map-view-toggle ${this.viewMode === 'map' ? 'active' : ''}" style="border: none; background: ${this.viewMode === 'map' ? 'var(--walnut)' : 'transparent'}; color: ${this.viewMode === 'map' ? '#FFF' : 'var(--walnut)'}; border-radius: 4px; padding: 6px 12px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="background: var(--linen-pure); border: 1px solid var(--linen-dark); border-radius: 999px; padding: 2px; display: inline-flex;">
+              <button id="btnViewMap" class="map-view-toggle ${this.viewMode === 'map' ? 'active' : ''}" style="border: none; background: ${this.viewMode === 'map' ? 'var(--walnut)' : 'transparent'}; color: ${this.viewMode === 'map' ? '#FFF' : 'var(--walnut)'}; border-radius: 999px; padding: 5px 12px; font-weight: 700; font-size: 12px; cursor: pointer;">
                 🗺️ Harta
               </button>
-              <button id="btnViewCards" class="map-view-toggle ${this.viewMode === 'cards' ? 'active' : ''}" style="border: none; background: ${this.viewMode === 'cards' ? 'var(--walnut)' : 'transparent'}; color: ${this.viewMode === 'cards' ? '#FFF' : 'var(--walnut)'}; border-radius: 4px; padding: 6px 12px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                📋 Carduri
+              <button id="btnViewCards" class="map-view-toggle ${this.viewMode === 'cards' ? 'active' : ''}" style="border: none; background: ${this.viewMode === 'cards' ? 'var(--walnut)' : 'transparent'}; color: ${this.viewMode === 'cards' ? '#FFF' : 'var(--walnut)'}; border-radius: 999px; padding: 5px 12px; font-weight: 700; font-size: 12px; cursor: pointer;">
+                📋 Listă
               </button>
             </div>
 
-            <button id="btnHeroQuest" style="background: linear-gradient(135deg, #FFB800 0%, #E69D00 100%); color: #FFF; border: none; border-radius: 999px; padding: 8px 18px; font-weight: 800; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(230, 157, 0, 0.35);">
+            <button id="btnHeroQuest" style="background: var(--linen-card); color: var(--walnut); border: 1.5px solid var(--gold-bell); border-radius: 999px; padding: 6px 14px; font-weight: 800; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;">
               <span>⚡</span> Antrenamentul Zilei (3 min)
             </button>
           </div>
@@ -356,6 +366,13 @@ export class RomaniaMap {
     btnHeroQuest?.addEventListener('click', () => {
       sound.playBrassBell();
       this.onSelectStation('quest');
+    });
+
+    // Primary 10-Min Agentic Tutor Hero button
+    const btnLaunchTutor = this.container.querySelector('#btnLaunchAgenticTutor');
+    btnLaunchTutor?.addEventListener('click', () => {
+      sound.playBrassBell();
+      this.onSelectStation('tutore_agentic');
     });
 
     // Compass badge on map

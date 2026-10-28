@@ -1,5 +1,5 @@
-// src/components/sidebarNav.ts — Left Vertical Atelier Sidebar & Responsive Navigation
-// Inspired by Clawey 11+ with Romanian folk craftsmanship (linocut, walnut, parchment).
+// src/components/sidebarNav.ts — Clean, Streamlined Left Vertical Navigation & Mobile Bar
+// Groups primary modes cleanly and tucks the 9 individual practice stations into a collapsible drawer.
 
 import { sound } from '../audio/synth';
 import { type ActiveStation } from './villageMap';
@@ -14,13 +14,14 @@ export interface SidebarItem {
 }
 
 export const SIDEBAR_ITEMS: SidebarItem[] = [
-  // Misiuni Principale
+  // Primary Calm Rooms (Top core views)
+  { id: 'tutore_agentic', label: 'Învățăm cu Miorița', icon: '🐑', color: 'var(--gold-bell)', group: 'main' },
   { id: 'map', label: 'Harta României', icon: '🗺️', group: 'main' },
-  { id: 'quest', label: 'Antrenamentul Zilei', icon: '⚡', badge: '3 min', color: 'var(--gold-bell)', group: 'main' },
-  { id: 'scoala', label: 'Casa Gramaticii', icon: '🏫', group: 'main' },
-  { id: 'stana', label: 'Stâna (Covorul)', icon: '🐑', group: 'main' },
+  { id: 'scoala', label: 'Cartea Culorilor', icon: '🎨', color: 'var(--walnut)', group: 'main' },
+  { id: 'stana', label: 'Covorul Meu', icon: '🧵', group: 'main' },
 
-  // Atelierele din Sat
+  // Collapsible Village Mini-Games (9 stations + Quick 3m Review)
+  { id: 'quest', label: 'Antrenament Rapid (3m)', icon: '⚡', color: 'var(--gold-bell)', group: 'ateliere' },
   { id: 'gen', label: 'Grădina cu Genuri', icon: '🧺', color: 'var(--gen-feminin)', group: 'ateliere' },
   { id: 'cas', label: 'Podul „A cui? Cui?”', icon: '🪵', group: 'ateliere' },
   { id: 'art', label: 'Moara cu Articole', icon: '🌾', color: 'var(--gold-bell)', group: 'ateliere' },
@@ -40,8 +41,9 @@ export class SidebarNav {
   private activeStation: ActiveStation;
   private onSelectStation: (station: ActiveStation) => void;
   private onOpenCaiet: () => void;
-  private isCollapsed: boolean = false;
-  private isMobileOpen: boolean = false;
+  private isCollapsed = false;
+  private isMobileOpen = false;
+  private isAteliereExpanded = false;
 
   constructor(
     container: HTMLElement,
@@ -56,13 +58,20 @@ export class SidebarNav {
 
     try {
       this.isCollapsed = localStorage.getItem('miorita_sidebar_collapsed') === 'true';
+      this.isAteliereExpanded = localStorage.getItem('miorita_ateliere_expanded') === 'true';
     } catch {
       this.isCollapsed = false;
+      this.isAteliereExpanded = false;
     }
   }
 
   setActiveStation(station: ActiveStation): void {
     this.activeStation = station;
+    // Automatically expand the Ateliere drawer if one of the 9 stations is active
+    const isAtelier = SIDEBAR_ITEMS.some((i) => i.group === 'ateliere' && i.id === station);
+    if (isAtelier) {
+      this.isAteliereExpanded = true;
+    }
     this.render();
   }
 
@@ -75,6 +84,8 @@ export class SidebarNav {
     const mainItems = SIDEBAR_ITEMS.filter((i) => i.group === 'main');
     const atelierItems = SIDEBAR_ITEMS.filter((i) => i.group === 'ateliere');
     const parentItems = SIDEBAR_ITEMS.filter((i) => i.group === 'parent');
+    const activeInAteliere = atelierItems.some((i) => i.id === this.activeStation);
+    const showAteliere = this.isAteliereExpanded || activeInAteliere;
 
     this.container.innerHTML = `
       <!-- Mobile Backdrop for Drawer -->
@@ -93,7 +104,7 @@ export class SidebarNav {
         <div class="sidebar-header">
           <div class="sidebar-brand-mini ${this.isCollapsed ? 'hidden' : ''}">
             <span style="font-size: 20px;">🐑</span>
-            <span style="font-family: var(--font-serif); font-size: 16px; font-weight: 700; color: var(--walnut);">Satul Mioriței</span>
+            <span style="font-family: var(--font-serif); font-size: 16px; font-weight: 700; color: var(--walnut);">Meniu Principal</span>
           </div>
           <button 
             id="btnToggleCollapse" 
@@ -108,31 +119,34 @@ export class SidebarNav {
         <!-- Navigation Scrollable Area -->
         <div class="sidebar-nav-scroll">
           
-          <!-- Group 1: Misiuni Principale -->
+          <!-- Group 1: Core Destinations -->
           <div class="sidebar-group">
-            <div class="sidebar-group-title ${this.isCollapsed ? 'hidden' : ''}">
-              Misiuni Principale
-            </div>
             <div class="sidebar-links-col">
               ${mainItems.map((item) => this.renderNavItem(item)).join('')}
             </div>
           </div>
 
-          <!-- Group 2: Atelierele din Sat -->
-          <div class="sidebar-group">
-            <div class="sidebar-group-title ${this.isCollapsed ? 'hidden' : ''}">
-              Atelierele din Sat
-            </div>
-            <div class="sidebar-links-col">
+          <!-- Group 2: Collapsible Atelierele din Sat (9) -->
+          <div class="sidebar-group" style="border-top: 1px dashed var(--linen-dark); padding-top: 8px;">
+            <button
+              type="button"
+              id="btnToggleAteliereGroup"
+              class="sidebar-accordion-toggle ${this.isCollapsed ? 'hidden' : ''}"
+              style="width: 100%; display: ${this.isCollapsed ? 'none' : 'flex'}; align-items: center; justify-content: space-between; background: transparent; border: none; padding: 6px 10px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: #7A6858; cursor: pointer; border-radius: 6px;"
+            >
+              <span>🎯 Exerciții pe Teme (9)</span>
+              <span>${showAteliere ? '▴' : '▾'}</span>
+            </button>
+            <div
+              class="sidebar-links-col ateliere-collapsible"
+              style="display: ${showAteliere || this.isCollapsed ? 'flex' : 'none'}; margin-top: 4px;"
+            >
               ${atelierItems.map((item) => this.renderNavItem(item)).join('')}
             </div>
           </div>
 
           <!-- Group 3: Zona Părinților -->
           <div class="sidebar-group" style="margin-top: auto; border-top: 1px solid var(--linen-dark); padding-top: 10px;">
-            <div class="sidebar-group-title ${this.isCollapsed ? 'hidden' : ''}">
-              Zona Părinților
-            </div>
             <div class="sidebar-links-col">
               ${parentItems.map((item) => this.renderNavItem(item)).join('')}
             </div>
@@ -143,25 +157,25 @@ export class SidebarNav {
 
       <!-- Mobile Bottom Navigation Bar (Thumb reachable) -->
       <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
+        <button class="mobile-nav-item ${this.activeStation === 'tutore_agentic' ? 'active' : ''}" data-station="tutore_agentic">
+          <span style="font-size: 20px;">🐑</span>
+          <span>Miorița AI</span>
+        </button>
         <button class="mobile-nav-item ${this.activeStation === 'map' ? 'active' : ''}" data-station="map">
           <span style="font-size: 20px;">🗺️</span>
           <span>Hartă</span>
         </button>
         <button class="mobile-nav-item ${this.activeStation === 'quest' ? 'active' : ''}" data-station="quest">
           <span style="font-size: 20px;">⚡</span>
-          <span>Zilnic</span>
-        </button>
-        <button class="mobile-nav-item ${this.activeStation === 'scoala' ? 'active' : ''}" data-station="scoala">
-          <span style="font-size: 20px;">🏫</span>
-          <span>Gramatică</span>
+          <span>3 Min</span>
         </button>
         <button class="mobile-nav-item ${this.activeStation === 'stana' ? 'active' : ''}" data-station="stana">
-          <span style="font-size: 20px;">🐑</span>
-          <span>Stână</span>
+          <span style="font-size: 20px;">🧵</span>
+          <span>Covor</span>
         </button>
         <button id="btnMobileMenuToggle" class="mobile-nav-item">
           <span style="font-size: 20px;">☰</span>
-          <span>Ateliere</span>
+          <span>Mai mult</span>
         </button>
       </nav>
     `;
@@ -173,7 +187,7 @@ export class SidebarNav {
     const isActive = this.activeStation === item.id;
     return `
       <button 
-        class="sidebar-nav-btn ${isActive ? 'active' : ''} ${item.id === 'quest' ? 'hero-quest-btn' : ''}"
+        class="sidebar-nav-btn ${isActive ? 'active' : ''} ${item.id === 'tutore_agentic' ? 'hero-quest-btn' : ''}"
         data-sidebar-id="${item.id}"
         title="${item.label}"
       >
@@ -189,27 +203,32 @@ export class SidebarNav {
   }
 
   private bindEvents(): void {
-    // Toggle collapse button
     const btnToggle = this.container.querySelector('#btnToggleCollapse');
     btnToggle?.addEventListener('click', () => {
       sound.playWoodenTap();
       this.isCollapsed = !this.isCollapsed;
       try {
         localStorage.setItem('miorita_sidebar_collapsed', String(this.isCollapsed));
-      } catch {
-        // Safe
-      }
+      } catch {}
       this.render();
     });
 
-    // Mobile backdrop click
+    const btnToggleAteliere = this.container.querySelector('#btnToggleAteliereGroup');
+    btnToggleAteliere?.addEventListener('click', () => {
+      sound.playWoodenTap();
+      this.isAteliereExpanded = !this.isAteliereExpanded;
+      try {
+        localStorage.setItem('miorita_ateliere_expanded', String(this.isAteliereExpanded));
+      } catch {}
+      this.render();
+    });
+
     const backdrop = this.container.querySelector('#sidebarBackdrop');
     backdrop?.addEventListener('click', () => {
       this.isMobileOpen = false;
       this.render();
     });
 
-    // Mobile menu toggle button in bottom bar
     const btnMobileToggle = this.container.querySelector('#btnMobileMenuToggle');
     btnMobileToggle?.addEventListener('click', () => {
       sound.playWoodenTap();
@@ -217,12 +236,11 @@ export class SidebarNav {
       this.render();
     });
 
-    // Sidebar navigation buttons
     const navButtons = this.container.querySelectorAll('[data-sidebar-id]');
     navButtons.forEach((btn) => {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-sidebar-id');
-        this.isMobileOpen = false; // Close drawer on mobile selection
+        this.isMobileOpen = false;
         sound.playWoodenTap();
 
         if (id === 'caiet') {
@@ -233,7 +251,6 @@ export class SidebarNav {
       });
     });
 
-    // Mobile bottom navigation items
     const mobileNavButtons = this.container.querySelectorAll('.mobile-nav-item[data-station]');
     mobileNavButtons.forEach((btn) => {
       btn.addEventListener('click', () => {

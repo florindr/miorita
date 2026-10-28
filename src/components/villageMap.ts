@@ -1,7 +1,7 @@
 // src/components/villageMap.ts — Satul Mioriței Navigation Hub
 // Renders the rustic village map locations for Tudor to pick his quest station.
 
-export type ActiveStation = 'map' | 'quest' | 'scoala' | 'gen' | 'cas' | 'clq' | 'art' | 'sub' | 'pos' | 'num' | 'cli' | 'agr' | 'stana';
+export type ActiveStation = 'map' | 'tutore_agentic' | 'quest' | 'scoala' | 'gen' | 'cas' | 'clq' | 'art' | 'sub' | 'pos' | 'num' | 'cli' | 'agr' | 'stana';
 
 export function renderVillageMap(activeStation: ActiveStation, onSelect: (station: ActiveStation) => void, container: HTMLElement) {
   container.innerHTML = `

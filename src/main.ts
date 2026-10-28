@@ -14,6 +14,8 @@ import { EcoulDinMunteStation } from './stations/ecoulDinMunte';
 import { AtelierulDeCuloriStation } from './stations/atelierulDeCulori';
 import { AntrenamentulZileiStation } from './stations/antrenamentulZilei';
 import { StanaMioriteiStation } from './stations/stanaMioritei';
+import { TutoreAgenticStation } from './stations/tutoreAgentic';
+import { TutorProgressManager } from './storage/tutorProgress';
 import { CaietulLuiTataModal } from './components/caietulLuiTata';
 import { CasaGramaticiiModal } from './components/casaGramaticii';
 import { RomaniaMap } from './components/romaniaMap';
@@ -49,7 +51,7 @@ function initApp() {
 function renderGameApp() {
   const activeChild = FamilyAuth.getActiveProfile();
   document.title = `Miorița — Pentru ${activeChild.name}`;
-  let currentStation: ActiveStation = 'map';
+  let currentStation: ActiveStation = 'tutore_agentic';
   let globalScore = parseInt(localStorage.getItem(`miorita_score_${activeChild.id}`) || localStorage.getItem('miorita_score') || '0', 10);
 
   app.innerHTML = `
@@ -69,40 +71,32 @@ function renderGameApp() {
       </div>
       
       <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-        <button id="btnProfileSwitch" style="background: var(--linen-card); border: 2px solid var(--gold-bell); border-radius: var(--radius-md); padding: 7px 14px; font-size: 13px; font-weight: 800; cursor: pointer; color: var(--walnut); display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(212, 160, 23, 0.15);" title="Schimbă profilul copilului sau intră în zona părinților">
-          <span id="activeChildAvatar">${AVATAR_MAP[activeChild.avatar]?.icon || '🐑'}</span>
-          <span id="activeChildName">${activeChild.name} (${activeChild.age} ani)</span>
-          <span style="font-size: 10px; color: var(--gold-bell);">▼</span>
-        </button>
-
         <div id="syncBadgeRoot"></div>
-
-        <button id="btnOpenGrammar" style="background: var(--linen-card); border: 2px solid var(--walnut); border-radius: var(--radius-md); padding: 8px 14px; font-size: 13px; font-weight: 700; cursor: pointer; color: var(--walnut); display: flex; align-items: center; gap: 6px;" title="Școala din Sat — Casa Gramaticii">
-          🏫 <span>Casa Gramaticii</span>
-        </button>
-
-        <button id="btnOpenCaiet" style="background: var(--linen-card); border: 1.5px solid var(--walnut); border-radius: var(--radius-md); padding: 8px 14px; font-size: 13px; font-weight: 700; cursor: pointer; color: var(--walnut); display: flex; align-items: center; gap: 6px;">
-          📓 <span>Caietul lui Tata</span>
-        </button>
 
         <div class="score-badge">
           <span class="bell-icon">🔔</span>
-          <span>Puncte: <span id="scoreDisplay">${globalScore}</span></span>
+          <span>Ochiuri: <span id="scoreDisplay">${globalScore}</span></span>
         </div>
+
+        <button id="btnProfileSwitch" style="background: var(--linen-card); border: 1.5px solid var(--walnut-light); border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 800; cursor: pointer; color: var(--walnut); display: flex; align-items: center; gap: 6px;" title="Schimbă profilul copilului sau intră în zona părinților">
+          <span id="activeChildAvatar">${AVATAR_MAP[activeChild.avatar]?.icon || '🐑'}</span>
+          <span id="activeChildName">${activeChild.name} (${activeChild.age} ani)</span>
+          <span style="font-size: 10px; color: var(--walnut);">▼</span>
+        </button>
       </div>
   </header>
 
   ${renderStitchBand(24)}
 
-  <!-- Clawey-style Layout: Left Vertical Sidebar + Main Stage Area -->
+  <!-- Minimalist Layout: Left Sidebar + Calm Main Stage -->
   <div class="miorita-app-layout">
     <div id="sidebarRoot"></div>
 
     <main class="miorita-stage-area">
-      <!-- Miorița Socratic Mascot HUD (ADHD-friendly with focus mode) -->
+      <!-- Miorița Socratic Mascot HUD (shown only inside individual mini-games) -->
       <div id="hudRoot"></div>
 
-      <!-- Active Station Mount Point (Station or RomaniaMap) -->
+      <!-- Active View Mount Point -->
       <div id="stationRoot"></div>
     </main>
   </div>
@@ -117,8 +111,9 @@ const hudRoot = document.querySelector<HTMLDivElement>('#hudRoot')!;
 const stationRoot = document.querySelector<HTMLDivElement>('#stationRoot')!;
 const sidebarRoot = document.querySelector<HTMLDivElement>('#sidebarRoot')!;
 const modalRoot = document.querySelector<HTMLDivElement>('#modalRoot')!;
-const btnOpenCaiet = document.querySelector<HTMLButtonElement>('#btnOpenCaiet')!;
-const btnOpenGrammar = document.querySelector<HTMLButtonElement>('#btnOpenGrammar')!;
+const btnOpenCaiet = document.querySelector<HTMLButtonElement>('#btnOpenCaiet');
+const btnOpenGrammar = document.querySelector<HTMLButtonElement>('#btnOpenGrammar');
+const btnHeaderAgenticTutor = document.querySelector<HTMLButtonElement>('#btnHeaderAgenticTutor');
 const btnHeaderMenu = document.querySelector<HTMLButtonElement>('#btnHeaderMenu')!;
 const mascotAvatar = document.querySelector<HTMLDivElement>('#mascotAvatar')!;
 const syncBadgeRoot = document.querySelector<HTMLDivElement>('#syncBadgeRoot')!;
@@ -192,16 +187,26 @@ function openCaietulLuiTata() {
     (famModal as any).activeTab = 'parent';
     famModal.render();
   } else {
-    const modal = new CaietulLuiTataModal(modalRoot, () => {});
+    const modal = new CaietulLuiTataModal(modalRoot, () => {}, {
+      onSelectNugget: () => {
+        loadStation('tutore_agentic');
+      },
+      onOpenFullSyllabus: () => {
+        currentStation = 'scoala';
+        sidebar.setActiveStation('scoala');
+        hudRoot.style.display = 'none';
+        openCasaGramaticii(true, 'plan_agentic');
+      },
+    });
     modal.render();
   }
 }
 
-btnOpenCaiet.addEventListener('click', () => {
+btnOpenCaiet?.addEventListener('click', () => {
   openCaietulLuiTata();
 });
 
-// Left Vertical Sidebar Navigation (Clawey style with Miorița craftsmanship)
+// Left Vertical Sidebar Navigation
 const sidebar = new SidebarNav(
   sidebarRoot,
   currentStation,
@@ -218,36 +223,85 @@ btnHeaderMenu?.addEventListener('click', () => {
   sidebar.toggleMobileDrawer();
 });
 
-function openCasaGramaticii() {
-  const grammarModal = new CasaGramaticiiModal(
-    modalRoot,
+function openCasaGramaticii(inline = true, topic: 'substantiv' | 'plan_agentic' = 'substantiv') {
+  const targetContainer = inline ? stationRoot : modalRoot;
+  const grammarHub = new CasaGramaticiiModal(
+    targetContainer,
     () => {},
     (targetStationKey) => {
       loadStation(targetStationKey as ActiveStation);
+    },
+    {
+      inlineMode: inline,
+      initialTopic: topic,
+      onStartAgenticLesson: (lessonNumber) => {
+        loadStation('tutore_agentic', lessonNumber);
+      },
     }
   );
-  grammarModal.render();
+  grammarHub.render();
 }
 
-btnOpenGrammar.addEventListener('click', () => {
+btnOpenGrammar?.addEventListener('click', () => {
   sound.playWoodenTap();
-  openCasaGramaticii();
+  loadStation('scoala');
 });
 
-function loadStation(station: ActiveStation) {
+btnHeaderAgenticTutor?.addEventListener('click', () => {
+  sound.playBrassBell();
+  loadStation('tutore_agentic');
+});
+
+function refreshHeaderCampfireAndScore() {
+  const fireEl = document.querySelector('#headerCampfireCount');
+  if (fireEl) {
+    fireEl.textContent = `${TutorProgressManager.getState().presence.sessionsThisWeek}/2`;
+  }
+  const stitches = parseInt(localStorage.getItem('miorita_stitches') || String(globalScore), 10);
+  if (stitches > globalScore) {
+    updateScore(stitches);
+  }
+}
+
+function loadStation(station: ActiveStation, lessonNumber?: number) {
   currentStation = station;
   sound.playWoodenTap();
   sidebar.setActiveStation(currentStation);
+  refreshHeaderCampfireAndScore();
   window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Hide the top MioritaHud banner on self-contained views (Învățăm, Cartea Culorilor, Hartă, Covor, Antrenament Rapid)
+  hudRoot.style.display =
+    station === 'tutore_agentic' ||
+    station === 'scoala' ||
+    station === 'map' ||
+    station === 'stana' ||
+    station === 'quest'
+      ? 'none'
+      : 'block';
 
   if (station === 'map') {
     renderMapOverview();
-  } else if (station === 'scoala') {
-    hud.say(
-      'Bun venit la <strong>Școala din Sat (Casa Gramaticii)</strong>! Aici descoperim cei 5 Meșteri ai Vorbirii și secretele propoziției.',
-      'Explore the 5 parts of speech and visual syntax coding to bridge UK SPaG with Romanian grammar!'
+  } else if (station === 'tutore_agentic') {
+    new TutoreAgenticStation(
+      stationRoot,
+      hud,
+      () => {
+        refreshHeaderCampfireAndScore();
+        loadStation('map');
+      },
+      () => {
+        refreshHeaderCampfireAndScore();
+      },
+      {
+        lessonNumber,
+        onOpenYearPlan: () => {
+          loadStation('scoala');
+        },
+      }
     );
-    openCasaGramaticii();
+  } else if (station === 'scoala') {
+    openCasaGramaticii(true, 'substantiv');
     return;
   } else if (station === 'quest') {
     hud.say(
@@ -380,8 +434,8 @@ function renderMapOverview() {
     loadStation(station);
   };
 
-  // Initial load on the storybook Romania map
-  loadStation('map');
+  // Initial load directly on the Minimalist Nugget Card (Învățăm cu Miorița)
+  loadStation('tutore_agentic');
 }
 
 // Start application (Welcome Splash or Game App)

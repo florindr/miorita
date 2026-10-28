@@ -7,6 +7,12 @@ import {
   CasaGramaticiiModal,
   type GrammarTopic,
 } from '../src/components/casaGramaticii';
+import {
+  YEAR_SYLLABUS_96_LESSONS,
+  getDailyLessonByNumber,
+  getLessonsForSeason,
+  getLessonsForCheckpoint,
+} from '../src/content/yearSyllabus';
 
 describe('Theoretical Grammar Hub (Casa Gramaticii / Școala din Sat)', () => {
   it('covers all 6 foundational grammar pillars plus syntax bridging', () => {
@@ -148,5 +154,35 @@ describe('CasaGramaticiiModal Component Mounting', () => {
       container.innerHTML.includes('Detectorul de Cuvinte'),
       'Rendered HTML must contain detector tab'
     );
+    assert.ok(
+      container.innerHTML.includes('Planul Agentic (1 An · 10 Min/Zi)'),
+      'Rendered HTML must contain the 1-Year Agentic Lesson Plan tab'
+    );
+  });
+
+  it('structures the 1-Year Curriculum into 96 daily 10-minute lesson slots across 4 seasons and 12 checkpoints', () => {
+    assert.strictEqual(
+      YEAR_SYLLABUS_96_LESSONS.length,
+      96,
+      'Must provide exactly 96 daily 10-minute lessons (2 per week × 48 weeks)'
+    );
+
+    for (let s = 1; s <= 4; s++) {
+      const seasonLessons = getLessonsForSeason(s as 1 | 2 | 3 | 4);
+      assert.strictEqual(seasonLessons.length, 24, `Season ${s} must have 24 lessons`);
+    }
+
+    for (let cp = 1; cp <= 12; cp++) {
+      const cpLessons = getLessonsForCheckpoint(cp);
+      assert.strictEqual(cpLessons.length, 8, `Checkpoint ${cp} must have 8 lessons`);
+    }
+
+    const sampleLesson = getDailyLessonByNumber(17);
+    assert.strictEqual(sampleLesson.lessonNumber, 17);
+    assert.strictEqual(sampleLesson.checkpointId, 3);
+    assert.ok(sampleLesson.tenMinutePlan.min0to2Ro.length > 10);
+    assert.ok(sampleLesson.tenMinutePlan.min2to5Ro.length > 10);
+    assert.ok(sampleLesson.tenMinutePlan.min5to8Ro.length > 10);
+    assert.ok(sampleLesson.tenMinutePlan.min8to10Ro.length > 10);
   });
 });

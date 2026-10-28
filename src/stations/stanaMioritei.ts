@@ -3,6 +3,7 @@
 
 import { STARTER_MOTIFS, renderMotifSVG } from '../motifs/motifRenderer';
 import { sound } from '../audio/synth';
+import { GrammarProficiencyStore, CUMULATIVE_NUGGET_LADDER } from '../storage/grammarProficiencyStore';
 
 export class StanaMioriteiStation {
   private totalStitches: number;
@@ -14,28 +15,37 @@ export class StanaMioriteiStation {
   render(container: HTMLElement) {
     const rows = Math.min(12, Math.floor(this.totalStitches / 15) + 3);
     const unlockedCount = Math.min(STARTER_MOTIFS.length, Math.floor(this.totalStitches / 20) + 1);
+    const spiral = GrammarProficiencyStore.getSpiralState();
 
     container.innerHTML = `
-      <section class="station-card">
-        <div class="station-banner">
-          <img src="/art/stations/stana_mioritei.jpg" alt="Stâna Mioriței" onerror="this.parentElement.style.display='none';"/>
-        </div>
-        <div class="station-header">
-          <h2>Stâna Mioriței & Covorul lui Tudor 🐑🧵</h2>
-          <p>Fiecare răspuns corect adaugă fire și motive străvechi în lăvicerul tău!</p>
-        </div>
-
-        <div style="text-align: center; margin: 10px 0;">
-          <div style="font-size: 16px; font-weight: 600; color: var(--walnut); margin-bottom: 12px;">
-            Total cusături țesute: <strong>${this.totalStitches} ochiuri</strong>
+      <section style="max-width: 720px; margin: 12px auto; background: #FFFDF9; border: 2px solid var(--linen-dark); border-radius: 20px; padding: 26px 28px; box-shadow: 0 8px 28px rgba(62, 42, 30, 0.06); display: flex; flex-direction: column; gap: 22px;">
+        
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; border-bottom: 1px solid var(--linen-dark); padding-bottom: 12px;">
+          <div>
+            <h2 style="font-family: var(--font-serif); font-size: 22px; color: var(--walnut); margin: 0;">
+              🧵 Covorul lui Tudor
+            </h2>
+            <p style="font-size: 13px; color: #7C6A58; margin: 2px 0 0 0;">
+              Fiecare pepită învățată adaugă fire și motive tradiționale în covorul tău!
+            </p>
           </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="background: var(--linen-card); border: 1px solid var(--linen-dark); border-radius: 999px; padding: 5px 12px; font-size: 12px; font-weight: 800; color: var(--walnut);">
+              🌟 Pepite: ${spiral.masteredNuggets.length} / ${CUMULATIVE_NUGGET_LADDER.length}
+            </span>
+            <span style="background: #FFFDF0; border: 1.5px solid var(--gold-bell); border-radius: 999px; padding: 5px 12px; font-size: 12px; font-weight: 800; color: #8A5A00;">
+              🔔 ${this.totalStitches} ochiuri
+            </span>
+          </div>
+        </div>
 
+        <div style="text-align: center;">
           <!-- The SVG Woven Rug (Scoarță Românească) -->
-          <div style="background: #FDFBF7; border: 4px solid var(--walnut); border-radius: 8px; padding: 20px; box-shadow: var(--card-shadow); max-width: 600px; margin: 0 auto; position: relative;">
+          <div style="background: #FDFBF7; border: 3px solid var(--walnut); border-radius: 12px; padding: 18px; max-width: 560px; margin: 0 auto; position: relative;">
             
             <!-- Fringe on top -->
             <div style="display: flex; justify-content: space-around; margin-bottom: 8px;">
-              ${Array.from({ length: 24 }).map(() => `<span style="display:inline-block; width:2px; height:14px; background:var(--walnut-light);"></span>`).join('')}
+              ${Array.from({ length: 24 }).map(() => `<span style="display:inline-block; width:2px; height:12px; background:var(--walnut-light);"></span>`).join('')}
             </div>
 
             <svg viewBox="0 0 300 ${rows * 20}" width="100%" height="${rows * 20}" style="display: block; border-radius: 4px;">
@@ -66,30 +76,30 @@ export class StanaMioriteiStation {
 
             <!-- Fringe on bottom -->
             <div style="display: flex; justify-content: space-around; margin-top: 8px;">
-              ${Array.from({ length: 24 }).map(() => `<span style="display:inline-block; width:2px; height:14px; background:var(--walnut-light);"></span>`).join('')}
+              ${Array.from({ length: 24 }).map(() => `<span style="display:inline-block; width:2px; height:12px; background:var(--walnut-light);"></span>`).join('')}
             </div>
           </div>
         </div>
 
         <!-- Unlocked Motifs Gallery -->
-        <div style="background: var(--linen-card); border-radius: var(--radius-md); padding: 20px; margin-top: 16px;">
-          <h3 style="font-family: var(--font-serif); font-size: 18px; color: var(--walnut); margin-bottom: 12px; text-align: center;">
+        <div style="background: var(--linen-card); border-radius: 14px; padding: 18px;">
+          <h3 style="font-family: var(--font-serif); font-size: 16px; color: var(--walnut); margin: 0 0 12px 0;">
             🌟 Motive Tradiționale Deblocate (${unlockedCount} / ${STARTER_MOTIFS.length})
           </h3>
 
-          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 12px;">
             ${STARTER_MOTIFS.map((motif, idx) => {
               const isUnlocked = idx < unlockedCount;
               return `
-                <div class="motif-card" data-motif="${motif.id}" style="background: ${isUnlocked ? '#FFF' : 'rgba(255,255,255,0.4)'}; border: 2px solid ${isUnlocked ? 'var(--walnut)' : 'var(--walnut-light)'}; border-radius: 8px; padding: 12px; text-align: center; cursor: ${isUnlocked ? 'pointer' : 'default'}; opacity: ${isUnlocked ? 1 : 0.6}; transition: transform 0.2s;">
-                  <div style="min-height: 90px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
-                    ${isUnlocked ? renderMotifSVG(motif, 7) : '<span style="font-size:32px;">🔒</span>'}
+                <div class="motif-card" data-motif="${motif.id}" style="background: ${isUnlocked ? '#FFF' : 'rgba(255,255,255,0.4)'}; border: 1.5px solid ${isUnlocked ? 'var(--walnut)' : 'var(--linen-dark)'}; border-radius: 10px; padding: 10px; text-align: center; cursor: ${isUnlocked ? 'pointer' : 'default'}; opacity: ${isUnlocked ? 1 : 0.6};">
+                  <div style="min-height: 76px; display: flex; align-items: center; justify-content: center; margin-bottom: 6px;">
+                    ${isUnlocked ? renderMotifSVG(motif, 6) : '<span style="font-size:26px;">🔒</span>'}
                   </div>
-                  <div style="font-family: var(--font-serif); font-size: 14px; font-weight: bold; color: var(--walnut); margin-bottom: 4px;">
+                  <div style="font-family: var(--font-serif); font-size: 13px; font-weight: bold; color: var(--walnut); margin-bottom: 2px;">
                     ${motif.nameRo}
                   </div>
                   <div style="font-size: 11px; color: #6E6259; line-height: 1.3;">
-                    ${isUnlocked ? motif.description : `Se deblochează la ${(idx + 1) * 20} ochiuri`}
+                    ${isUnlocked ? motif.description : `La ${(idx + 1) * 20} ochiuri`}
                   </div>
                 </div>
               `;
@@ -98,20 +108,17 @@ export class StanaMioriteiStation {
         </div>
 
         <!-- Lada de Zestre (Folk Badges & Collectibles FR-REW-003) -->
-        <div style="background: var(--linen-card); border-radius: var(--radius-md); padding: 20px; margin-top: 16px;">
-          <h3 style="font-family: var(--font-serif); font-size: 18px; color: var(--walnut); margin-bottom: 4px; text-align: center;">
-            🎁 Lada de Zestre a lui Tudor
+        <div style="background: var(--linen-card); border-radius: 14px; padding: 18px;">
+          <h3 style="font-family: var(--font-serif); font-size: 16px; color: var(--walnut); margin: 0 0 10px 0;">
+            🎁 Lada de Zestre
           </h3>
-          <p style="text-align: center; font-size: 13px; color: #6E6259; margin-bottom: 14px;">
-            Insigne populare primite de la Miorița pe măsură ce stăpânești vorba curată:
-          </p>
 
-          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 10px;">
             ${FOLK_BADGES.map((b) => {
               const isEarned = this.totalStitches >= b.requiredStitches;
               return `
-                <div class="badge-card" data-badge="${b.title}" style="background: ${isEarned ? '#FFF' : 'rgba(255,255,255,0.4)'}; border: 2px solid ${isEarned ? 'var(--gold-bell)' : 'var(--walnut-light)'}; border-radius: 8px; padding: 12px 8px; text-align: center; cursor: ${isEarned ? 'pointer' : 'default'}; opacity: ${isEarned ? 1 : 0.6}; transition: transform 0.2s;">
-                  <div style="font-size: 32px; margin-bottom: 4px;">
+                <div class="badge-card" data-badge="${b.title}" style="background: ${isEarned ? '#FFF' : 'rgba(255,255,255,0.4)'}; border: 1.5px solid ${isEarned ? 'var(--gold-bell)' : 'var(--linen-dark)'}; border-radius: 10px; padding: 10px 8px; text-align: center; cursor: ${isEarned ? 'pointer' : 'default'}; opacity: ${isEarned ? 1 : 0.6};">
+                  <div style="font-size: 28px; margin-bottom: 4px;">
                     ${isEarned ? b.icon : '🔒'}
                   </div>
                   <div style="font-family: var(--font-serif); font-size: 13px; font-weight: bold; color: var(--walnut); margin-bottom: 2px;">
@@ -134,20 +141,13 @@ export class StanaMioriteiStation {
   private bindEvents(container: HTMLElement) {
     container.querySelectorAll('.motif-card').forEach((card) => {
       card.addEventListener('click', () => {
-        const id = card.getAttribute('data-motif');
-        const motif = STARTER_MOTIFS.find((m) => m.id === id);
-        if (motif) {
-          sound.playBrassBell();
-          sound.speakRomanian(`${motif.nameRo}. ${motif.description}`);
-        }
+        sound.playBrassBell();
       });
     });
 
     container.querySelectorAll('.badge-card').forEach((card) => {
       card.addEventListener('click', () => {
-        const title = card.getAttribute('data-badge');
         sound.playBrassBell();
-        sound.speakRomanian(`Insigna ${title}! Ai adăugat-o în lada ta de zestre.`);
       });
     });
   }

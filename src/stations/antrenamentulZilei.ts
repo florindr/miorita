@@ -83,76 +83,56 @@ export class AntrenamentulZileiStation {
       : null;
 
     container.innerHTML = `
-      <section class="station-card" style="border-color: var(--gold-bell); box-shadow: 0 8px 24px rgba(212, 160, 23, 0.15);">
-        <div class="station-banner" style="border-color: var(--gold-bell);">
-          <img src="/art/village.jpg" alt="Satul Mioriței" onerror="this.parentElement.style.display='none';"/>
+      <section style="max-width: 660px; margin: 12px auto; background: #FFFDF9; border: 2px solid var(--linen-dark); border-radius: 20px; padding: 26px 28px; box-shadow: 0 8px 28px rgba(62, 42, 30, 0.06); display: flex; flex-direction: column; gap: 20px;">
+        
+        <!-- Quiet Minimal Top Bar -->
+        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--linen-dark); padding-bottom: 12px;">
+          <span style="font-size: 12px; font-weight: 800; color: #7C6A58; text-transform: uppercase; letter-spacing: 0.04em;">
+            ⚡ ${currentSetMeta ? currentSetMeta.title : 'Antrenament Rapid'} · ${this.currentIndex + 1} / ${this.items.length}
+          </span>
+          <span style="font-size: 12px; font-weight: 700; color: var(--walnut);">
+            ${item.badge}
+          </span>
         </div>
 
-        <!-- 10 Question Sets Selector Strip (Like Clawey Papers 1-10) -->
-        <div style="background: var(--linen-card); padding: 12px 14px; border-radius: var(--radius-md); border: 1.5px solid var(--linen-dark);">
-          <div style="font-size: 13px; font-weight: 700; color: var(--walnut); margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
-            <span>📜 Alege Sesiunea (10 Seturi de Antrenament ca în Clawey):</span>
-            <span style="font-size: 11px; font-weight: 800; background: var(--gold-bell); color: #FFF; padding: 2px 8px; border-radius: 999px;">
-              ${this.currentIndex + 1} / ${this.items.length} întrebări
-            </span>
-          </div>
-          <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none;" id="setPicker">
-            <button class="set-pill-btn" data-set="daily" style="background: ${this.selectedSet === 'daily' ? 'var(--gold-bell)' : '#FFF'}; color: ${this.selectedSet === 'daily' ? '#FFF' : 'var(--walnut)'}; border: 1.5px solid var(--gold-bell); border-radius: 999px; padding: 6px 14px; font-weight: bold; font-size: 13px; white-space: nowrap; cursor: pointer; transition: transform 0.1s;">
-              ⚡ Zilnic (3 min)
-            </button>
-            ${QUEST_SETS.map((s) => `
-              <button class="set-pill-btn" data-set="${s.id}" style="background: ${this.selectedSet === s.id ? 'var(--walnut)' : '#FFF'}; color: ${this.selectedSet === s.id ? '#FFF' : 'var(--walnut)'}; border: 1.5px solid var(--walnut-light); border-radius: 999px; padding: 6px 14px; font-weight: bold; font-size: 13px; white-space: nowrap; cursor: pointer; transition: transform 0.1s;" title="${s.title}: ${s.subtitle}">
-                ${s.icon} Setul ${s.id}
-              </button>
-            `).join('')}
-          </div>
-        </div>
-
-        <div class="station-header">
-          <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(212, 160, 23, 0.15); border: 1.5px solid var(--gold-bell); padding: 4px 14px; border-radius: 999px; font-weight: 700; font-size: 13px; color: #8A6500; margin-bottom: 8px;">
-            <span>${currentSetMeta ? currentSetMeta.title : '⚡ Antrenament Recomandat (SRS)'}</span>
-            <span>•</span>
-            <span>Întrebarea ${this.currentIndex + 1} din ${this.items.length}</span>
-          </div>
-          <h2>${item.badge}: ${item.title}</h2>
-          <p>${item.situation}</p>
+        <div>
+          <h2 style="font-family: var(--font-serif); font-size: 21px; color: var(--walnut); margin: 0 0 4px 0;">
+            ${item.title}
+          </h2>
+          <p style="font-size: 14px; color: #5C4E43; margin: 0;">${item.situation}</p>
         </div>
 
         <!-- The Trap Box -->
-        <div style="background: var(--linen-card); border: 2px solid var(--walnut-light); border-radius: var(--radius-md); padding: 20px; text-align: center;">
-          <div style="font-size: 14px; color: #8C5B3F; margin-bottom: 6px;">
+        <div style="background: var(--linen-card); border: 1.5px solid var(--linen-dark); border-radius: 14px; padding: 16px; text-align: center;">
+          <div style="font-size: 12px; font-weight: 700; color: #8C5B3F; margin-bottom: 4px;">
             🇬🇧 Capcana gândită în engleză:
           </div>
-          <div style="font-size: 21px; font-weight: bold; color: var(--gen-feminin); background: rgba(178, 58, 46, 0.08); display: inline-block; padding: 6px 18px; border-radius: 8px; border: 1px dashed var(--gen-feminin);">
+          <div style="font-size: 19px; font-weight: 800; color: var(--gen-feminin);">
             „${item.englishTrap}” ❌
           </div>
         </div>
 
-        <!-- 3 Interactive Choice Buttons -->
-        <div style="display: flex; flex-direction: column; gap: 12px;" id="questChoices">
-          ${item.options.map((opt) => `
-            <button class="quest-choice-btn" data-choice="${opt}" style="background: #FFF; border: 2.5px solid var(--walnut); border-radius: var(--radius-md); padding: 18px 24px; font-family: var(--font-serif); font-size: 22px; font-weight: bold; color: var(--ink-charcoal); cursor: pointer; text-align: left; display: flex; align-items: center; justify-content: space-between; min-height: 52px; box-shadow: var(--soft-shadow); transition: transform 0.15s, border-color 0.15s;">
+        <!-- Choice Buttons (with Golden Audio Halo if studio audio exists) -->
+        <div style="display: flex; flex-direction: column; gap: 10px;" id="questChoices">
+          ${item.options.map((opt) => {
+            const hasAudio = sound.hasRecordedAudio(opt);
+            const haloShadow = hasAudio
+              ? '0 0 0 3px rgba(212, 160, 23, 0.32), 0 0 14px rgba(212, 160, 23, 0.42)'
+              : 'none';
+            return `
+            <button class="quest-choice-btn" data-choice="${opt}" style="background: #FFF; border: 2px solid var(--walnut-light); box-shadow: ${haloShadow}; border-radius: 14px; padding: 14px 20px; font-family: var(--font-serif); font-size: 20px; font-weight: 800; color: var(--ink-charcoal); cursor: pointer; text-align: left; display: flex; align-items: center; justify-content: space-between;">
               <span>${opt}</span>
-              <span style="font-size: 18px; opacity: 0.6;">👉</span>
+              <span style="font-size: 15px;">${hasAudio ? '🔊' : '➔'}</span>
             </button>
-          `).join('')}
+          `;
+          }).join('')}
         </div>
 
-        <!-- Contrastive Bridge Box -->
-        <div class="bridge-box">
-          <span class="bridge-flag">🇬🇧</span>
-          <div>
-            <strong>Gândirea englezească vs românească: </strong>
-            <span>${item.bridge}</span>
-          </div>
-        </div>
+        <div id="questInlineFeedback" style="display: none; border-radius: 10px; padding: 10px 14px; font-size: 14px; font-weight: 700;"></div>
 
-        <!-- Progress Footer -->
-        <div class="progress-bar">
-          <span>Progres ${currentSetMeta ? 'Setul ' + currentSetMeta.id : 'Zilnic'}: ${this.currentIndex + 1} / ${this.items.length}</span>
-          <div class="dots">
-            ${this.items.map((_, i) => `<span class="dot ${i < this.currentIndex ? 'done' : ''}"></span>`).join('')}
-          </div>
+        <!-- 1-Line Contrastive Note -->
+        <div style="font-size: 12px; font-weight: 700; color: #5C4E43; background: var(--linen-card); padding: 8px 14px; border-radius: 10px;">
+          🇬🇧 ${item.bridge}
         </div>
       </section>
     `;
@@ -161,52 +141,59 @@ export class AntrenamentulZileiStation {
   }
 
   private bindEvents(container: HTMLElement) {
-    // 1. Set picker events
-    container.querySelectorAll<HTMLButtonElement>('.set-pill-btn').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        sound.playWoodenTap();
-        const setVal = btn.getAttribute('data-set');
-        const newSet = setVal === 'daily' ? 'daily' : parseInt(setVal!, 10);
-        this.loadSet(newSet);
-        this.render(container);
-      });
-    });
-
-    // 2. Choice buttons
     const item = this.items[this.currentIndex];
     const buttons = container.querySelectorAll<HTMLButtonElement>('.quest-choice-btn');
+    const feedbackEl = container.querySelector<HTMLDivElement>('#questInlineFeedback');
 
     buttons.forEach((btn) => {
       btn.addEventListener('click', () => {
-        const chosen = btn.getAttribute('data-choice');
+        const chosen = btn.getAttribute('data-choice') || '';
 
         if (chosen === item.authenticRom) {
           sound.playBrassBell();
-          sound.speakRomanian(item.authenticRom);
-          btn.style.borderColor = 'var(--gen-neutru)';
-          btn.style.background = '#E8F5E9';
+          if (sound.hasRecordedAudio(item.authenticRom)) {
+            sound.speakRomanian(item.authenticRom);
+          }
+          btn.style.borderColor = '#237A4B';
+          btn.style.background = '#E6F6EC';
+
+          if (feedbackEl) {
+            feedbackEl.style.display = 'block';
+            feedbackEl.style.background = '#E6F6EC';
+            feedbackEl.style.color = '#1E6F3D';
+            feedbackEl.textContent = `✓ Corect! Spunem „${item.authenticRom}”.`;
+          }
 
           recordSrsAttempt(item.id, item.category, true);
           this.sessionScore += 20;
           this.correctCount++;
 
           this.onStateChange({
-            prompt: `Minunat, Tudor! 🌟 Zicem: «<strong>${item.authenticRom}</strong>». Ai adăugat un fir de aur pe covor!`,
+            prompt: `Corect! Spunem «<strong>${item.authenticRom}</strong>».`,
             score: this.sessionScore
           });
 
           setTimeout(() => {
             this.currentIndex++;
             this.render(container);
-          }, 1100);
+          }, 950);
         } else {
           sound.playGentleNudge();
-          btn.style.borderColor = 'var(--gen-feminin)';
-          btn.style.background = '#FFEBEE';
+          btn.style.borderColor = '#C0292B';
+          btn.style.background = '#FDE8E8';
+          btn.disabled = true;
+          btn.style.opacity = '0.65';
           recordSrsAttempt(item.id, item.category, false);
 
+          if (feedbackEl) {
+            feedbackEl.style.display = 'block';
+            feedbackEl.style.background = '#FFF6E8';
+            feedbackEl.style.color = '#7A3E00';
+            feedbackEl.textContent = `🤔 Nu este „${chosen}”. ${item.hint}`;
+          }
+
           this.onStateChange({
-            prompt: `Aproape, Tudor! 🐑 ${item.hint}`,
+            prompt: `Mai încearcă o dată: ${item.hint}`,
             score: this.sessionScore
           });
         }

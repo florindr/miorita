@@ -8,6 +8,7 @@ import type { ActiveStation } from '../src/components/villageMap';
 describe('Storybook Romania Map (Harta României Mioritice)', () => {
   it('defines calibrated map hotspot pins covering all village ateliers and locations', () => {
     const requiredStations: ActiveStation[] = [
+      'tutore_agentic',
       'stana',
       'scoala',
       'cas',
@@ -28,7 +29,7 @@ describe('Storybook Romania Map (Harta României Mioritice)', () => {
         `Missing map pin for station: ${reqId}`
       );
     });
-    assert.strictEqual(ROMANIA_MAP_PINS.length, 11);
+    assert.strictEqual(ROMANIA_MAP_PINS.length, 12);
   });
 
   it('validates each pin has valid percentage coordinates and folk metadata', () => {

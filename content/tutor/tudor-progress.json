@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 2,
+  "learnerName": "Tudor",
+  "learnerAge": 8,
+  "yearGroup": "Year 4",
+  "tutorModel": "gemini-argon",
+  "horizonStartDate": "2026-10-28",
+  "horizonTargetEndDate": "2027-10-28",
+  "currentSeason": 1,
+  "currentCheckpointId": 1,
+  "completedCheckpoints": [],
+  "totalSessionsCompleted": 0,
+  "totalMinutesPracticed": 0,
+  "totalGoldenStitches": 0,
+  "unlockedMotifs": ["roata_soarelui"],
+  "unlockedBadges": [],
+  "presence": {
+    "currentWeekIso": "2026-W44",
+    "sessionsThisWeek": 0,
+    "weeklyTarget": 2,
+    "campfireState": "unlit",
+    "totalWeeksMetTarget": 0,
+    "goldenWoolBonus": 0,
+    "lastSessionDate": null
+  },
+  "noveltyState": {
+    "recentThemes": [],
+    "recentWidgets": []
+  },
+  "categories": {
+    "GEN": {
+      "category": "GEN",
+      "tier": 1,
+      "attempts": 0,
+      "correct": 0,
+      "srsBoxes": { "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0 },
+      "lastPracticedDate": null
+    },
+    "CAS": {
+      "category": "CAS",
+      "tier": 1,
+      "attempts": 0,
+      "correct": 0,
+      "srsBoxes": { "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0 },
+      "lastPracticedDate": null
+    },
+    "CLQ": {
+      "category": "CLQ",
+      "tier": 1,
+      "attempts": 0,
+      "correct": 0,
+      "srsBoxes": { "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0 },
+      "lastPracticedDate": null
+    },
+    "ART": {
+      "category": "ART",
+      "tier": 1,
+      "attempts": 0,
+      "correct": 0,
+      "srsBoxes": { "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0 },
+      "lastPracticedDate": null
+    },
+    "SUB": {
+      "category": "SUB",
+      "tier": 1,
+      "attempts": 0,
+      "correct": 0,
+      "srsBoxes": { "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0 },
+      "lastPracticedDate": null
+    },
+    "POS": {
+      "category": "POS",
+      "tier": 1,
+      "attempts": 0,
+      "correct": 0,
+      "srsBoxes": { "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0 },
+      "lastPracticedDate": null
+    },
+    "NUM": {
+      "category": "NUM",
+      "tier": 1,
+      "attempts": 0,
+      "correct": 0,
+      "srsBoxes": { "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0 },
+      "lastPracticedDate": null
+    },
+    "CLI": {
+      "category": "CLI",
+      "tier": 1,
+      "attempts": 0,
+      "correct": 0,
+      "srsBoxes": { "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0 },
+      "lastPracticedDate": null
+    },
+    "AGR": {
+      "category": "AGR",
+      "tier": 1,
+      "attempts": 0,
+      "correct": 0,
+      "srsBoxes": { "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0 },
+      "lastPracticedDate": null
+    },
+    "ORD": {
+      "category": "ORD",
+      "tier": 1,
+      "attempts": 0,
+      "correct": 0,
+      "srsBoxes": { "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0 },
+      "lastPracticedDate": null
+    }
+  },
+  "recentSessions": []
+}

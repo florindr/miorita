@@ -1,203 +1,128 @@
 # Miorița: Product Backlog
 
-> **Version**: 0.1.0 · **Date**: 2026-10-25 · **Status**: DRAFT
+> **Version**: 0.2.0 · **Date**: 2026-10-28 · **Status**: ACTIVE (Phases 0–8 Completed ✅ · Phases 9–12 Agentic Tutor Roadmap)
 > **Estimation**: Fibonacci (1, 2, 3, 5, 8, 13)
-> **Traceability**: [requirements.md](requirements.md) · [design.md](design.md) · [art-direction.md](art-direction.md)
+> **Traceability**: [requirements.md](requirements.md) · [design.md](design.md) · [art-direction.md](art-direction.md) · [progress-tracker.md](progress-tracker.md)
 
 ## Definition of Done
 1. ✅ `tsc --noEmit` strict, ESLint clean, `vitest run` green
-2. ✅ `npm run content:lint` green (audio present, comma-below ș/ț, hints ≤2 sentences)
-3. ✅ Touch targets ≥48px; works at 1920×1200 on Tab A9+
-4. ✅ Reduced-motion verified for any new animation
-5. ✅ Romanian text approved by Florin
+2. ✅ `npm run content:lint` green (comma-below ș/ț, hints ≤2 sentences, valid schemas)
+3. ✅ Touch targets ≥48px; works at 1920×1200 on Tab A9+ and in Antigravity `<agent-embed>` (<500px height)
+4. ✅ ADHD-safe UX verified: no countdown timers, no red error crosses, non-punitive presence, novelty rotation
+5. ✅ Progress automatically persisted to `content/tutor/tudor-progress.json` and IndexedDB/D1
 
 ## Roadmap at a glance
 
 ```mermaid
 flowchart LR
-  P0["0 · Foundation"] --> P1["1 · Vertex + Content Pipeline"]
-  P0 --> P2["2 · Design System"]
-  P2 --> P3["3 · AI Imagery"]
-  P3 --> P4["4 · Animations"]
-  P1 --> P5["5 · Core Stations"]
-  P2 --> P5
-  P5 --> P6["6 · Daily Review + Rug"]
-  P6 --> P7["7 · Caiet + Gem Import"]
-  P7 --> P8["8 · More Stations"]
-  P8 -.-> P9["9 · v2 Voice Dialog"]
+  subgraph V1["v0.1 Foundation (Completed ✅)"]
+    P0["0 · Foundation ✅"] --> P1["1 · Vertex & Content ✅"]
+    P0 --> P2["2 · Design System ✅"]
+    P2 --> P3["3–4 · Art & Motifs ✅"]
+    P1 & P2 --> P5["5 · Core Stations ✅"]
+    P5 --> P6["6 · SRS, Quest Sets & Rug ✅"]
+    P6 --> P7["7 · Caiet & Family Auth ✅"]
+    P7 --> P8["8 · All 9 Stations + Casa Gramaticii ✅"]
+  end
+
+  subgraph V2["v0.2 Gemini Argon Agentic Tutor (1-Year Horizon)"]
+    P8 --> P9["9 · 1-Year Horizon, Tracker & 7-Box SRS"]
+    P9 --> P10["10 · In-Chat JS Visual Widgets"]
+    P10 --> P11["11 · 10-Min Agentic Tutor Engine & Checkpoints"]
+    P11 --> P12["12 · Antigravity Skill & Parent Progress Hub"]
+  end
 ```
 
-> [!TIP]
-> Phases 3–4 (art) can run in parallel with Phases 1 and 5. Placeholder SVG shapes keep code work unblocked until the final art lands.
+---
+
+# Completed Baseline: Phases 0–8 (v0.1 ✅)
+
+| Phase | Summary of Delivered Components | Pts | Status |
+|---|---|---|---|
+| **Phase 0: Foundation** | Vite vanilla-TS PWA (`src/main.ts`), `RomaniaMap` (`src/components/romaniaMap.ts`), `SidebarNav` (`src/components/sidebarNav.ts`), IndexedDB (`src/storage/db.ts`), Cloudflare D1 delta sync (`src/storage/syncEngine.ts`, `functions/api/sync/*`), Vitest suite (`tests/*.test.ts`). | 15 | ✅ Done |
+| **Phase 1: Vertex & Content** | `scripts/vertex.config.ts`, `scripts/lib/vertex.ts`, `content/taxonomy.json`, `content/lexicon.json`, `content/items/curated.json`, adaptive word/item banks (`src/content/*Bank.ts`, `dictionary.ts`, `questSets.ts`). | 29 | ✅ Done |
+| **Phase 2: Design System** | `src/styles/tokens.css`, `src/styles/main.css`, SVG motif renderer (`src/motifs/motifRenderer.ts`), `MioritaHud` (`src/components/mioritaHud.ts`), `StitchBand`, Web Audio synth (`src/audio/synth.ts`). | 16 | ✅ Done |
+| **Phases 3–4: Art & Motifs** | Storybook Romania map (`public/art/romania_map.jpg`), mascot sheets, station illustrations (`public/art/stations/*.jpg`), procedural/SVG banners (`src/motifs/proceduralBanner.ts`). | 43 | ✅ Done |
+| **Phase 5: Core Stations** | `gradinaCuGenuri.ts` (`GEN`), `moaraCuArticole.ts` (`ART`), `podulCui.ts` (`CAS`), `vanatorulDeEnglezisme.ts` (`CLQ`), plus 3-tier non-punitive `AdaptiveEngine` (`src/storage/adaptiveEngine.ts`). | 30 | ✅ Done |
+| **Phase 6: Daily Review & Rug** | Leitner SRS (`src/storage/srs.ts`), `antrenamentulZilei.ts` (3-min Daily Quest + 10 Quest Sets), `stanaMioritei.ts` (*Covorul lui Tudor* + 7 traditional motifs + 6 *Lada de Zestre* badges). | 13 | ✅ Done |
+| **Phase 7: Caiet & Family Auth** | Multi-profile `FamilyAuth` (`src/auth/familyAuth.ts`, `familyModal.ts`, `welcomeSplash.ts`), `caietulLuiTata.ts` (10s quick-log, Gem JSON import, *Foaia de Duminică* dinner recast guide). | 14 | ✅ Done |
+| **Phase 8: Full Station Suite & Grammar School** | `fantanaPosesivelor.ts` (`POS`), `ecoulDinMunte.ts` (`CLI`), `potecaLuiSa.ts` (`SUB`), `targulDeNumere.ts` (`NUM`), `atelierulDeCulori.ts` (`AGR`/`ORD`), and `casaGramaticii.ts` (*Școala din Sat*: 5 *Meșteri ai Vorbirii*, *Propoziția*, and *Detectorul Vizual de Cuvinte*). | 26 | ✅ Done |
+
+**Completed v0.1 Total: 186 pts (✅ All passing in `vitest`)**
 
 ---
 
-# Phase 0: Foundation  *(≈1 evening)*
+# Phase 9: 1-Year Horizon, Progress Tracker & 7-Box Novelty SRS *(v0.2)*
 
-| Task | Description | Pts | Traces |
-|---|---|---|---|
-| T-0.1 | Scaffold Vite vanilla-ts, strict tsconfig, ESLint/Prettier (copy configs from Clawey) | 2 | CON-001 |
-| T-0.2 | PWA manifest + service worker (port Clawey `sw.js`), offline shell | 2 | NFR-PWA-001 |
-| T-0.3 | Router + screen shell (map, station, stâna, parent) | 3 | FR-MAP-001 |
-| T-0.4 | IndexedDB layer + D1 delta sync (port Clawey `storage/` + `functions/api/sync`) | 5 | design §3.2 |
-| T-0.5 | Vitest + Playwright with Tab A9+ profile; GitHub Actions CI | 3 | DoD |
-
-**Total: 15**
-
----
-
-# Phase 1: Vertex AI & Content Pipeline  *(≈2 evenings)*
-
-### Story 1.1: Vertex connectivity
-| Task | Description | Pts | Traces |
-|---|---|---|---|
-| T-1.1.1 | Run setup commands (design §2.1); add `.env.local.example` | 1 | NFR-AI-001 |
-| T-1.1.2 | `scripts/lib/vertex.ts` + `scripts/vertex.config.ts` (model IDs) | 2 | CON-004 |
-| T-1.1.3 | `npm run vertex:ping`: one text call + one TTS call, prints model and latency | 1 | — |
-
-### Story 1.2: Content model
-| Task | Description | Pts | Traces |
-|---|---|---|---|
-| T-1.2.1 | `content/taxonomy.json` (10 categories with descriptions, bridge notes) | 2 | FR-TAX-001/002 |
-| T-1.2.2 | Zod schema for `Item`; `content:lint` script | 3 | FR-CONT-001 |
-| T-1.2.3 | `content/lexicon.json`: ~150 nouns relevant to Tudor (school, football, family, food, animals, Minecraft) with gender + plural, **written by Florin** | 3 | FR-ST-GEN |
-| T-1.2.4 | Hand-write 10 seed items per Must category (GEN, ART, CAS, CLQ) as few-shot examples | 3 | CON-005 |
-
-### Story 1.3: Draft → review → audio
-| Task | Description | Pts | Traces |
-|---|---|---|---|
-| T-1.3.1 | `content:draft` with structured JSON output, using seed items as few-shot examples | 5 | FR-CONT-002 |
-| T-1.3.2 | `/dev/review` page: approve/edit/reject drafts, play audio, keyboard shortcuts | 5 | FR-CONT-003 |
-| T-1.3.3 | `content:audio`: TTS per approved item part, idempotent, writes meta | 3 | FR-CONT-004, FR-AUD-001 |
-| T-1.3.4 | A/B voice listening page; choose Miorița's voice | 1 | Open Q3 |
-
-**Total: 29**
-
----
-
-# Phase 2: Design System  *(≈2 evenings)*
-
-| Task | Description | Pts | Traces |
-|---|---|---|---|
-| T-2.1 | `src/styles/tokens.css` (design §4.2) + base styles, linen background | 2 | design §4 |
-| T-2.2 | Font selection + `/dev/glyphs` diacritics test page | 2 | NFR-TYPE-001 |
-| T-2.3 | Motif grid format + SVG renderer + 7 starter motifs | 5 | design §4.4 |
-| T-2.4 | Core components: `MioritaBubble`, `StitchBand`, `ChoiceCards`, big buttons | 5 | design §5 |
-| T-2.5 | Web Audio synth: wooden tick, bell, soft "try again" (no buzzers) | 2 | FR-FB-004 |
-
-**Total: 16**
-
----
-
-# Phase 3: AI Imagery 🎨  *(art-direction.md Part A)*
-
-| Step | Task | Pts | Output |
-|---|---|---|---|
-| A0 | `art:image` script: prompt YAML + style-bible prefix + reference images + meta sidecars | 3 | `scripts/art/` |
-| A1 | **Style exploration**: 4 variants, pick the reference | 2 | `art/refs/style.png` |
-| A2 | **Mascot sheet** + expressions sheet (iterate until consistent) | 3 | `art/refs/miorita-*.png` |
-| A3 | **Village map hero** 1920×1200 + 2560×1600 | 3 | `public/art/map.*` |
-| A4 | **9 station illustrations** | 5 | `public/art/stations/*` |
-| A5 | **Collectibles** (9 stickers) | 2 | `public/art/zestre/*` |
-| A6 | **Textures** (linen, paper, walnut) | 1 | `public/art/tex/*` |
-| A7 | **App icon + splash** (incl. maskable) | 1 | `public/icons/*` |
-| A8 | Hand-made SVG: ribbons, icons, bands | 3 | `src/assets/svg/*` |
-| A9 | `art:optimize` + manifest + size budget check | 2 | `public/art/manifest.json` |
-
-**Total: 25**
-
----
-
-# Phase 4: Animations ✨  *(art-direction.md Part B)*
-
-| Step | Task | Pts | Output |
-|---|---|---|---|
-| N1 | **Micro-interactions**: squash, wobble, flip, stitch reveal, rug weave-in | 3 | CSS/SVG |
-| N2 | **Ambient village loop** (Veo from A3) + seamless trim + WebM/MP4 | 3 | `public/art/map.webm` |
-| N3 | **Mascot reaction clips** ×4 (Veo, chroma key → VP9 alpha) | 5 | `public/art/miorita-*.webm` |
-| N4 | Station ambient touches (SVG first, Veo if needed) | 2 | — |
-| N5 | **Reward moment** choreography (stitch, cheer, chime) | 2 | FR-REW-002 |
-| N6 | `art:video` script + reduced-motion posters + off-screen pause | 3 | NFR-PERF-002 |
-
-**Total: 18**
-
----
-
-# Phase 5: Core Stations (Must)  *(≈4 evenings)*
-
-| Story | Station | Key tasks | Pts | Traces |
+### Story 9.1: 1-Year Curriculum & Checkpoint Data Model
+| Task | Description | Pts | Traces | Status |
 |---|---|---|---|---|
-| 5.0 | Session engine | Shared session contract (≤8 items, ≤5 min, retry once, correct audio last, results to `attempts`) | 5 | NFR-UX-003, FR-FB-001/003 |
-| 5.1 | **Grădina cu Genuri** | `SortBaskets` drag/tap, un/două test audio, 30+ approved items | 5 | FR-ST-GEN |
-| 5.2 | **Moara cu Articole** | Mill animation, `ChoiceCards`, preposition-rule items | 5 | FR-ST-ART |
-| 5.3 | **Podul „A cui? Cui?"** | `TileBuilder`, plank-laying animation, *la*→genitive/dative items | 8 | FR-ST-CAS |
-| 5.4 | **Vânătorul de Englezisme** | `CalqueCatcher` tappable words, catch → choose fix | 5 | FR-ST-CLQ |
-| 5.5 | Podul englez toggle | Contrastive note drawer per item | 2 | FR-FB-002 |
+| T-9.1.1 | Author `content/tutor/year-plan.json`: 4 Seasonal Arcs (52 weeks) and 12 Checkpoints (*Popasuri de Meșter*), mapping each checkpoint (~8 sessions) to primary/secondary taxonomy IDs, *Casa Gramaticii* pillars, JS widget types, and unlockable motifs/badges | 3 | FR-HOR-001/002 | ✅ Seeded |
+| T-9.1.2 | Author `content/tutor/tudor-progress.json` initial state + TypeScript interface & state manager (`src/storage/tutorProgress.ts`) synced with `localStorage`, `MioritaDB` (`db.ts`), and D1 delta sync | 5 | FR-TRK-001/002 | 📋 Ready |
+| T-9.1.3 | Create `.kiro/specs/progress-tracker.md` dual dashboard tracking both Antigravity code implementation tasks and Tudor's 1-year learning milestones | 2 | FR-TRK-003 | ✅ Seeded |
 
-**Total: 30**
+### Story 9.2: Non-Punitive Gamification & 7-Box SRS
+| Task | Description | Pts | Traces | Status |
+|---|---|---|---|---|
+| T-9.2.1 | Upgrade `src/storage/srs.ts` from 5 boxes to **7 boxes (`1, 3, 7, 14, 30, 60, 120` days)** with gentle lapse recovery (`max(2, box - 2)`) and `lastContextTheme` tracking for contextual novelty re-skinning | 3 | FR-SRS-001/004/005 | 📋 Ready |
+| T-9.2.2 | Implement **🔥 Focul de la Stână** weekly presence engine in `src/storage/tutorProgress.ts`: tracks `sessionsThisWeek` against the **≥2x/week target**, awards *Steaua Stânei* at 2 sessions, awards bonus *Lână de Aur* (*Super-Scântei*) for sessions 3–7, and never resets cumulative counters on missed weeks | 3 | FR-GAM-001/002/003 | 📋 Ready |
+| T-9.2.3 | Implement **Warm Re-Entry** detector (≥4 days since `lastSessionDate` → warm welcome + Tier 1–2 confidence boosters) and **Novelty Rotation** guard (no repeated theme or widget from the previous session) | 2 | FR-GAM-004/005 | 📋 Ready |
+| T-9.2.4 | Unit tests in `tests/tutorProgress.test.ts` and `tests/srsYearHorizon.test.ts` | 2 | Design §7 | 📋 Ready |
 
----
-
-# Phase 6: Daily Review & Rug  *(≈2 evenings)*
-
-| Task | Description | Pts | Traces |
-|---|---|---|---|
-| T-6.1 | Leitner scheduler (1/3/7/14/30), unit-tested | 3 | FR-SRS-001 |
-| T-6.2 | Stâna daily review (≤5 items, ≤3 min, weighted towards recent Caiet categories) | 3 | FR-SRS-002/003 |
-| T-6.3 | `RugCanvas`: rug grows with stitches; motif rows on mastery | 5 | FR-REW-001/002 |
-| T-6.4 | Map mastery bands + "review due" bell | 2 | FR-MAP-002/003 |
-
-**Total: 13**
+**Phase 9 Total: 20 pts**
 
 ---
 
-# Phase 7: Caiet & Gem Bridge  *(≈2 evenings)*
+# Phase 10: JS-Based In-Chat Visuals & Micro-Interactions *(v0.2)*
 
-| Task | Description | Pts | Traces |
-|---|---|---|---|
-| T-7.1 | Parent PIN gate + Caiet quick-log form (said / correct / category chip) | 3 | FR-CAIET-001 |
-| T-7.2 | Keyword rules to auto-suggest category (*la* + noun → CAS, *sunt N ani* → CLQ…) | 2 | FR-CAIET-001 |
-| T-7.3 | Caiet entry → personal item → SRS priority | 3 | FR-CAIET-002 |
-| T-7.4 | Gem JSON import (paste → validate → preview → add) | 3 | FR-CAIET-003 |
-| T-7.5 | Weekly parent card (top 3 categories, trends, dinner recasts) | 3 | FR-CAIET-004 |
+| Task | Description | Pts | Traces | Status |
+|---|---|---|---|---|
+| T-10.1 | Widget framework (`src/components/tutorWidgets/widgetTypes.ts`) + Antigravity `<agent-embed>` HTML template generator (Tailwind allowlisted CDN, `<500px` height budget, semantic tokens, ≥48px touch targets) | 3 | FR-VIS-001/004 | 📋 Ready |
+| T-10.2 | **`WordMorphSlider` (*Atelierul de Transformare*):** Interactive slider/tap-morph transforming English traps into inflected Romanian (`casa la bunica ➔ casa bunicii`, `câine ➔ câinele`) with animated suffix highlight | 3 | FR-VIS-002 (W1) | 📋 Ready |
+| T-10.3 | **`CalqueZapper` (*Prinzătorul de Englezisme*):** Interactive speech-bubble zapper where tapping the English calque phrase morphs it into golden Romanian with bell chime | 3 | FR-VIS-002 (W2) | 📋 Ready |
+| T-10.4 | **`BridgeTileSnap` (*Podul de Cuvinte*):** Tap/drag connector widget (*să*, *de*, *pe*, *al/a/ai/ale*) that completes a stream bridge for Miorița to hop across | 3 | FR-VIS-002 (W3) | 📋 Ready |
+| T-10.5 | **`RoleReversalDetector` (*Profesorul Tudor*):** Interactive card where Miorița makes a deliberate error and Tudor taps the funny mistake word to stamp the fix for double golden stitches | 3 | FR-TUT-006, FR-VIS-002 (W4) | 📋 Ready |
+| T-10.6 | **`GenderBasketMini` (*Trei Coșuri Rapide*)** & **`CheckpointTrailWidget` (*Harta de 1 An & Focul de la Stână*):** End-of-session visual showing campfire glow, live rug stitch weave, and 12-Checkpoint Carpathian trail | 5 | FR-VIS-002 (W5, W6) | 📋 Ready |
+| T-10.7 | Unit tests for all 6 interactive JS widgets (`tests/tutorWidgets.test.ts`) | 2 | Design §7 | 📋 Ready |
 
-**Total: 14**
+**Phase 10 Total: 22 pts**
 
 ---
 
-# Phase 8: More Stations (Should/Could)
+# Phase 11: 10-Minute Agentic Tutor Engine & 12 Checkpoints *(v0.2)*
 
-| Station | Pts | Traces |
+| Task | Description | Pts | Traces | Status |
+|---|---|---|---|---|
+| T-11.1 | Implement `src/stations/tutoreAgentic.ts` ("Călătoria cu Miorița — 10 min"): Full-stage Main UI view mounted in `#stationRoot` (never a corner chat box) with 4-phase state machine (Min 0–2 Hook & 2-Topic Choice → Min 2–5 Socratic Story + Center-Stage JS Concept Widget → Min 5–8 SRS Novelty Blitz + *Profesorul Tudor* → Min 8–10 Celebration, Rug Weave & *Parola de Cină*) | 8 | FR-TUT-001..005 | 📋 Ready |
+| T-11.2 | Implement **Contextual Novelty Generator** (`src/content/tutorScenarios.ts`): wraps due SRS cards and taxonomy targets into Tudor's chosen interest theme (`minecraft`, `fotbal`, `animale`, `mister_carpati`, `scoala`, `legende`) | 5 | FR-SRS-004, FR-GAM-005 | 📋 Ready |
+| T-11.2b | Implement **Bidirectional Voice Engine (`src/audio/voiceRecognizer.ts` & `synth.ts` upgrade):** Walkie-Talkie Push-to-Talk (`ro-RO` `SpeechRecognition` with `maxAlternatives: 5`, `interimResults: true`), fuzzy target-window matcher (tolerating English loanwords like *Minecraft*), "Blame the Mountain Wind" 1-tap override, and 🐢 0.85× slow-replay TTS button | 5 | FR-AUD-001..005 | 📋 Ready |
+| T-11.3 | Implement **12 Checkpoint Boss-Quests (*Popasuri de Meșter*)** in `tutoreAgentic.ts`: triggered every 8th session when ready, combining 3 seasonal targets + multi-step JS visual + unlocking motif & badge | 5 | FR-HOR-002/003/004 | 📋 Ready |
+| T-11.4 | Promote Agentic Tutor as a primary Main UI feature across `src/main.ts` (header *Focul de la Stână* CTA), `RomaniaMap` (top 1-Year Horizon hero card + central Carpathian pin), `SidebarNav` (#1 item "🐑 Miorița 10-Min" + mobile bottom bar), and `StanaMioriteiStation` (*Focul de la Stână* + 1-Year Carpathian Trail view) | 3 | FR-MAP-003 | 📋 Ready |
+| T-11.5 | Auto-sync caught tutor errors and *Parola de Cină* into `CaietulLuiTataModal` (`src/components/caietulLuiTata.ts`) | 2 | FR-CAIET-003/004 | 📋 Ready |
+
+**Phase 11 Total: 23 pts**
+
+---
+
+# Phase 12: Antigravity Code Skill, Gemini Argon Prompting & Verification *(v0.2)*
+
+| Task | Description | Pts | Traces | Status |
+|---|---|---|---|---|
+| T-12.1 | Create Antigravity workspace skill `.agents/skills/miorita-tutor/SKILL.md` so **Gemini Argon** can conduct live 10-minute interactive sessions directly in Antigravity Chat using `<agent-embed>` JS widgets and automatic `tudor-progress.json` persistence | 5 | FR-TUT-001, FR-VIS-004 | 📋 Ready |
+| T-12.2 | Update `docs/gemini-gem-setup.md` with the Gemini Argon Agentic Tutor prompt architecture, ADHD session contract, and progress sync instructions | 2 | North Star | ✅ Done |
+| T-12.3 | End-to-end verification (`tsc --noEmit`, `vitest run`, `npm run content:lint`) and update `.kiro/specs/progress-tracker.md` | 3 | DoD | 📋 Ready |
+
+**Phase 12 Total: 10 pts**
+
+---
+
+## Totals Summary
+
+| Scope | Points | Status |
 |---|---|---|
-| Fântâna cu Al-A-Ai-Ale | 3 | FR-ST-POS |
-| Ecoul din Munte | 5 | FR-ST-CLI |
-| Poteca lui Să | 5 | FR-ST-SUB |
-| Târgul de Numere | 3 | FR-ST-NUM |
-| Atelierul de Culori | 5 | FR-ST-AGR |
-| "Spune tu!" mic button (Web Speech ro-RO) | 3 | FR-AUD-003 |
-| Lada de zestre collectibles | 2 | FR-REW-003 |
-
-**Total: 26**
-
----
-
-# Phase 9: v2 "Povestește-mi" Voice Dialog *(Won't, v1)*
-
-Parked. Prerequisites: Gem experiment results; Cloud Run service with attached service account; push-to-talk → Gemini audio-in → JSON `{verbatim, reply, corrections[]}`; corrections feed the Caiet automatically.
-
----
-
-## Totals
-
-| Phase | Points |
-|---|---|
-| 0 Foundation | 15 |
-| 1 Vertex + Content | 29 |
-| 2 Design System | 16 |
-| 3 AI Imagery | 25 |
-| 4 Animations | 18 |
-| 5 Core Stations | 30 |
-| 6 Review + Rug | 13 |
-| 7 Caiet + Gem | 14 |
-| **MVP (0–7)** | **160** |
-| 8 More Stations | 26 |
+| **v0.1 Foundation (Phases 0–8)** | **186** | ✅ **Completed** |
+| Phase 9 · 1-Year Horizon, Tracker & 7-Box SRS | 20 | ✅ Completed |
+| Phase 10 · In-Chat JS Visual Widgets | 22 | ✅ Completed |
+| Phase 11 · 10-Min Agentic Tutor Engine & Checkpoints | 28 | ✅ Completed |
+| Phase 12 · Antigravity Skill & Verification | 10 | ✅ Completed |
+| **v0.2 Agentic Tutor Total (Phases 9–12)** | **80** | ✅ **Completed** |

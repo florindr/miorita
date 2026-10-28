@@ -1,11 +1,24 @@
-// src/components/casaGramaticii.ts — Școala din Sat (Casa Gramaticii)
-// Interactive Theoretical Grammar Hub for Year 4 Heritage Learners (bridging with Romania Grade 4 curriculum).
-// Explores the 5 Meșteri ai Vorbirii (Substantiv, Adjectiv, Verb, Pronume, Numeral) + Propoziția (Subiect & Predicat)
-// and an Interactive Visual Syntax Explorer (Color Coded Parts of Speech).
+// src/components/casaGramaticii.ts — Școala din Sat (Casa Gramaticii & Planul Agentic de 1 An)
+// Interactive Agentic Learning Plan (96 × 10-Minute Daily Lesson Slots across 4 Seasons & 12 Popasuri)
+// + Theoretical Grammar Hub for Year 4 Heritage Learners (5 Meșteri ai Vorbirii, Propoziția & Detectorul de Cuvinte).
 
 import { sound } from '../audio/synth';
+import {
+  YEAR_SYLLABUS_96_LESSONS,
+  getDailyLessonByNumber,
+  type DailyLessonSlot,
+} from '../content/yearSyllabus';
+import { TutorProgressManager } from '../storage/tutorProgress';
 
-export type GrammarTopic = 'substantiv' | 'adjectiv' | 'verb' | 'pronume' | 'numeral' | 'propozitie' | 'detector';
+export type GrammarTopic =
+  | 'plan_agentic'
+  | 'substantiv'
+  | 'adjectiv'
+  | 'verb'
+  | 'pronume'
+  | 'numeral'
+  | 'propozitie'
+  | 'detector';
 
 export interface GrammarPillar {
   id: GrammarTopic;
@@ -26,6 +39,7 @@ export interface GrammarPillar {
     explanation: string;
   };
   stationAction?: { label: string; stationKey: string };
+  relatedCategories?: string[];
 }
 
 export const GRAMMAR_PILLARS: GrammarPillar[] = [
@@ -73,6 +87,7 @@ export const GRAMMAR_PILLARS: GrammarPillar[] = [
       explanation: 'Tudor este un substantiv propriu fiindcă este numele unui băiat minunat și se scrie cu majusculă!',
     },
     stationAction: { label: '🧺 Exersează la Grădina cu Genuri', stationKey: 'gen' },
+    relatedCategories: ['GEN', 'ART', 'CAS'],
   },
 
   // ==========================================
@@ -114,6 +129,7 @@ export const GRAMMAR_PILLARS: GrammarPillar[] = [
       explanation: 'La plural feminin spunem: fete cuminți (adjectivul face dansul acordului la plural)!',
     },
     stationAction: { label: '🎨 Exersează la Atelierul de Culori', stationKey: 'agr' },
+    relatedCategories: ['AGR'],
   },
 
   // ==========================================
@@ -155,6 +171,7 @@ export const GRAMMAR_PILLARS: GrammarPillar[] = [
       explanation: '„Am alergat” arată o acțiune terminată în trecut (ieri)!',
     },
     stationAction: { label: '🪨 Exersează la Poteca lui Să', stationKey: 'sub' },
+    relatedCategories: ['SUB', 'CLQ'],
   },
 
   // ==========================================
@@ -196,6 +213,7 @@ export const GRAMMAR_PILLARS: GrammarPillar[] = [
       explanation: 'Miorița este o oiță (feminin), așa că dublura ei este pronumele „Ea”!',
     },
     stationAction: { label: '🪣 Exersează la Fântâna Posesivelor', stationKey: 'pos' },
+    relatedCategories: ['POS', 'CLI'],
   },
 
   // ==========================================
@@ -242,6 +260,7 @@ export const GRAMMAR_PILLARS: GrammarPillar[] = [
       explanation: 'Fiind peste 20, cerem: „douăzeci și cinci DE morcovi”!',
     },
     stationAction: { label: '⚖️ Exersează la Târgul de Numere', stationKey: 'num' },
+    relatedCategories: ['NUM'],
   },
 
   // ==========================================
@@ -282,6 +301,7 @@ export const GRAMMAR_PILLARS: GrammarPillar[] = [
       correctIndex: 0,
       explanation: 'Cine a învins balaurul? Voinicul Tudor! El este subiectul (eroul acțiunii)!',
     },
+    relatedCategories: ['ORD', 'CLQ'],
   },
 ];
 
@@ -340,46 +360,93 @@ export const SYNTAX_SENTENCES: SyntaxSentence[] = [
   },
 ];
 
+export interface CasaGramaticiiOptions {
+  inlineMode?: boolean;
+  initialTopic?: GrammarTopic;
+  onStartAgenticLesson?: (lessonNumber: number) => void;
+}
+
+const CATEGORY_TO_PILLAR_TOPIC: Record<string, GrammarTopic> = {
+  GEN: 'substantiv',
+  ART: 'substantiv',
+  CAS: 'substantiv',
+  AGR: 'adjectiv',
+  SUB: 'verb',
+  CLQ: 'verb',
+  POS: 'pronume',
+  CLI: 'pronume',
+  NUM: 'numeral',
+  ORD: 'propozitie',
+  ORT: 'substantiv',
+};
+
 export class CasaGramaticiiModal {
   private container: HTMLElement;
   private onClose: () => void;
   private onNavigateStation?: (stationKey: string) => void;
-  private currentTopic: GrammarTopic = 'substantiv';
+  private onStartAgenticLesson?: (lessonNumber: number) => void;
+  private inlineMode: boolean;
+
+  private currentTopic: GrammarTopic = 'plan_agentic';
   private currentSentenceIndex = 0;
   private activeWordInfo: SyntaxWord | null = null;
   private quizAnswered: Record<string, number> = {};
 
+  // 1-Year Agentic Lesson Plan State
+  private selectedSeasonFilter: 1 | 2 | 3 | 4;
+  private selectedLessonNumber: number;
+
   constructor(
     container: HTMLElement,
     onClose: () => void,
-    onNavigateStation?: (stationKey: string) => void
+    onNavigateStation?: (stationKey: string) => void,
+    options?: CasaGramaticiiOptions
   ) {
     this.container = container;
     this.onClose = onClose;
     this.onNavigateStation = onNavigateStation;
+    this.inlineMode = Boolean(options?.inlineMode);
+    this.onStartAgenticLesson = options?.onStartAgenticLesson;
+
+    if (options?.initialTopic) {
+      this.currentTopic = options.initialTopic;
+    }
+
+    const progress = TutorProgressManager.getState();
+    const nextLessonNum = Math.max(1, Math.min(96, progress.totalSessionsCompleted + 1));
+    this.selectedLessonNumber = nextLessonNum;
+    const activeLesson = getDailyLessonByNumber(nextLessonNum);
+    this.selectedSeasonFilter = activeLesson.seasonId;
   }
 
   render() {
+    const outerWrapperStart = this.inlineMode
+      ? `<div class="grammar-stage-inline" style="max-width: 780px; margin: 12px auto; animation: floatIn 0.2s ease;">
+           <div class="grammar-modal-card" style="background: #FFFDF9; border: 2px solid var(--linen-dark); border-radius: 20px; width: 100%; padding: 26px 28px; box-shadow: 0 8px 28px rgba(62, 42, 30, 0.06); display: flex; flex-direction: column; gap: 18px;">`
+      : `<div class="grammar-modal-backdrop" style="position: fixed; inset: 0; background: rgba(43, 38, 34, 0.65); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 16px; backdrop-filter: blur(3px); animation: floatIn 0.2s ease;">
+           <div class="grammar-modal-card" style="background: var(--linen-pure); border: 3px solid var(--walnut); border-radius: var(--radius-lg); width: 100%; max-width: 860px; max-height: 92vh; overflow-y: auto; padding: 24px; box-shadow: 0 16px 40px rgba(0,0,0,0.3); display: flex; flex-direction: column; gap: 18px;">`;
+
+    const closeBtnHtml = this.inlineMode
+      ? `<button id="btnStartCurrentLessonHeader" style="background: var(--walnut); border: none; border-radius: 999px; padding: 8px 16px; font-size: 12px; font-weight: 800; cursor: pointer; color: #FFF; display: inline-flex; align-items: center; gap: 6px;">
+           🐑 Înapoi la Pepită ➔
+         </button>`
+      : `<button id="btnCloseGrammar" style="background: var(--linen-card); border: 1.5px solid var(--walnut); border-radius: 999px; width: 38px; height: 38px; font-size: 16px; font-weight: bold; cursor: pointer; color: var(--walnut); display: flex; align-items: center; justify-content: center; min-height: 38px;">
+           ✕
+         </button>`;
+
     this.container.innerHTML = `
-      <div class="grammar-modal-backdrop" style="position: fixed; inset: 0; background: rgba(43, 38, 34, 0.65); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 16px; backdrop-filter: blur(3px); animation: floatIn 0.2s ease;">
-        <div class="grammar-modal-card" style="background: var(--linen-pure); border: 3px solid var(--walnut); border-radius: var(--radius-lg); width: 100%; max-width: 860px; max-height: 90vh; overflow-y: auto; padding: 24px; box-shadow: 0 16px 40px rgba(0,0,0,0.3); display: flex; flex-direction: column; gap: 18px;">
-          
+      ${outerWrapperStart}
           <!-- Top Header -->
-          <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid var(--linen-dark); padding-bottom: 14px;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-              <span style="font-size: 34px;">🏫</span>
-              <div>
-                <h2 style="font-family: var(--font-serif); font-size: 24px; color: var(--walnut); margin: 0;">Școala din Sat — Casa Gramaticii</h2>
-                <p style="font-size: 13px; color: #6C5B4F; margin: 2px 0 0 0;">Părțile de vorbire și secretele limbii române pe înțelesul lui Tudor</p>
-              </div>
+          <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--linen-dark); padding-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <h2 style="font-family: var(--font-serif); font-size: 22px; color: var(--walnut); margin: 0;">🎨 Școala din Sat — Casa Gramaticii</h2>
+              <p style="font-size: 13px; color: #7C6A58; margin: 2px 0 0 0;">Cartea Culorilor pentru Cuvinte & Detectorul Vizual</p>
             </div>
-            <button id="btnCloseGrammar" style="background: var(--linen-card); border: 1.5px solid var(--walnut); border-radius: 999px; width: 38px; height: 38px; font-size: 16px; font-weight: bold; cursor: pointer; color: var(--walnut); display: flex; align-items: center; justify-content: center; min-height: 38px;">
-              ✕
-            </button>
+            ${closeBtnHtml}
           </div>
 
-          <!-- Grammar Navigation Tabs -->
-          <div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none;">
+          <!-- Clean Color-Coded Pillar Tabs -->
+          <div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; flex-wrap: wrap;">
             <button class="grammar-tab-btn ${this.currentTopic === 'substantiv' ? 'active' : ''}" data-topic="substantiv" style="border-color: var(--gen-masculin);">
               🔵 Substantivul
             </button>
@@ -398,8 +465,11 @@ export class CasaGramaticiiModal {
             <button class="grammar-tab-btn ${this.currentTopic === 'propozitie' ? 'active' : ''}" data-topic="propozitie" style="border-color: var(--walnut);">
               🧭 Propoziția
             </button>
-            <button class="grammar-tab-btn ${this.currentTopic === 'detector' ? 'active' : ''}" data-topic="detector" style="background: rgba(212, 160, 23, 0.2); border-color: var(--gold-bell); font-weight: 800;">
+            <button class="grammar-tab-btn ${this.currentTopic === 'detector' ? 'active' : ''}" data-topic="detector" style="border-color: var(--gold-bell); font-weight: 800;">
               🔬 Detectorul de Cuvinte
+            </button>
+            <button class="grammar-tab-btn ${this.currentTopic === 'plan_agentic' ? 'active' : ''}" data-topic="plan_agentic" style="border-color: var(--linen-dark); font-size: 12px; opacity: 0.85;">
+              🗓️ Planul Agentic (1 An · 10 Min/Zi)
             </button>
           </div>
 
@@ -416,6 +486,9 @@ export class CasaGramaticiiModal {
   }
 
   private renderActiveContent(): string {
+    if (this.currentTopic === 'plan_agentic') {
+      return this.renderAgenticYearPlanContent();
+    }
     if (this.currentTopic === 'detector') {
       return this.renderDetectorContent();
     }
@@ -428,23 +501,23 @@ export class CasaGramaticiiModal {
     const isCorrect = isAnswered && answeredIndex === pillar.quiz.correctIndex;
 
     return `
-      <div style="display: flex; flex-direction: column; gap: 18px; animation: floatIn 0.2s ease;">
+      <div style="display: flex; flex-direction: column; gap: 16px; animation: floatIn 0.2s ease;">
         
         <!-- Meșter Character Sheet Banner -->
-        <div style="background: var(--linen-card); border: 2px solid var(--walnut-light); border-radius: var(--radius-md); padding: 18px 20px; display: flex; align-items: flex-start; gap: 16px;">
-          <div style="font-size: 44px; line-height: 1; flex-shrink: 0; background: #FFF; padding: 10px; border-radius: var(--radius-md); border: 2px solid var(--linen-dark);">
+        <div style="background: var(--linen-card); border: 1.5px solid var(--linen-dark); border-radius: 14px; padding: 16px 18px; display: flex; align-items: flex-start; gap: 14px;">
+          <div style="font-size: 38px; line-height: 1; flex-shrink: 0; background: #FFF; padding: 10px; border-radius: 12px; border: 1.5px solid var(--linen-dark);">
             ${pillar.icon}
           </div>
           <div>
             <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-              <h3 style="font-family: var(--font-serif); font-size: 22px; color: var(--walnut); margin: 0;">
+              <h3 style="font-family: var(--font-serif); font-size: 20px; color: var(--walnut); margin: 0;">
                 ${pillar.characterName}
               </h3>
               <span style="background: #FFF; border: 1.5px solid ${pillar.badgeColor}; color: ${pillar.badgeColor}; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 999px; text-transform: uppercase;">
                 🇬🇧 SPaG: ${pillar.englishSpagTerm}
               </span>
             </div>
-            <p style="font-size: 14px; color: #5C402B; margin: 4px 0 8px 0; font-weight: 600;">
+            <p style="font-size: 13px; color: #5C402B; margin: 4px 0 6px 0; font-weight: 600;">
               „${pillar.tagline}”
             </p>
             <div style="font-size: 13px; color: #6C5B4F; line-height: 1.45;">
@@ -454,21 +527,21 @@ export class CasaGramaticiiModal {
         </div>
 
         <!-- Secret Question Pill -->
-        <div style="background: #FFF; border-left: 4px solid ${pillar.badgeColor}; padding: 10px 16px; border-radius: 0 var(--radius-md) var(--radius-md) 0; box-shadow: var(--soft-shadow); font-size: 14px; display: flex; align-items: center; gap: 8px;">
-          <span style="font-size: 20px;">🕵️‍♂️</span>
-          <span><strong>Întrebarea de detectiv:</strong> Când vrei să găsești acest meșter într-o propoziție, întreabă: <span style="color:${pillar.badgeColor}; font-weight: bold; font-size: 16px;">${pillar.secretQuestion}</span></span>
+        <div style="background: #FFF; border-left: 4px solid ${pillar.badgeColor}; padding: 10px 14px; border-radius: 0 10px 10px 0; font-size: 14px; display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 18px;">🕵️‍♂️</span>
+          <span><strong>Întrebarea de detectiv:</strong> <span style="color:${pillar.badgeColor}; font-weight: bold;">${pillar.secretQuestion}</span></span>
         </div>
 
         <!-- Secret Rules List -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px;">
           ${pillar.rules
             .map(
               (r) => `
-            <div style="background: #FFF; border: 1.5px solid var(--linen-dark); border-radius: var(--radius-md); padding: 14px; display: flex; flex-direction: column; gap: 6px;">
-              <strong style="color: var(--walnut); font-size: 15px;">${r.title}</strong>
+            <div style="background: #FFF; border: 1.5px solid var(--linen-dark); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 6px;">
+              <strong style="color: var(--walnut); font-size: 14px;">${r.title}</strong>
               <span style="font-size: 13px; color: #6C5B4F; line-height: 1.4;">${r.desc}</span>
-              <div style="background: var(--linen-pure); border: 1px dashed var(--walnut-light); padding: 6px 10px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; color: var(--ink-charcoal); margin-top: auto;">
-                Exemplu: ${r.example}
+              <div style="background: var(--linen-pure); border: 1px dashed var(--walnut-light); padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; color: var(--ink-charcoal); margin-top: auto;">
+                ${r.example}
               </div>
             </div>
           `
@@ -477,19 +550,14 @@ export class CasaGramaticiiModal {
         </div>
 
         <!-- Contrast with English Box -->
-        <div style="background: #FFFDF7; border: 2px solid var(--gold-bell); border-radius: var(--radius-md); padding: 14px 18px; font-size: 13px; line-height: 1.45; color: var(--walnut);">
-          <div style="display: flex; align-items: center; gap: 6px; font-weight: 700; margin-bottom: 4px; font-size: 14px;">
-            <span>🇬🇧🇷🇴</span>
-            <span>Puntea Bilingvă (Cum e la școală în Londra vs. în România):</span>
-          </div>
-          <div>${pillar.contrastWithEnglish.explanation}</div>
+        <div style="background: #FFFDF7; border: 1.5px solid var(--gold-bell); border-radius: 12px; padding: 12px 16px; font-size: 13px; line-height: 1.45; color: var(--walnut);">
+          <strong>🇬🇧 ➔ 🇷🇴 Puntea Bilingvă:</strong> ${pillar.contrastWithEnglish.explanation}
         </div>
 
         <!-- Interactive Mini-Quiz -->
-        <div style="background: var(--linen-card); border: 2px solid var(--walnut-light); border-radius: var(--radius-md); padding: 16px 18px; display: flex; flex-direction: column; gap: 10px;">
-          <div style="font-weight: 700; font-size: 15px; color: var(--walnut); display: flex; align-items: center; gap: 6px;">
-            <span>🎯</span>
-            <span>Mini-Test de Detectiv: ${pillar.quiz.question}</span>
+        <div style="background: var(--linen-card); border: 1.5px solid var(--linen-dark); border-radius: 14px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px;">
+          <div style="font-weight: 800; font-size: 14px; color: var(--walnut);">
+            🎯 ${pillar.quiz.question}
           </div>
 
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
@@ -504,7 +572,7 @@ export class CasaGramaticiiModal {
                     ? 'wrong'
                     : ''
                   : ''
-              }" data-index="${idx}" ${isAnswered ? 'disabled' : ''} style="background: #FFF; border: 2px solid var(--walnut); border-radius: var(--radius-md); padding: 10px 18px; font-weight: bold; font-size: 15px; cursor: pointer; min-height: 44px; transition: all 0.15s ease;">
+              }" data-index="${idx}" ${isAnswered ? 'disabled' : ''} style="background: #FFF; border: 2px solid var(--walnut-light); border-radius: 999px; padding: 9px 18px; font-weight: 800; font-size: 14px; cursor: pointer;">
                 ${opt}
               </button>
             `
@@ -515,9 +583,8 @@ export class CasaGramaticiiModal {
           ${
             isAnswered
               ? `
-            <div style="background: ${isCorrect ? 'var(--gen-neutru-bg)' : '#FDE8E8'}; border: 1.5px solid ${isCorrect ? 'var(--gen-neutru)' : 'var(--gen-feminin)'}; color: ${isCorrect ? 'var(--gen-neutru)' : 'var(--gen-feminin)'}; padding: 10px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
-              <span>${isCorrect ? '🎉 Bravo, Tudor!' : '💡 Sfatul Mioriței:'}</span>
-              <span>${pillar.quiz.explanation}</span>
+            <div style="background: ${isCorrect ? '#E6F6EC' : '#FFF6E8'}; border: 1.5px solid ${isCorrect ? '#237A4B' : '#D9822B'}; color: ${isCorrect ? '#1E6F3D' : '#7A3E00'}; padding: 10px 14px; border-radius: 10px; font-size: 13px; font-weight: 700;">
+              ${isCorrect ? '✓ Corect!' : '💡 Indiciu:'} ${pillar.quiz.explanation}
             </div>
           `
               : ''
@@ -529,7 +596,7 @@ export class CasaGramaticiiModal {
           pillar.stationAction
             ? `
           <div style="display: flex; justify-content: flex-end;">
-            <button class="btn-go-to-station" data-station="${pillar.stationAction.stationKey}" style="background: var(--walnut); color: #FFF; border: none; border-radius: 999px; padding: 12px 22px; font-weight: bold; font-size: 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: var(--soft-shadow); min-height: 48px;">
+            <button class="btn-go-to-station" data-station="${pillar.stationAction.stationKey}" style="background: var(--walnut); color: #FFF; border: none; border-radius: 999px; padding: 10px 20px; font-weight: 800; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
               <span>${pillar.stationAction.label}</span>
               <span>➔</span>
             </button>
@@ -537,6 +604,228 @@ export class CasaGramaticiiModal {
         `
             : ''
         }
+
+      </div>
+    `;
+  }
+
+  private renderAgenticYearPlanContent(): string {
+    const progress = TutorProgressManager.getState();
+    const completedCount = progress.totalSessionsCompleted;
+    const currentRecommendedNum = Math.max(1, Math.min(96, completedCount + 1));
+    const activeLesson: DailyLessonSlot = getDailyLessonByNumber(this.selectedLessonNumber);
+    const activeCpSpec = TutorProgressManager.getCheckpointById(activeLesson.checkpointId);
+    const relatedPillarTopic =
+      (activeLesson.grammarPillar as GrammarTopic) ||
+      CATEGORY_TO_PILLAR_TOPIC[activeLesson.category] ||
+      'substantiv';
+    const relatedPillar = GRAMMAR_PILLARS.find((p) => p.id === relatedPillarTopic);
+
+    const seasonLessons = YEAR_SYLLABUS_96_LESSONS.filter(
+      (l) => l.seasonId === this.selectedSeasonFilter
+    );
+
+    // Group season lessons by checkpointId (3 Popasuri per season, 8 lessons each)
+    const checkpointsInSeason = Array.from(new Set(seasonLessons.map((l) => l.checkpointId)));
+
+    const seasonsMeta: Array<{ id: 1 | 2 | 3 | 4; label: string; range: string }> = [
+      { id: 1, label: '🍂 Sezonul 1: Toamna', range: 'Lecțiile 1–24 (Săpt. 1–12)' },
+      { id: 2, label: '❄️ Sezonul 2: Iarna', range: 'Lecțiile 25–48 (Săpt. 13–24)' },
+      { id: 3, label: '🌱 Sezonul 3: Primăvara', range: 'Lecțiile 49–72 (Săpt. 25–36)' },
+      { id: 4, label: '☀️ Sezonul 4: Vara', range: 'Lecțiile 73–96 (Săpt. 37–48)' },
+    ];
+
+    return `
+      <div style="display: flex; flex-direction: column; gap: 18px; animation: floatIn 0.2s ease;">
+
+        <!-- ACTIVE 10-MINUTE DAILY LESSON INSPECTOR CARD -->
+        <div style="background: linear-gradient(135deg, #FFFDF7, #FAF1DF); border: 2.5px solid var(--gold-bell); border-radius: var(--radius-lg); padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; box-shadow: var(--soft-shadow);">
+          <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px;">
+                <span style="background: var(--walnut); color: #FFF; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px;">
+                  ⏱️ LECȚIA #${activeLesson.lessonNumber} / 96 · 10 MINUTE
+                </span>
+                <span style="background: #FFF; border: 1.5px solid var(--walnut-light); color: var(--walnut); font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px;">
+                  🗓️ Săptămâna ${activeLesson.weekNumber} · Sesiunea ${activeLesson.slotInWeek}/2
+                </span>
+                <span style="background: #EAF4FB; border: 1.5px solid var(--gen-masculin); color: var(--gen-masculin); font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px;">
+                  🏔️ Popasul ${activeLesson.checkpointId}: ${activeCpSpec.nameRo}
+                </span>
+              </div>
+              <h3 style="font-family: var(--font-serif); font-size: 22px; color: var(--walnut); margin: 4px 0;">
+                ${activeLesson.titleRo}
+              </h3>
+              <p style="font-size: 14px; color: #5C402B; margin: 0; font-weight: 600;">
+                🎯 Obiectivul zilei: ${activeLesson.learningGoalRo}
+              </p>
+            </div>
+
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button
+                type="button"
+                class="btn-launch-agentic-lesson"
+                data-lesson-number="${activeLesson.lessonNumber}"
+                style="background: var(--walnut); color: #FFF; border: 2px solid var(--gold-bell); border-radius: 999px; padding: 10px 18px; font-size: 14px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(62, 42, 30, 0.2);"
+              >
+                🐑 Pornește Lecția #${activeLesson.lessonNumber} (10 Min Live AI) ➔
+              </button>
+              ${
+                relatedPillar
+                  ? `
+                <button
+                  type="button"
+                  class="btn-jump-pillar"
+                  data-pillar-topic="${relatedPillar.id}"
+                  style="background: #FFF; color: var(--walnut); border: 1.5px solid var(--walnut-light); border-radius: 999px; padding: 10px 14px; font-size: 13px; font-weight: 700; cursor: pointer;"
+                >
+                  ${relatedPillar.icon} Teorie: ${relatedPillar.title}
+                </button>
+              `
+                  : ''
+              }
+            </div>
+          </div>
+
+          <!-- English Trap vs Romanian Target Contrast Bar -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px;">
+            <div style="background: #FFF5F5; border: 1.5px solid #E29B9B; border-radius: var(--radius-sm); padding: 10px 14px; font-size: 13px;">
+              <div style="font-weight: 800; color: #8B2626; font-size: 11px; text-transform: uppercase;">🇬🇧 Capcana din Engleză (De evitat):</div>
+              <div style="font-weight: 700; color: #5C2323; margin-top: 2px;">${activeLesson.englishTrapRo}</div>
+            </div>
+            <div style="background: #F1FAF4; border: 1.5px solid #76B589; border-radius: var(--radius-sm); padding: 10px 14px; font-size: 13px;">
+              <div style="font-weight: 800; color: #1E6F3D; font-size: 11px; text-transform: uppercase;">🇷🇴 Ținta Românească de Aur:</div>
+              <div style="font-weight: 700; color: #164A2A; margin-top: 2px;">${activeLesson.romanianTargetRo}</div>
+            </div>
+          </div>
+
+          <!-- Structured 10-Minute Slot Breakdown (4 Time Blocks) -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+            <div style="background: #FFF; border: 1.5px solid var(--linen-dark); border-radius: var(--radius-sm); padding: 10px 12px;">
+              <div style="font-size: 11px; font-weight: 800; color: var(--gold-bell);">⏱️ MIN 0–2 · BUN GĂSIT</div>
+              <div style="font-size: 12px; color: var(--walnut); margin-top: 4px; line-height: 1.35;">${activeLesson.tenMinutePlan.min0to2Ro}</div>
+            </div>
+            <div style="background: #FFF; border: 1.5px solid var(--linen-dark); border-radius: var(--radius-sm); padding: 10px 12px;">
+              <div style="font-size: 11px; font-weight: 800; color: var(--gen-masculin);">🎨 MIN 2–5 · DIALOG AI & WIDGET</div>
+              <div style="font-size: 12px; color: var(--walnut); margin-top: 4px; line-height: 1.35;">${activeLesson.tenMinutePlan.min2to5Ro}</div>
+            </div>
+            <div style="background: #FFF; border: 1.5px solid var(--linen-dark); border-radius: var(--radius-sm); padding: 10px 12px;">
+              <div style="font-size: 11px; font-weight: 800; color: var(--gen-feminin);">⚡ MIN 5–8 · PROFESORUL TUDOR</div>
+              <div style="font-size: 12px; color: var(--walnut); margin-top: 4px; line-height: 1.35;">${activeLesson.tenMinutePlan.min5to8Ro}</div>
+            </div>
+            <div style="background: #FFF; border: 1.5px solid var(--linen-dark); border-radius: var(--radius-sm); padding: 10px 12px;">
+              <div style="font-size: 11px; font-weight: 800; color: var(--gen-neutru);">🌟 MIN 8–10 · PAROLA DE CINĂ</div>
+              <div style="font-size: 12px; color: var(--walnut); margin-top: 4px; line-height: 1.35;">${activeLesson.tenMinutePlan.min8to10Ro}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4-SEASON FILTER TABS (96 LESSONS / 48 WEEKS) -->
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            ${seasonsMeta
+              .map(
+                (s) => `
+              <button
+                type="button"
+                class="season-filter-btn"
+                data-season-id="${s.id}"
+                style="background: ${this.selectedSeasonFilter === s.id ? 'var(--walnut)' : '#FFF'}; color: ${this.selectedSeasonFilter === s.id ? '#FFF' : 'var(--walnut)'}; border: 2px solid var(--walnut); border-radius: var(--radius-sm); padding: 8px 14px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; flex-direction: column; align-items: flex-start;"
+              >
+                <span>${s.label}</span>
+                <span style="font-size: 10px; opacity: 0.85; font-weight: 600;">${s.range}</span>
+              </button>
+            `
+              )
+              .join('')}
+          </div>
+
+          <div style="font-size: 12px; font-weight: 700; color: #5C4E43; background: var(--linen-card); padding: 6px 12px; border-radius: 999px; border: 1px solid var(--linen-dark);">
+            📊 Progres Anual: <strong>${completedCount} / 96</strong> lecții de 10 min parcurse · Lecția la rând: <strong>#${currentRecommendedNum}</strong>
+          </div>
+        </div>
+
+        <!-- CHECKPOINT & WEEKLY 10-MINUTE SLOTS GRID -->
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          ${checkpointsInSeason
+            .map((cpId) => {
+              const cpLessons = seasonLessons.filter((l) => l.checkpointId === cpId);
+              const first = cpLessons[0];
+              const cpSpec = TutorProgressManager.getCheckpointById(cpId);
+              return `
+                <div style="background: var(--linen-card); border: 2px solid var(--linen-dark); border-radius: var(--radius-md); padding: 14px 16px; display: flex; flex-direction: column; gap: 12px;">
+                  <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; border-bottom: 1px dashed var(--walnut-light); padding-bottom: 8px;">
+                    <div>
+                      <span style="font-size: 11px; font-weight: 800; color: #7C6A58; text-transform: uppercase;">
+                        POPASUL ${cpId} DIN 12 · SĂPTĂMÂNILE ${first.weekNumber}–${first.weekNumber + 3}
+                      </span>
+                      <h4 style="font-family: var(--font-serif); font-size: 18px; color: var(--walnut); margin: 2px 0 0 0;">
+                        🏔️ ${cpSpec.nameRo} (8 Lecții × 10 Minute)
+                      </h4>
+                    </div>
+                    <span style="font-size: 12px; font-weight: 800; background: #FFF; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--walnut-light); color: var(--walnut);">
+                      Focus: ${cpSpec.primaryCategory} + ${cpSpec.secondaryCategory}
+                    </span>
+                  </div>
+
+                  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 10px;">
+                    ${cpLessons
+                      .map((l) => {
+                        const isDone = l.lessonNumber <= completedCount;
+                        const isCurrent = l.lessonNumber === currentRecommendedNum;
+                        const isSelected = l.lessonNumber === this.selectedLessonNumber;
+                        const borderColor = isSelected
+                          ? 'var(--gold-bell)'
+                          : isCurrent
+                          ? 'var(--gen-masculin)'
+                          : isDone
+                          ? 'var(--gen-neutru)'
+                          : 'var(--linen-dark)';
+                        const statusBadge = isDone
+                          ? '✅ Parcursă'
+                          : isCurrent
+                          ? '🎯 Lecția Zilei'
+                          : '📅 10 min';
+
+                        return `
+                          <div
+                            class="syllabus-lesson-card"
+                            data-select-lesson="${l.lessonNumber}"
+                            style="background: ${isSelected ? '#FFFDF4' : '#FFF'}; border: 2px solid ${borderColor}; border-radius: var(--radius-sm); padding: 10px 12px; cursor: pointer; display: flex; flex-direction: column; gap: 5px; transition: transform 0.12s ease;"
+                          >
+                            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 11px; font-weight: 800; color: #6C5B4F;">
+                              <span>Săpt. ${l.weekNumber} · Ses. ${l.slotInWeek}/2</span>
+                              <span>${statusBadge}</span>
+                            </div>
+                            <div style="font-size: 13px; font-weight: 800; color: var(--walnut);">
+                              #${l.lessonNumber}. ${l.titleRo.replace(/^Lecția #\d+:\s*/, '')}
+                            </div>
+                            <div style="font-size: 11px; color: #5C4E43; line-height: 1.3;">
+                              ${l.romanianTargetRo}
+                            </div>
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 6px;">
+                              <span style="font-size: 10px; font-weight: 700; color: #8A5A00;">
+                                🧩 ${l.recommendedWidget}
+                              </span>
+                              <button
+                                type="button"
+                                class="btn-launch-agentic-lesson"
+                                data-lesson-number="${l.lessonNumber}"
+                                style="background: var(--walnut); color: #FFF; border: none; border-radius: 999px; padding: 4px 10px; font-size: 11px; font-weight: 800; cursor: pointer;"
+                              >
+                                Start 10m ➔
+                              </button>
+                            </div>
+                          </div>
+                        `;
+                      })
+                      .join('')}
+                  </div>
+                </div>
+              `;
+            })
+            .join('')}
+        </div>
 
       </div>
     `;
@@ -581,17 +870,26 @@ export class CasaGramaticiiModal {
         </div>
 
         <!-- Interactive Sentence Stage -->
-        <div style="background: #FFF; border: 3px solid var(--walnut); border-radius: var(--radius-md); padding: 28px 20px; text-align: center; box-shadow: var(--soft-shadow);">
-          <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; align-items: center;">
+        <div style="background: #FFF; border: 2px solid var(--linen-dark); border-radius: 16px; padding: 24px 18px; text-align: center;">
+          <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; align-items: center;">
             ${sentence.words
-              .map(
-                (w, i) => `
-              <button class="syntax-word-btn ${this.activeWordInfo?.word === w.word ? 'selected' : ''}" data-word-idx="${i}" style="background: var(--linen-pure); border: 2.5px solid ${w.color}; border-radius: var(--radius-md); padding: 12px 18px; font-family: var(--font-serif); font-size: 24px; font-weight: bold; color: var(--ink-charcoal); cursor: pointer; transition: all 0.15s ease; min-height: 52px; display: inline-flex; flex-direction: column; align-items: center; gap: 2px;">
+              .map((w, i) => {
+                const hasAudio = sound.hasRecordedAudio(w.word);
+                const haloShadow = hasAudio
+                  ? '0 0 0 4px rgba(212, 160, 23, 0.34), 0 0 16px rgba(212, 160, 23, 0.48)'
+                  : 'none';
+                return `
+              <button class="syntax-word-btn ${this.activeWordInfo?.word === w.word ? 'selected' : ''}" data-word-idx="${i}" style="position: relative; background: var(--linen-pure); border: 2.5px solid ${w.color}; box-shadow: ${haloShadow}; border-radius: 12px; padding: 12px 18px; font-family: var(--font-serif); font-size: 24px; font-weight: bold; color: var(--ink-charcoal); cursor: pointer; transition: all 0.15s ease; min-height: 52px; display: inline-flex; flex-direction: column; align-items: center; gap: 2px;">
+                ${
+                  hasAudio
+                    ? `<span style="position: absolute; top: -9px; right: -9px; background: #FFFDF0; border: 1.5px solid #D4A017; border-radius: 999px; padding: 1px 6px; font-size: 11px; font-weight: 800; color: #8A5A00;">🔊</span>`
+                    : ''
+                }
                 <span>${w.word}</span>
                 <span style="font-size: 10px; font-family: system-ui; text-transform: uppercase; color: ${w.color}; letter-spacing: 0.5px;">${w.roleLabel}</span>
               </button>
-            `
-              )
+            `;
+              })
               .join('')}
           </div>
         </div>
@@ -623,12 +921,30 @@ export class CasaGramaticiiModal {
     `;
   }
 
+  private launchLesson(lessonNum: number) {
+    sound.playBrassBell();
+    if (!this.inlineMode) {
+      this.container.innerHTML = '';
+      this.onClose();
+    }
+    if (this.onStartAgenticLesson) {
+      this.onStartAgenticLesson(lessonNum);
+    } else if (this.onNavigateStation) {
+      this.onNavigateStation('tutore_agentic');
+    }
+  }
+
   private bindEvents() {
     const btnClose = this.container.querySelector('#btnCloseGrammar');
     btnClose?.addEventListener('click', () => {
       sound.playWoodenTap();
       this.container.innerHTML = '';
       this.onClose();
+    });
+
+    const btnHeaderStart = this.container.querySelector('#btnStartCurrentLessonHeader');
+    btnHeaderStart?.addEventListener('click', () => {
+      this.launchLesson(this.selectedLessonNumber);
     });
 
     // Tab buttons
@@ -638,6 +954,67 @@ export class CasaGramaticiiModal {
         sound.playWoodenTap();
         this.currentTopic = btn.getAttribute('data-topic') as GrammarTopic;
         this.activeWordInfo = null;
+        this.render();
+      });
+    });
+
+    // Season filter buttons in Planul Agentic
+    const seasonBtns = this.container.querySelectorAll('.season-filter-btn');
+    seasonBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        sound.playWoodenTap();
+        const sId = Number(btn.getAttribute('data-season-id')) as 1 | 2 | 3 | 4;
+        if (sId >= 1 && sId <= 4) {
+          this.selectedSeasonFilter = sId;
+          this.render();
+        }
+      });
+    });
+
+    // Select a lesson card in Planul Agentic to inspect its 10-minute breakdown
+    const lessonCards = this.container.querySelectorAll('.syllabus-lesson-card');
+    lessonCards.forEach((card) => {
+      card.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (target.closest('.btn-launch-agentic-lesson')) return;
+        sound.playWoodenTap();
+        const num = Number(card.getAttribute('data-select-lesson'));
+        if (num >= 1 && num <= 96) {
+          this.selectedLessonNumber = num;
+          this.render();
+        }
+      });
+    });
+
+    // Launch a specific 10-minute Agentic Lesson
+    const launchBtns = this.container.querySelectorAll('.btn-launch-agentic-lesson');
+    launchBtns.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const num = Number(btn.getAttribute('data-lesson-number')) || this.selectedLessonNumber;
+        this.launchLesson(num);
+      });
+    });
+
+    // Jump from active lesson to its grammar pillar tab
+    const jumpPillarBtns = this.container.querySelectorAll('.btn-jump-pillar');
+    jumpPillarBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        sound.playWoodenTap();
+        const topic = btn.getAttribute('data-pillar-topic') as GrammarTopic;
+        if (topic) {
+          this.currentTopic = topic;
+          this.render();
+        }
+      });
+    });
+
+    // Switch from a grammar pillar tab back to the 96-lesson plan
+    const switchPlanBtns = this.container.querySelectorAll('.btn-switch-to-plan');
+    switchPlanBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        sound.playWoodenTap();
+        this.currentTopic = 'plan_agentic';
         this.render();
       });
     });
@@ -666,8 +1043,10 @@ export class CasaGramaticiiModal {
       const station = btnStation.getAttribute('data-station');
       if (station && this.onNavigateStation) {
         sound.playBrassBell();
-        this.container.innerHTML = '';
-        this.onClose();
+        if (!this.inlineMode) {
+          this.container.innerHTML = '';
+          this.onClose();
+        }
         this.onNavigateStation(station);
       }
     });
@@ -698,7 +1077,11 @@ export class CasaGramaticiiModal {
         sound.playWoodenTap();
         const idx = Number(btn.getAttribute('data-word-idx'));
         const sentence = SYNTAX_SENTENCES[this.currentSentenceIndex];
-        this.activeWordInfo = sentence.words[idx] || null;
+        const wordObj = sentence.words[idx] || null;
+        this.activeWordInfo = wordObj;
+        if (wordObj && sound.hasRecordedAudio(wordObj.word)) {
+          sound.speakRomanian(wordObj.word);
+        }
         this.render();
       });
     });

@@ -52,6 +52,11 @@ export class MioritaDB {
         if (!db.objectStoreNames.contains('settings')) {
           db.createObjectStore('settings', { keyPath: 'key' });
         }
+
+        // 6. tutor_progress singleton store
+        if (!db.objectStoreNames.contains('tutor_progress')) {
+          db.createObjectStore('tutor_progress', { keyPath: 'key' });
+        }
       };
 
       request.onsuccess = () => resolve(request.result);
@@ -112,12 +117,12 @@ export class MioritaDB {
     }
   }
 
-  /** Log parent error observation to Caietul lui Tata */
+  /** Log parent or agentic tutor error observation to Caietul lui Tata */
   static async addCaietEntry(entry: {
     said: string;
     correct: string;
     category: string;
-    source: 'home' | 'gem';
+    source: 'home' | 'gem' | 'tutor';
     itemId?: string;
   }): Promise<void> {
     try {
@@ -157,6 +162,24 @@ export class MioritaDB {
     }
   }
 
+  /** Save 1-Year Agentic Tutor Progress state */
+  static async saveTutorProgress(progress: Record<string, any>): Promise<void> {
+    try {
+      const db = await this.openDB();
+      if (db.objectStoreNames.contains('tutor_progress')) {
+        const tx = db.transaction('tutor_progress', 'readwrite');
+        tx.objectStore('tutor_progress').put({
+          key: 'main',
+          ...progress,
+          clientUpdatedAt: Date.now(),
+        });
+      }
+      this.bumpVersion('tutor_progress');
+    } catch {
+      localStorage.setItem('miorita_tutor_progress', JSON.stringify(progress));
+    }
+  }
+
   /** Get domain version for delta tracking */
   static getDomainVersion(domain: MioritaDomain): number {
     try {
@@ -179,7 +202,7 @@ export class MioritaDB {
   /** Collect deltas ready to push to Cloudflare D1 */
   static async collectDeltas(): Promise<DomainDelta[]> {
     const deltas: DomainDelta[] = [];
-    const domains: MioritaDomain[] = ['attempts', 'srs', 'caiet', 'rug', 'settings'];
+    const domains: MioritaDomain[] = ['attempts', 'srs', 'caiet', 'rug', 'settings', 'tutor_progress'];
 
     for (const domain of domains) {
       const version = this.getDomainVersion(domain);
